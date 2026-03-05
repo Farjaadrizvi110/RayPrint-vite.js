@@ -1,12 +1,19 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, File, X, Check, Info } from 'lucide-react';
+import { Upload, File, X, Check, Info, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/store';
+import { useNavigate } from 'react-router-dom';
+
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
 
 export function UploadArtworkPage() {
+  const { token, isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const acceptedFormats = ['.pdf', '.png', '.jpg', '.jpeg', '.svg', '.ai', '.eps'];
@@ -57,6 +64,44 @@ export function UploadArtworkPage() {
   
   const removeFile = (index: number) => {
     setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async () => {
+    if (!isAuthenticated || !token) {
+      toast.error('Please sign in to upload artwork.');
+      navigate('/login');
+      return;
+    }
+    if (uploadedFiles.length === 0) return;
+
+    setIsSubmitting(true);
+    let successCount = 0;
+
+    for (const file of uploadedFiles) {
+      try {
+        const formData = new FormData();
+        formData.append('artwork', file);
+        const res = await fetch(`${BACKEND_URL}/api/artwork/upload`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+        const data = await res.json();
+        if (data.success) {
+          successCount++;
+        } else {
+          toast.error(`${file.name}: ${data.message}`);
+        }
+      } catch {
+        toast.error(`Failed to upload ${file.name}`);
+      }
+    }
+
+    setIsSubmitting(false);
+    if (successCount > 0) {
+      toast.success(`${successCount} file${successCount > 1 ? 's' : ''} submitted for review!`);
+      setUploadedFiles([]);
+    }
   };
   
   return (
@@ -178,9 +223,16 @@ export function UploadArtworkPage() {
             </div>
             
             <div className="flex gap-4">
-              <Button className="flex-1 bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6">
-                <Check className="w-5 h-5 mr-2" />
-                Submit for Review
+              <Button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="flex-1 bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6"
+              >
+                {isSubmitting ? (
+                  <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Uploading...</>
+                ) : (
+                  <><Check className="w-5 h-5 mr-2" />Submit for Review</>
+                )}
               </Button>
               <Button 
                 variant="outline" 

@@ -1,87 +1,78 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  ShoppingBag, 
-  Users, 
-  Package, 
+import {
+  ShoppingBag,
+  Users,
+  Package,
   DollarSign,
-  ArrowUpRight,
-  ArrowDownRight
+  Loader2
 } from 'lucide-react';
 import { useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
 } from 'recharts';
 
-const chartData = [
-  { name: 'Mon', revenue: 2400 },
-  { name: 'Tue', revenue: 1398 },
-  { name: 'Wed', revenue: 9800 },
-  { name: 'Thu', revenue: 3908 },
-  { name: 'Fri', revenue: 4800 },
-  { name: 'Sat', revenue: 3800 },
-  { name: 'Sun', revenue: 4300 },
-];
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
 
-const stats = [
-  {
-    title: 'Total Revenue',
-    value: '£45,231',
-    change: '+12.5%',
-    trend: 'up',
-    icon: DollarSign,
-  },
-  {
-    title: 'Orders Today',
-    value: '24',
-    change: '+8.2%',
-    trend: 'up',
-    icon: ShoppingBag,
-  },
-  {
-    title: 'Pending Orders',
-    value: '18',
-    change: '-2.4%',
-    trend: 'down',
-    icon: Package,
-  },
-  {
-    title: 'New Customers',
-    value: '156',
-    change: '+18.7%',
-    trend: 'up',
-    icon: Users,
-  },
-];
-
-const recentOrders = [
-  { id: 'RP-2024-003', customer: 'John Smith', product: 'Business Cards', total: 125.00, status: 'pending' },
-  { id: 'RP-2024-004', customer: 'Sarah Johnson', product: 'Flyers', total: 89.50, status: 'in_production' },
-  { id: 'RP-2024-005', customer: 'Mike Brown', product: 'Packaging', total: 450.00, status: 'shipped' },
-  { id: 'RP-2024-006', customer: 'Emma Wilson', product: 'Banners', total: 230.00, status: 'delivered' },
-];
+interface DashboardStats {
+  totalUsers: number;
+  totalOrders: number;
+  totalProducts: number;
+  pendingArtwork: number;
+  totalRevenue: number;
+  recentOrders: Array<{
+    _id: string;
+    orderNumber: string;
+    user?: { firstName: string; lastName: string };
+    totalAmount: number;
+    status: string;
+  }>;
+}
 
 export function AdminDashboard() {
   const navigate = useNavigate();
-  const { isAuthenticated, isAdmin } = useAuthStore();
-  
+  const { isAuthenticated, isAdmin, token } = useAuthStore();
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (!isAuthenticated || !isAdmin) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, isAdmin, navigate]);
-  
-  if (!isAuthenticated || !isAdmin) {
-    return null;
-  }
+    if (!isAuthenticated || !isAdmin) { navigate('/login'); return; }
+    fetch(`${BACKEND_URL}/api/admin/dashboard`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(d => { if (d.success) setStats(d.data); })
+      .finally(() => setLoading(false));
+  }, [isAuthenticated, isAdmin, token, navigate]);
+
+  if (!isAuthenticated || !isAdmin) return null;
+  if (loading) return (
+    <div className="min-h-screen bg-[#0B0F17] flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-[#3B6CFF] animate-spin" />
+    </div>
+  );
+
+  const statCards = [
+    { title: 'Total Revenue', value: `£${((stats?.totalRevenue ?? 0) / 100).toFixed(2)}`, icon: DollarSign },
+    { title: 'Total Orders', value: String(stats?.totalOrders ?? 0), icon: ShoppingBag },
+    { title: 'Total Products', value: String(stats?.totalProducts ?? 0), icon: Package },
+    { title: 'Total Users', value: String(stats?.totalUsers ?? 0), icon: Users },
+  ];
+  const recentOrders = stats?.recentOrders ?? [];
+  // Placeholder chart data — replace with real analytics when available
+  const chartData = [
+    { name: 'Mon', revenue: 0 }, { name: 'Tue', revenue: 0 },
+    { name: 'Wed', revenue: 0 }, { name: 'Thu', revenue: 0 },
+    { name: 'Fri', revenue: 0 }, { name: 'Sat', revenue: 0 }, { name: 'Sun', revenue: 0 },
+  ];
   
   return (
     <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
@@ -104,21 +95,11 @@ export function AdminDashboard() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
         >
-          {stats.map((stat, index) => (
+          {statCards.map((stat, index) => (
             <div key={index} className="rp-card p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-lg bg-[rgba(59,108,255,0.2)] flex items-center justify-center">
                   <stat.icon className="w-5 h-5 text-[#3B6CFF]" />
-                </div>
-                <div className={`flex items-center gap-1 text-sm ${
-                  stat.trend === 'up' ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {stat.trend === 'up' ? (
-                    <ArrowUpRight className="w-4 h-4" />
-                  ) : (
-                    <ArrowDownRight className="w-4 h-4" />
-                  )}
-                  {stat.change}
                 </div>
               </div>
               <p className="text-2xl font-bold text-[#F6F8FF]">{stat.value}</p>
@@ -188,14 +169,19 @@ export function AdminDashboard() {
             </div>
             
             <div className="space-y-4">
+              {recentOrders.length === 0 && (
+                <p className="text-sm text-[#A6B0C5] text-center py-4">No orders yet</p>
+              )}
               {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-3 rounded-xl bg-[rgba(246,248,255,0.04)]">
+                <div key={order._id} className="flex items-center justify-between p-3 rounded-xl bg-[rgba(246,248,255,0.04)]">
                   <div>
-                    <p className="text-sm font-medium text-[#F6F8FF]">{order.id}</p>
-                    <p className="text-xs text-[#A6B0C5]">{order.customer}</p>
+                    <p className="text-sm font-medium text-[#F6F8FF]">{order.orderNumber}</p>
+                    <p className="text-xs text-[#A6B0C5]">
+                      {order.user ? `${order.user.firstName} ${order.user.lastName}` : 'Guest'}
+                    </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-[#F6F8FF]">£{order.total.toFixed(2)}</p>
+                    <p className="text-sm font-medium text-[#F6F8FF]">£{(order.totalAmount / 100).toFixed(2)}</p>
                     <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${
                       order.status === 'delivered' ? 'bg-green-500/20 text-green-400' :
                       order.status === 'shipped' ? 'bg-yellow-500/20 text-yellow-400' :

@@ -80,9 +80,11 @@ export const useCartStore = create<CartState>()(
 
 interface AuthState {
   user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
   login: (user: User) => void;
+  loginWithToken: (token: string, user: User) => void;
   logout: () => void;
   updateUser: (user: Partial<User>) => void;
 }
@@ -91,9 +93,10 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
+      token: null,
       isAuthenticated: false,
       isAdmin: false,
-      
+
       login: (user) => {
         set({
           user,
@@ -101,15 +104,25 @@ export const useAuthStore = create<AuthState>()(
           isAdmin: user.role === 'admin',
         });
       },
-      
+
+      loginWithToken: (token, user) => {
+        set({
+          token,
+          user,
+          isAuthenticated: true,
+          isAdmin: user.role === 'admin',
+        });
+      },
+
       logout: () => {
         set({
           user: null,
+          token: null,
           isAuthenticated: false,
           isAdmin: false,
         });
       },
-      
+
       updateUser: (updates) => {
         set((state) => ({
           user: state.user ? { ...state.user, ...updates } as User : null,

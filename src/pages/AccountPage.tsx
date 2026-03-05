@@ -1,28 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Package, User, MapPin, LogOut, ChevronRight, X, Truck, CheckCircle, Clock } from 'lucide-react';
+import { Package, User, MapPin, LogOut, ChevronRight, X, Truck, CheckCircle, Clock, Loader2 } from 'lucide-react';
 import { useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+
+interface OrderItem {
+  product?: { name: string };
+  quantity: number;
+  price: number;
+}
+
 interface Order {
-  id: string;
-  date: string;
-  total: number;
+  _id: string;
+  orderNumber: string;
+  createdAt: string;
+  totalAmount: number;
   status: string;
-  items: string;
-  shipping: number;
-  subtotal: number;
-  address: string;
-  tracking?: string;
+  items: OrderItem[];
+  shippingAddress?: { line1: string; city: string; postcode: string };
+  trackingNumber?: string;
 }
 
 export function AccountPage() {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated } = useAuthStore();
+  const { user, logout, isAuthenticated, token } = useAuthStore();
   const [activeTab, setActiveTab] = useState<'orders' | 'profile' | 'addresses'>('orders');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthenticated || !token) return;
+    setOrdersLoading(true);
+    fetch(`${BACKEND_URL}/api/orders`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(d => { if (d.success) setOrders(d.data); })
+      .finally(() => setOrdersLoading(false));
+  }, [isAuthenticated, token]);
   
   if (!isAuthenticated) {
     return (
@@ -46,30 +66,7 @@ export function AccountPage() {
     navigate('/');
   };
   
-  // Mock orders data with more details
-  const orders: Order[] = [
-    {
-      id: 'RP-2024-001',
-      date: '2024-01-15',
-      total: 130.99,
-      subtotal: 125.00,
-      shipping: 5.99,
-      status: 'delivered',
-      items: 'Premium Business Cards x 500',
-      address: '123 Print Street, London, EC1A 1BB',
-      tracking: 'TRK123456789',
-    },
-    {
-      id: 'RP-2024-002',
-      date: '2024-02-01',
-      total: 350.00,
-      subtotal: 350.00,
-      shipping: 0,
-      status: 'in_production',
-      items: 'Custom Mailer Boxes x 100',
-      address: '123 Print Street, London, EC1A 1BB',
-    },
-  ];
+
   
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -191,42 +188,49 @@ export function AccountPage() {
             {activeTab === 'orders' && (
               <div>
                 <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Order History</h2>
-                
-                {orders.length > 0 ? (
+
+                {ordersLoading ? (
+                  <div className="flex items-center justify-center py-16">
+                    <Loader2 className="w-8 h-8 text-[#3B6CFF] animate-spin" />
+                  </div>
+                ) : orders.length > 0 ? (
                   <div className="space-y-4">
-                    {orders.map((order) => (
-                      <div key={order.id} className="rp-card p-6">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                          <div>
-                            <p className="text-sm text-[#A6B0C5] mb-1">Order #{order.id}</p>
-                            <p className="text-lg font-semibold text-[#F6F8FF]">{order.items}</p>
-                          </div>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>
-                            {getStatusLabel(order.status)}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between pt-4 border-t border-[rgba(246,248,255,0.08)]">
-                          <div className="text-sm text-[#A6B0C5]">
-                            {new Date(order.date).toLocaleDateString('en-GB', {
-                              day: 'numeric',
-                              month: 'long',
-                              year: 'numeric',
-                            })}
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <span className="text-lg font-semibold text-[#F6F8FF]">
-                              £{order.total.toFixed(2)}
+                    {orders.map((order) => {
+                      const itemSummary = order.items
+                        .map(i => `${i.product?.name ?? 'Item'} x${i.quantity}`)
+                        .join(', ');
+                      return (
+                        <div key={order._id} className="rp-card p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                            <div>
+                              <p className="text-sm text-[#A6B0C5] mb-1">Order #{order.orderNumber}</p>
+                              <p className="text-lg font-semibold text-[#F6F8FF]">{itemSummary}</p>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>
+                              {getStatusLabel(order.status)}
                             </span>
-                            <button 
-                              onClick={() => setSelectedOrder(order)}
-                              className="flex items-center gap-1 text-sm text-[#3B6CFF] hover:underline"
-                            >
-                              Details <ChevronRight className="w-4 h-4" />
-                            </button>
+                          </div>
+                          <div className="flex items-center justify-between pt-4 border-t border-[rgba(246,248,255,0.08)]">
+                            <div className="text-sm text-[#A6B0C5]">
+                              {new Date(order.createdAt).toLocaleDateString('en-GB', {
+                                day: 'numeric', month: 'long', year: 'numeric',
+                              })}
+                            </div>
+                            <div className="flex items-center gap-4">
+                              <span className="text-lg font-semibold text-[#F6F8FF]">
+                                £{(order.totalAmount / 100).toFixed(2)}
+                              </span>
+                              <button
+                                onClick={() => setSelectedOrder(order)}
+                                className="flex items-center gap-1 text-sm text-[#3B6CFF] hover:underline"
+                              >
+                                Details <ChevronRight className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="rp-card p-12 text-center">
@@ -319,7 +323,7 @@ export function AccountPage() {
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h3 className="text-2xl font-bold text-[#F6F8FF]">Order Details</h3>
-                    <p className="text-sm text-[#A6B0C5]">Order #{selectedOrder.id}</p>
+                    <p className="text-sm text-[#A6B0C5]">Order #{selectedOrder.orderNumber}</p>
                   </div>
                   <button 
                     onClick={() => setSelectedOrder(null)}
@@ -340,55 +344,53 @@ export function AccountPage() {
                   {/* Items */}
                   <div>
                     <h4 className="text-sm font-medium text-[#A6B0C5] mb-3">Items</h4>
-                    <div className="p-4 rounded-xl bg-[rgba(246,248,255,0.04)]">
-                      <p className="text-[#F6F8FF]">{selectedOrder.items}</p>
+                    <div className="p-4 rounded-xl bg-[rgba(246,248,255,0.04)] space-y-1">
+                      {selectedOrder.items.map((item, i) => (
+                        <p key={i} className="text-[#F6F8FF] text-sm">
+                          {item.product?.name ?? 'Item'} × {item.quantity} — £{(item.price / 100).toFixed(2)}
+                        </p>
+                      ))}
                     </div>
                   </div>
-                  
+
                   {/* Shipping Address */}
-                  <div>
-                    <h4 className="text-sm font-medium text-[#A6B0C5] mb-3">Shipping Address</h4>
-                    <div className="p-4 rounded-xl bg-[rgba(246,248,255,0.04)]">
-                      <p className="text-[#F6F8FF]">{selectedOrder.address}</p>
+                  {selectedOrder.shippingAddress && (
+                    <div>
+                      <h4 className="text-sm font-medium text-[#A6B0C5] mb-3">Shipping Address</h4>
+                      <div className="p-4 rounded-xl bg-[rgba(246,248,255,0.04)]">
+                        <p className="text-[#F6F8FF]">
+                          {selectedOrder.shippingAddress.line1}, {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.postcode}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  
+                  )}
+
                   {/* Tracking */}
-                  {selectedOrder.tracking && (
+                  {selectedOrder.trackingNumber && (
                     <div>
                       <h4 className="text-sm font-medium text-[#A6B0C5] mb-3">Tracking Number</h4>
                       <div className="flex items-center gap-3 p-4 rounded-xl bg-[rgba(246,248,255,0.04)]">
                         <Truck className="w-5 h-5 text-[#3B6CFF]" />
-                        <span className="text-[#F6F8FF] font-mono">{selectedOrder.tracking}</span>
+                        <span className="text-[#F6F8FF] font-mono">{selectedOrder.trackingNumber}</span>
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Order Summary */}
                   <div className="border-t border-[rgba(246,248,255,0.08)] pt-6">
                     <h4 className="text-sm font-medium text-[#A6B0C5] mb-3">Order Summary</h4>
                     <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-[#A6B0C5]">Subtotal</span>
-                        <span className="text-[#F6F8FF]">£{selectedOrder.subtotal.toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-[#A6B0C5]">Shipping</span>
-                        <span className="text-[#F6F8FF]">
-                          {selectedOrder.shipping === 0 ? 'Free' : `£${selectedOrder.shipping.toFixed(2)}`}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-lg font-semibold pt-2 border-t border-[rgba(246,248,255,0.08)]">
+                      <div className="flex justify-between text-lg font-semibold pt-2">
                         <span className="text-[#F6F8FF]">Total</span>
-                        <span className="text-[#F6F8FF]">£{selectedOrder.total.toFixed(2)}</span>
+                        <span className="text-[#F6F8FF]">£{(selectedOrder.totalAmount / 100).toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Order Date */}
                   <div className="flex items-center gap-2 text-sm text-[#A6B0C5]">
                     <Clock className="w-4 h-4" />
-                    <span>Ordered on {new Date(selectedOrder.date).toLocaleDateString('en-GB', {
+                    <span>Ordered on {new Date(selectedOrder.createdAt).toLocaleDateString('en-GB', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric',

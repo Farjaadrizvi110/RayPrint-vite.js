@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Search, 
-  Download, 
-  ChevronLeft, 
+import {
+  Search,
+  Download,
+  ChevronLeft,
   ChevronRight,
-  Eye
+  Loader2
 } from 'lucide-react';
 import { useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
-const orders = [
-  { id: 'RP-2024-001', customer: 'John Smith', email: 'john@example.com', date: '2024-01-15', total: 125.00, status: 'delivered', items: 2 },
-  { id: 'RP-2024-002', customer: 'Sarah Johnson', email: 'sarah@example.com', date: '2024-02-01', total: 350.00, status: 'in_production', items: 1 },
-  { id: 'RP-2024-003', customer: 'Mike Brown', email: 'mike@example.com', date: '2024-02-05', total: 89.50, status: 'shipped', items: 3 },
-  { id: 'RP-2024-004', customer: 'Emma Wilson', email: 'emma@example.com', date: '2024-02-08', total: 230.00, status: 'pending', items: 1 },
-  { id: 'RP-2024-005', customer: 'David Lee', email: 'david@example.com', date: '2024-02-10', total: 450.00, status: 'in_production', items: 2 },
-  { id: 'RP-2024-006', customer: 'Lisa Chen', email: 'lisa@example.com', date: '2024-02-12', total: 175.00, status: 'delivered', items: 4 },
-];
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+
+interface AdminOrder {
+  _id: string;
+  orderNumber: string;
+  user?: { firstName: string; lastName: string; email: string };
+  createdAt: string;
+  items: Array<unknown>;
+  totalAmount: number;
+  status: string;
+}
 
 const statusColors: Record<string, string> = {
   pending: 'bg-yellow-500/20 text-yellow-400',
@@ -32,25 +36,53 @@ const statusColors: Record<string, string> = {
 
 export function AdminOrders() {
   const navigate = useNavigate();
-  const { isAuthenticated, isAdmin } = useAuthStore();
+  const { isAuthenticated, isAdmin, token } = useAuthStore();
+  const [orders, setOrders] = useState<AdminOrder[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+
   useEffect(() => {
-    if (!isAuthenticated || !isAdmin) {
-      navigate('/login');
+    if (!isAuthenticated || !isAdmin) { navigate('/login'); return; }
+    fetch(`${BACKEND_URL}/api/orders/admin/all`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(d => { if (d.success) setOrders(d.data); })
+      .finally(() => setLoading(false));
+  }, [isAuthenticated, isAdmin, token, navigate]);
+
+  if (!isAuthenticated || !isAdmin) return null;
+
+  const updateStatus = async (orderId: string, newStatus: string) => {
+    setUpdatingId(orderId);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/orders/admin/${orderId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOrders(prev => prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o));
+        toast.success('Order status updated');
+      } else {
+        toast.error(data.message ?? 'Failed to update status');
+      }
+    } catch {
+      toast.error('Network error');
+    } finally {
+      setUpdatingId(null);
     }
-  }, [isAuthenticated, isAdmin, navigate]);
-  
-  if (!isAuthenticated || !isAdmin) {
-    return null;
-  }
-  
+  };
+
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = 
-      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.email.toLowerCase().includes(searchQuery.toLowerCase());
+    const customerName = order.user ? `${order.user.firstName} ${order.user.lastName}` : '';
+    const matchesSearch =
+      order.orderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (order.user?.email ?? '').toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -113,6 +145,11 @@ export function AdminOrders() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="rp-card overflow-hidden"
         >
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-8 h-8 text-[#3B6CFF] animate-spin" />
+            </div>
+          ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -123,48 +160,67 @@ export function AdminOrders() {
                   <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Items</th>
                   <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Total</th>
                   <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Status</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Actions</th>
+                  <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Update Status</th>
                 </tr>
               </thead>
               <tbody>
+                {filteredOrders.length === 0 && (
+                  <tr><td colSpan={7} className="p-8 text-center text-[#A6B0C5]">No orders found</td></tr>
+                )}
                 {filteredOrders.map((order) => (
-                  <tr key={order.id} className="border-b border-[rgba(246,248,255,0.04)] hover:bg-[rgba(246,248,255,0.02)]">
+                  <tr key={order._id} className="border-b border-[rgba(246,248,255,0.04)] hover:bg-[rgba(246,248,255,0.02)]">
                     <td className="p-4">
-                      <span className="text-sm font-medium text-[#F6F8FF]">{order.id}</span>
+                      <span className="text-sm font-medium text-[#F6F8FF]">{order.orderNumber}</span>
                     </td>
                     <td className="p-4">
                       <div>
-                        <p className="text-sm text-[#F6F8FF]">{order.customer}</p>
-                        <p className="text-xs text-[#A6B0C5]">{order.email}</p>
+                        <p className="text-sm text-[#F6F8FF]">
+                          {order.user ? `${order.user.firstName} ${order.user.lastName}` : 'Guest'}
+                        </p>
+                        <p className="text-xs text-[#A6B0C5]">{order.user?.email ?? ''}</p>
                       </div>
                     </td>
                     <td className="p-4">
                       <span className="text-sm text-[#A6B0C5]">
-                        {new Date(order.date).toLocaleDateString('en-GB')}
+                        {new Date(order.createdAt).toLocaleDateString('en-GB')}
                       </span>
                     </td>
                     <td className="p-4">
-                      <span className="text-sm text-[#A6B0C5]">{order.items}</span>
+                      <span className="text-sm text-[#A6B0C5]">{order.items.length}</span>
                     </td>
                     <td className="p-4">
-                      <span className="text-sm font-medium text-[#F6F8FF]">£{order.total.toFixed(2)}</span>
+                      <span className="text-sm font-medium text-[#F6F8FF]">£{(order.totalAmount / 100).toFixed(2)}</span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${statusColors[order.status]}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${statusColors[order.status] ?? ''}`}>
                         {order.status.replace('_', ' ')}
                       </span>
                     </td>
                     <td className="p-4">
-                      <button className="p-2 text-[#A6B0C5] hover:text-[#3B6CFF] transition-colors">
-                        <Eye className="w-4 h-4" />
-                      </button>
+                      {updatingId === order._id ? (
+                        <Loader2 className="w-4 h-4 animate-spin text-[#3B6CFF]" />
+                      ) : (
+                        <select
+                          value={order.status}
+                          onChange={e => updateStatus(order._id, e.target.value)}
+                          className="text-xs px-2 py-1 rounded-lg bg-[rgba(246,248,255,0.06)] border border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="payment_confirmed">Payment Confirmed</option>
+                          <option value="in_production">In Production</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="delivered">Delivered</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      )}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          
+          )}
+
           {/* Pagination */}
           <div className="flex items-center justify-between p-4 border-t border-[rgba(246,248,255,0.08)]">
             <p className="text-sm text-[#A6B0C5]">

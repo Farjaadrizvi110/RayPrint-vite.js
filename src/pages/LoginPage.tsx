@@ -8,9 +8,11 @@ import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/store';
 import { toast } from 'sonner';
 
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+  const { loginWithToken } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -18,26 +20,39 @@ export function LoginPage() {
     email: '',
     password: '',
   });
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    login({
-      id: '1',
-      email: formData.email,
-      firstName: 'Demo',
-      lastName: 'User',
-      role: formData.email.includes('admin') ? 'admin' : 'customer',
-      addresses: [],
-      createdAt: new Date(),
-    });
-    
-    toast.success('Welcome back!');
-    navigate('/account');
-    setIsLoading(false);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message || 'Invalid email or password.');
+        return;
+      }
+      const { token, user } = data.data;
+      loginWithToken(token, {
+        id: user._id ?? user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role ?? 'customer',
+        addresses: user.addresses ?? [],
+        createdAt: new Date(user.createdAt ?? Date.now()),
+        avatar: user.avatar,
+      });
+      toast.success(`Welcome back, ${user.firstName}!`);
+      navigate('/account');
+    } catch {
+      toast.error('Network error — please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   const features = [
@@ -315,16 +330,38 @@ export function LoginPage() {
                   <div className="w-full border-t border-[rgba(246,248,255,0.08)]" />
                 </div>
                 <div className="relative flex justify-center">
-                  <span className="px-4 bg-[#0B0F17] text-sm text-[#A6B0C5]">or</span>
+                  <span className="px-4 bg-[rgba(246,248,255,0.03)] text-sm text-[#A6B0C5]">or continue with</span>
                 </div>
               </motion.div>
-              
+
+              {/* Google OAuth Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.85, duration: 0.5 }}
+              >
+                <button
+                  type="button"
+                  onClick={() => { window.location.href = `${BACKEND_URL}/api/auth/google`; }}
+                  className="w-full flex items-center justify-center gap-3 py-4 px-6 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]"
+                >
+                  {/* Google logo SVG */}
+                  <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M47.532 24.552c0-1.636-.132-3.2-.388-4.704H24.48v8.898h12.984c-.56 3.02-2.26 5.576-4.816 7.292v6.056h7.796c4.56-4.196 7.088-10.376 7.088-17.542z" fill="#4285F4"/>
+                    <path d="M24.48 48c6.516 0 11.984-2.16 15.98-5.852l-7.796-6.056c-2.16 1.448-4.92 2.308-8.184 2.308-6.296 0-11.632-4.252-13.54-9.968H2.9v6.248C6.88 42.828 15.104 48 24.48 48z" fill="#34A853"/>
+                    <path d="M10.94 28.432A14.64 14.64 0 0 1 9.98 24c0-1.54.264-3.036.732-4.432v-6.248H2.9A23.98 23.98 0 0 0 .48 24c0 3.876.928 7.54 2.58 10.68l8.004-6.248h-.124z" fill="#FBBC05"/>
+                    <path d="M24.48 9.6c3.548 0 6.728 1.22 9.232 3.616l6.916-6.916C36.46 2.42 30.996 0 24.48 0 15.104 0 6.88 5.172 2.9 13.32l8.04 6.248C12.848 13.852 18.184 9.6 24.48 9.6z" fill="#EA4335"/>
+                  </svg>
+                  Continue with Google
+                </button>
+              </motion.div>
+
               {/* Register Link */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 0.5 }}
-                className="text-center"
+                className="text-center mt-6"
               >
                 <p className="text-[#A6B0C5]">
                   Don't have an account?{' '}
@@ -336,15 +373,7 @@ export function LoginPage() {
             </div>
           </motion.div>
           
-          {/* Demo Note */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.5 }}
-            className="mt-8 text-xs text-center text-[#A6B0C5]/60"
-          >
-            Demo: Use any email with "admin" for admin access
-          </motion.p>
+
         </motion.div>
       </div>
     </div>

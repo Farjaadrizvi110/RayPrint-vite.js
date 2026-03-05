@@ -22,6 +22,7 @@ import { FAQPage } from '@/pages/FAQPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
 import { AccountPage } from '@/pages/AccountPage';
+import { AuthCallbackPage } from '@/pages/AuthCallbackPage';
 import { AdminDashboard } from '@/pages/admin/AdminDashboard';
 import { AdminOrders } from '@/pages/admin/AdminOrders';
 import { AdminProducts } from '@/pages/admin/AdminProducts';
@@ -81,6 +82,7 @@ function App() {
                 {/* Auth Routes */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/auth/callback" element={<AuthCallbackPage />} />
 
                 {/* Account Routes */}
                 <Route path="/account" element={<AccountPage />} />
