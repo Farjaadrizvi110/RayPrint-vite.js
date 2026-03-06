@@ -1,11 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Minus, Plus, ShoppingBag, Trash2, Upload } from 'lucide-react';
-import { useCartStore } from '@/store';
+import { useCartStore, useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
 
 export function CartPage() {
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
   const { items, removeItem, updateQuantity, getTotalPrice, clearCart } = useCartStore();
+
+  const handleCheckout = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      navigate('/checkout');
+    }
+  };
   const totalPrice = getTotalPrice();
   
   const shipping = totalPrice > 50 ? 0 : 5.99;
@@ -171,12 +181,13 @@ export function CartPage() {
                 </div>
               </div>
               
-              <Link to="/checkout">
-                <Button className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6 mb-4">
-                  Proceed to Checkout
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+              <Button
+                onClick={handleCheckout}
+                className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6 mb-4"
+              >
+                {user ? 'Proceed to Checkout' : 'Sign In to Checkout'}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
               
               <p className="text-xs text-[#A6B0C5] text-center">
                 Shipping & taxes calculated at checkout

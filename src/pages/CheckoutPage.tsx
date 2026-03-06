@@ -1,21 +1,103 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CreditCard, Lock, Truck } from 'lucide-react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useCartStore, useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ?? '');
+
+// ─── Inner form — must live inside <Elements> ────────────────────────────────
+function StripePaymentForm({
+  finalTotal,
+  onBack,
+  onSuccess,
+}: {
+  finalTotal: number;
+  onBack: () => void;
+  onSuccess: () => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+    setIsProcessing(true);
+    try {
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: { return_url: `${window.location.origin}/#/account` },
+        redirect: 'if_required',
+      });
+      if (error) {
+        toast.error(error.message || 'Payment failed. Please try again.');
+      } else {
+        onSuccess();
+      }
+    } catch {
+      toast.error('Unexpected error during payment. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <motion.form
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      onSubmit={handleSubmit}
+      className="rp-card p-8"
+    >
+      <div className="flex items-center gap-3 mb-6">
+        <Lock className="w-5 h-5 text-[#3B6CFF]" />
+        <h2 className="text-xl font-semibold text-[#F6F8FF]">Secure Payment</h2>
+      </div>
+
+      {/* Stripe Payment Element — handles card, Apple Pay, Google Pay, etc. */}
+      <div className="mb-8 stripe-element-wrapper">
+        <PaymentElement options={{ layout: 'tabs' }} />
+      </div>
+
+      <div className="flex gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+          className="flex-1 border-[rgba(246,248,255,0.20)] text-[#F6F8FF] py-6"
+        >
+          Back
+        </Button>
+        <Button
+          type="submit"
+          disabled={isProcessing || !stripe || !elements}
+          className="flex-1 bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6"
+        >
+          {isProcessing ? 'Processing...' : `Pay £${finalTotal.toFixed(2)}`}
+        </Button>
+      </div>
+    </motion.form>
+  );
+}
+
+// ─── Main CheckoutPage ────────────────────────────────────────────────────────
 export function CheckoutPage() {
   const navigate = useNavigate();
   const { items, getTotalPrice, clearCart } = useCartStore();
-  const { user } = useAuthStore();
-  
+  const { user, token } = useAuthStore();
+
   const [step, setStep] = useState<'shipping' | 'payment'>('shipping');
   const [isProcessing, setIsProcessing] = useState(false);
-  
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+
   const [shippingInfo, setShippingInfo] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -25,11 +107,31 @@ export function CheckoutPage() {
     postcode: '',
     phone: '',
   });
-  
+
   const totalPrice = getTotalPrice();
   const shipping = totalPrice > 50 ? 0 : 5.99;
   const finalTotal = totalPrice + shipping;
-  
+
+  // ── Guard: must be logged in ──────────────────────────────────────────────
+  if (!user || !token) {
+    return (
+      <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+        <div className="rp-container text-center">
+          <h1 className="text-4xl font-bold text-[#F6F8FF] mb-4">Please sign in to checkout</h1>
+          <p className="text-[#A6B0C5] mb-8">You need an account to place an order.</p>
+          <div className="flex gap-4 justify-center">
+            <Link to="/login">
+              <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white px-8 py-3">Sign In</Button>
+            </Link>
+            <Link to="/register">
+              <Button variant="outline" className="border-[rgba(246,248,255,0.20)] text-[#F6F8FF] px-8 py-3">Create Account</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
@@ -37,32 +139,52 @@ export function CheckoutPage() {
           <h1 className="text-4xl font-bold text-[#F6F8FF] mb-4">Your cart is empty</h1>
           <p className="text-[#A6B0C5] mb-8">Add some items to proceed with checkout.</p>
           <Link to="/products">
-            <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white">
-              Browse Products
-            </Button>
+            <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white">Browse Products</Button>
           </Link>
         </div>
       </div>
     );
   }
-  
-  const handleShippingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setStep('payment');
-    window.scrollTo(0, 0);
-  };
-  
-  const handlePaymentSubmit = async (e: React.FormEvent) => {
+
+  const handleShippingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    toast.success('Order placed successfully!');
+    try {
+      const amountPence = Math.round(finalTotal * 100);
+      const res = await fetch(`${BACKEND_URL}/api/payments/checkout-intent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          amountPence,
+          currency: 'gbp',
+          customerEmail: shippingInfo.email,
+          items: items.map(i => ({ name: i.product.name, quantity: i.quantity })),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message || 'Could not initialise payment. Please try again.');
+        return;
+      }
+      setClientSecret(data.data.clientSecret);
+      setStep('payment');
+      window.scrollTo(0, 0);
+    } catch {
+      toast.error('Network error. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handlePaymentSuccess = useCallback(() => {
+    toast.success('🎉 Payment successful! Your order is confirmed.');
     clearCart();
     navigate('/account');
-  };
+  }, []);
   
   return (
     <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
@@ -185,73 +307,38 @@ export function CheckoutPage() {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6">
-                  Continue to Payment
+                <Button type="submit" disabled={isProcessing} className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6">
+                  {isProcessing ? 'Preparing payment…' : 'Continue to Payment'}
                 </Button>
               </motion.form>
-            ) : (
-              <motion.form
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                onSubmit={handlePaymentSubmit}
-                className="rp-card p-8"
+            ) : clientSecret ? (
+              <Elements
+                stripe={stripePromise}
+                options={{
+                  clientSecret,
+                  appearance: {
+                    theme: 'night',
+                    variables: {
+                      colorPrimary: '#3B6CFF',
+                      colorBackground: 'rgba(246,248,255,0.06)',
+                      colorText: '#F6F8FF',
+                      colorTextSecondary: '#A6B0C5',
+                      borderRadius: '8px',
+                      fontFamily: 'inherit',
+                    },
+                  },
+                }}
               >
-                <div className="flex items-center gap-3 mb-6">
-                  <Lock className="w-5 h-5 text-[#3B6CFF]" />
-                  <h2 className="text-xl font-semibold text-[#F6F8FF]">Secure Payment</h2>
-                </div>
-                
-                <div className="mb-6">
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Card Number</Label>
-                  <Input 
-                    placeholder="1234 5678 9012 3456"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
-                  />
-                </div>
-                
-                <div className="grid sm:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <Label className="text-sm text-[#A6B0C5] mb-2 block">Expiry Date</Label>
-                    <Input 
-                      placeholder="MM/YY"
-                      className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-sm text-[#A6B0C5] mb-2 block">CVC</Label>
-                    <Input 
-                      placeholder="123"
-                      className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
-                    />
-                  </div>
-                </div>
-                
-                <div className="mb-8">
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Name on Card</Label>
-                  <Input 
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
-                  />
-                </div>
-                
-                <div className="flex gap-4">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setStep('shipping')}
-                    className="flex-1 border-[rgba(246,248,255,0.20)] text-[#F6F8FF] py-6"
-                  >
-                    Back
-                  </Button>
-                  <Button 
-                    type="submit" 
-                    disabled={isProcessing}
-                    className="flex-1 bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6"
-                  >
-                    {isProcessing ? 'Processing...' : `Pay £${finalTotal.toFixed(2)}`}
-                  </Button>
-                </div>
-              </motion.form>
+                <StripePaymentForm
+                  finalTotal={finalTotal}
+                  onBack={() => setStep('shipping')}
+                  onSuccess={handlePaymentSuccess}
+                />
+              </Elements>
+            ) : (
+              <div className="rp-card p-8 flex items-center justify-center min-h-[200px]">
+                <p className="text-[#A6B0C5]">Initialising payment…</p>
+              </div>
             )}
           </div>
           

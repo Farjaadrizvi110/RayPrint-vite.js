@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Instagram, Twitter, Linkedin, Facebook } from 'lucide-react';
+import { Mail, MapPin, Phone, Instagram, Twitter, Linkedin, Facebook, MessageSquare } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -117,6 +117,10 @@ export function Footer() {
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#A6B0C5]" />
                 <a href="mailto:hello@rayprint.co.uk" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">hello@rayprint.co.uk</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <MessageSquare className="w-4 h-4 text-[#A6B0C5]" />
+                <a href="https://wa.me/447757202729" target="_blank" rel="noopener noreferrer" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">+44 7757 202729</a>
               </li>
             </ul>
           </div>

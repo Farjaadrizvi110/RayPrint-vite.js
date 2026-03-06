@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { Toaster } from '@/components/ui/sonner';
+import { WhatsAppButton } from '@/components/ui/WhatsAppButton';
 import { Preloader } from '@/components/Preloader';
 
 // Pages
@@ -98,6 +99,7 @@ function App() {
 
           <Footer />
           <Toaster position="top-right" />
+          <WhatsAppButton />
 
           {/* Noise overlay */}
           <div className="noise-overlay" />
