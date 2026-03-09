@@ -43,10 +43,15 @@ router.patch(
   [
     body("firstName").optional().trim().notEmpty(),
     body("lastName").optional().trim().notEmpty(),
-    body("phone").optional().isMobilePhone(),
+    body("phone").optional().trim(),
+    body("whatsapp").optional().trim(),
+    body("profession").optional().trim(),
+    body("business").optional().trim(),
   ],
   ctrl.updateMe
 );
+
+router.patch("/change-password", protect, ctrl.changePassword);
 
 router.post(
   "/forgot-password",

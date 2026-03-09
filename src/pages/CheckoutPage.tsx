@@ -21,7 +21,7 @@ function StripePaymentForm({
 }: {
   finalTotal: number;
   onBack: () => void;
-  onSuccess: () => void;
+  onSuccess: (paymentIntentId: string) => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -32,7 +32,7 @@ function StripePaymentForm({
     if (!stripe || !elements) return;
     setIsProcessing(true);
     try {
-      const { error } = await stripe.confirmPayment({
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: { return_url: `${window.location.origin}/#/account` },
         redirect: 'if_required',
@@ -40,7 +40,7 @@ function StripePaymentForm({
       if (error) {
         toast.error(error.message || 'Payment failed. Please try again.');
       } else {
-        onSuccess();
+        onSuccess(paymentIntent?.id ?? '');
       }
     } catch {
       toast.error('Unexpected error during payment. Please try again.');
@@ -97,15 +97,18 @@ export function CheckoutPage() {
   const [step, setStep] = useState<'shipping' | 'payment'>('shipping');
   const [isProcessing, setIsProcessing] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [paymentIntentId, setPaymentIntentId] = useState<string>('');
 
+  // Auto-fill from user's saved default address
+  const defaultAddr = user?.addresses?.find((a) => a.isDefault) ?? user?.addresses?.[0];
   const [shippingInfo, setShippingInfo] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    address: '',
-    city: '',
-    postcode: '',
-    phone: '',
+    firstName: defaultAddr?.fullName?.split(' ')[0] || user?.firstName || '',
+    lastName:  defaultAddr?.fullName?.split(' ').slice(1).join(' ') || user?.lastName || '',
+    email:     user?.email || '',
+    address:   defaultAddr?.line1 || '',
+    city:      defaultAddr?.city || '',
+    postcode:  defaultAddr?.postcode || '',
+    phone:     defaultAddr?.phone || user?.phone || '',
   });
 
   const totalPrice = getTotalPrice();
@@ -170,6 +173,7 @@ export function CheckoutPage() {
         return;
       }
       setClientSecret(data.data.clientSecret);
+      setPaymentIntentId(data.data.paymentIntentId ?? '');
       setStep('payment');
       window.scrollTo(0, 0);
     } catch {
@@ -179,12 +183,43 @@ export function CheckoutPage() {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handlePaymentSuccess = useCallback(() => {
+  const handlePaymentSuccess = useCallback(async (intentId: string) => {
+    try {
+      // Create the order record in MongoDB
+      await fetch(`${BACKEND_URL}/api/orders/from-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          paymentIntentId: intentId || paymentIntentId,
+          items: items.map(i => ({
+            name:          i.product.name,
+            quantity:      i.quantity,
+            unitPricePence: Math.round(i.price * 100),
+            options:       i.options,
+            artworkUrl:    i.artwork?.fileUrl || '',
+          })),
+          shippingAddress: {
+            fullName: `${shippingInfo.firstName} ${shippingInfo.lastName}`.trim(),
+            line1:    shippingInfo.address,
+            city:     shippingInfo.city,
+            postcode: shippingInfo.postcode,
+            country:  'GB',
+            phone:    shippingInfo.phone,
+          },
+          shippingCostPence: Math.round(shipping * 100),
+        }),
+      });
+    } catch {
+      // Order creation failure is non-fatal — payment already succeeded
+    }
     toast.success('🎉 Payment successful! Your order is confirmed.');
     clearCart();
     navigate('/account');
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paymentIntentId, items, shippingInfo, shipping, token]);
   
   return (
     <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">

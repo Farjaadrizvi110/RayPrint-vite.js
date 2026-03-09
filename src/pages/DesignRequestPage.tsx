@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+
 export function DesignRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isProjectTypeOpen, setIsProjectTypeOpen] = useState(false);
@@ -21,6 +23,11 @@ export function DesignRequestPage() {
     deadline: '',
     name: '',
     email: '',
+    phone: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    postcode: '',
   });
 
   // Close dropdowns when clicking outside
@@ -41,21 +48,24 @@ export function DesignRequestPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast.success('Design request submitted! We\'ll be in touch within 24 hours.');
-    setIsSubmitting(false);
-    setFormData({
-      projectType: '',
-      description: '',
-      colorPreferences: '',
-      budget: '',
-      deadline: '',
-      name: '',
-      email: '',
-    });
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/contact/design-request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message || 'Something went wrong. Please try again.');
+        return;
+      }
+      toast.success("Request sent! We'll be in touch within 24 hours. Check your inbox for a confirmation.");
+      setFormData({ projectType: '', description: '', colorPreferences: '', budget: '', deadline: '', name: '', email: '', phone: '', addressLine1: '', addressLine2: '', city: '', postcode: '' });
+    } catch {
+      toast.error('Network error. Please try again or email us directly at info@raydesign.uk');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   const services = [
@@ -91,14 +101,27 @@ export function DesignRequestPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
-      <div className="rp-container max-w-6xl">
-        {/* Header */}
+    <div className="min-h-screen bg-[#0B0F17]">
+
+      {/* ── Hero Banner with background image ── */}
+      <div
+        className="relative w-full pt-40 pb-24 flex flex-col items-center justify-center text-center overflow-hidden"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F17]/80 via-[#0B0F17]/70 to-[#0B0F17]" />
+        {/* Blue accent glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#3B6CFF]/20 rounded-full blur-[100px] pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="relative z-10 px-6"
         >
           <span className="rp-micro-label block mb-4">DESIGN SERVICES</span>
           <h1 className="text-4xl md:text-5xl font-bold text-[#F6F8FF] mb-4">
@@ -108,13 +131,17 @@ export function DesignRequestPage() {
             Work with our in-house design team to bring your vision to life. Revisions included, timelines tight.
           </p>
         </motion.div>
-        
+      </div>
+
+      {/* ── Page body ── */}
+      <div className="w-full max-w-5xl mx-auto px-6 pb-24">
+
         {/* Services */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid md:grid-cols-3 gap-6 mb-16"
+          className="grid md:grid-cols-3 gap-6 mb-14 -mt-6"
         >
           {services.map((service, index) => (
             <div
@@ -129,12 +156,13 @@ export function DesignRequestPage() {
             </div>
           ))}
         </motion.div>
-        
-        {/* Form */}
+
+        {/* Form — centred, max 860 px */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-[860px] mx-auto"
         >
           <div className="rp-card p-8 md:p-12">
             <h2 className="text-2xl font-semibold text-[#F6F8FF] mb-8">Tell us about your project</h2>
@@ -196,17 +224,70 @@ export function DesignRequestPage() {
                 </div>
               </div>
               
+              {/* Email + Phone */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Email Address</Label>
+                  <Input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={e => setFormData({...formData, email: e.target.value})}
+                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Phone Number</Label>
+                  <Input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={e => setFormData({...formData, phone: e.target.value})}
+                    placeholder="e.g., +44 7700 900000"
+                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                  />
+                </div>
+              </div>
+
+              {/* Address */}
               <div>
-                <Label className="text-sm text-[#A6B0C5] mb-2 block">Email Address</Label>
-                <Input 
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={e => setFormData({...formData, email: e.target.value})}
-                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                <Label className="text-sm text-[#A6B0C5] mb-2 block">Address Line 1</Label>
+                <Input
+                  value={formData.addressLine1}
+                  onChange={e => setFormData({...formData, addressLine1: e.target.value})}
+                  placeholder="Street address, building number"
+                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
                 />
               </div>
-              
+              <div>
+                <Label className="text-sm text-[#A6B0C5] mb-2 block">Address Line 2 <span className="text-[#4A5568] text-xs">(optional)</span></Label>
+                <Input
+                  value={formData.addressLine2}
+                  onChange={e => setFormData({...formData, addressLine2: e.target.value})}
+                  placeholder="Apartment, suite, unit, etc."
+                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                />
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <Label className="text-sm text-[#A6B0C5] mb-2 block">City / Town</Label>
+                  <Input
+                    value={formData.city}
+                    onChange={e => setFormData({...formData, city: e.target.value})}
+                    placeholder="e.g., London"
+                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Postcode</Label>
+                  <Input
+                    value={formData.postcode}
+                    onChange={e => setFormData({...formData, postcode: e.target.value})}
+                    placeholder="e.g., SW1A 1AA"
+                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                  />
+                </div>
+              </div>
+
               <div>
                 <Label className="text-sm text-[#A6B0C5] mb-2 block">Project Description</Label>
                 <Textarea 
@@ -304,7 +385,7 @@ export function DesignRequestPage() {
             </form>
           </div>
         </motion.div>
-      </div>
+      </div>{/* end max-w-5xl body */}
     </div>
   );
 }

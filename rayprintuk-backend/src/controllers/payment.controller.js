@@ -18,7 +18,17 @@ exports.createCheckoutIntent = async (req, res, next) => {
     }
 
     // Ensure/create Stripe customer
+    // If the stored ID belongs to a different mode (live vs test) Stripe will
+    // throw "No such customer" — we catch that and create a fresh one.
     let stripeCustomerId = req.user?.stripeCustomerId;
+    if (stripeCustomerId) {
+      try {
+        await stripe.customers.retrieve(stripeCustomerId);
+      } catch (custErr) {
+        // ID invalid in current mode — reset so we create a new one below
+        stripeCustomerId = null;
+      }
+    }
     if (!stripeCustomerId) {
       const customer = await stripe.customers.create({
         email: customerEmail || req.user?.email,

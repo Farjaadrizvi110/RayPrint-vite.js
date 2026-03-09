@@ -15,6 +15,7 @@ const orderRoutes = require("./routes/order.routes");
 const paymentRoutes = require("./routes/payment.routes");
 const artworkRoutes = require("./routes/artwork.routes");
 const adminRoutes = require("./routes/admin.routes");
+const contactRoutes = require("./routes/contact.routes");
 const errorHandler = require("./middleware/errorHandler");
 const logger = require("./utils/logger");
 
@@ -91,6 +92,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/artwork", artworkRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/contact", contactRoutes);
 
 // ─── 404 handler ────────────────────────────────────────────────────────────
 app.use((req, res) => {

@@ -5,13 +5,14 @@ const orderItemSchema = new mongoose.Schema(
     product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      required: true,
+      required: false,
     },
     productName: { type: String, required: true },
     quantity: { type: Number, required: true, min: 1 },
     unitPrice: { type: Number, required: true }, // pence
     options: { type: Map, of: String, default: {} }, // { size: 'A4', finish: 'Gloss' }
     artwork: { type: mongoose.Schema.Types.ObjectId, ref: "Artwork" },
+    artworkUrl: { type: String, default: "" }, // Cloudinary URL for download
   },
   { _id: false }
 );

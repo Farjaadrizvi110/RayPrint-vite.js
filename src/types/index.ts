@@ -51,18 +51,25 @@ export interface User {
   lastName: string;
   role: 'customer' | 'admin';
   avatar?: string;
+  phone?: string;
+  whatsapp?: string;
+  profession?: string;
+  business?: string;
   addresses: Address[];
   createdAt: Date;
 }
 
 export interface Address {
-  id: string;
-  name: string;
+  id?: string;
+  fullName?: string;
+  name?: string;
   line1: string;
   line2?: string;
   city: string;
+  county?: string;
   postcode: string;
   country: string;
+  phone?: string;
   isDefault: boolean;
 }
 

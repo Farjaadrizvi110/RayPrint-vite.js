@@ -84,17 +84,72 @@ exports.updateMe = async (req, res, next) => {
     if (!errors.isEmpty())
       return sendError(res, 422, "Validation failed", errors.array());
 
-    const allowed = ["firstName", "lastName", "phone", "avatar"];
+    const allowed = [
+      "firstName",
+      "lastName",
+      "phone",
+      "avatar",
+      "whatsapp",
+      "profession",
+      "business",
+    ];
     const updates = {};
     allowed.forEach((f) => {
       if (req.body[f] !== undefined) updates[f] = req.body[f];
     });
+
+    // Handle saved address upsert
+    if (req.body.address) {
+      const addr = req.body.address;
+      const user = await User.findById(req.user._id);
+      const defIdx = user.addresses.findIndex((a) => a.isDefault);
+      if (defIdx >= 0) {
+        Object.assign(user.addresses[defIdx], addr, { isDefault: true });
+      } else {
+        user.addresses.push({ ...addr, isDefault: true });
+      }
+      Object.assign(user, updates);
+      await user.save({ validateBeforeSave: false });
+      return sendSuccess(res, 200, "Profile updated.", user);
+    }
 
     const user = await User.findByIdAndUpdate(req.user._id, updates, {
       new: true,
       runValidators: true,
     });
     return sendSuccess(res, 200, "Profile updated.", user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// PATCH /api/auth/change-password
+exports.changePassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword)
+      return sendError(
+        res,
+        400,
+        "currentPassword and newPassword are required."
+      );
+    if (newPassword.length < 8)
+      return sendError(res, 400, "New password must be at least 8 characters.");
+
+    const user = await User.findById(req.user._id).select("+password");
+    if (!user.password)
+      return sendError(
+        res,
+        400,
+        "This account uses Google login — no password to change."
+      );
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) return sendError(res, 401, "Current password is incorrect.");
+
+    user.password = newPassword;
+    await user.save();
+    return sendSuccess(res, 200, "Password changed successfully.");
   } catch (err) {
     next(err);
   }
