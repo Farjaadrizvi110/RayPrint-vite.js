@@ -25,7 +25,8 @@ import { RegisterPage } from '@/pages/RegisterPage';
 import { AccountPage } from '@/pages/AccountPage';
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage';
 import { BusinessCardPage } from '@/pages/BusinessCardPage';
-import { PostcardsPage }    from '@/pages/PostcardsPage';
+import { PostcardsPage }     from '@/pages/PostcardsPage';
+import { ClassicFlyersPage } from '@/pages/ClassicFlyersPage';
 import { AdminDashboard } from '@/pages/admin/AdminDashboard';
 import { AdminOrders } from '@/pages/admin/AdminOrders';
 import { AdminProducts } from '@/pages/admin/AdminProducts';
@@ -75,6 +76,7 @@ function App() {
                 <Route path="/products/:category" element={<CategoryPage />} />
                 <Route path="/product/premium-business-cards" element={<BusinessCardPage />} />
                 <Route path="/product/premium-postcards"      element={<PostcardsPage />} />
+                <Route path="/product/classic-flyers"         element={<ClassicFlyersPage />} />
                 <Route path="/product/:slug" element={<ProductDetailPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
