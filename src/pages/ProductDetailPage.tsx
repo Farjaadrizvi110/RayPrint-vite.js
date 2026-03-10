@@ -1,23 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Check, Upload, ShoppingBag, ChevronDown, Info, FileText, Package, Truck } from 'lucide-react';
+import { ArrowLeft, Check, Upload, ShoppingBag, ChevronDown, Info, FileText, Package, Truck, Loader2 } from 'lucide-react';
 import { getProductBySlug, getFeaturedProducts } from '@/data/products';
-import { useCartStore } from '@/store';
+import { useCartStore, useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import type { Artwork } from '@/types';
+
+const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const product = getProductBySlug(slug || '');
   const { addItem } = useCartStore();
+  const { token } = useAuthStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
   const [uploadedArtwork, setUploadedArtwork] = useState<Artwork | null>(null);
   const [expandedOption, setExpandedOption] = useState<string | null>(null);
+  const [isUploadingArtwork, setIsUploadingArtwork] = useState(false);
   
   // Initialize default options
   useEffect(() => {
@@ -54,25 +58,52 @@ export function ProductDetailPage() {
     setSelectedQuantity(index);
   };
   
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 100 * 1024 * 1024) {
-        toast.error('File size must be less than 100MB');
-        return;
+    if (!file) return;
+
+    if (file.size > 100 * 1024 * 1024) {
+      toast.error('File size must be less than 100MB');
+      return;
+    }
+
+    // Preview immediately using blob URL (local only, for display)
+    const previewUrl = URL.createObjectURL(file);
+    setUploadedArtwork({
+      id: Math.random().toString(36).substr(2, 9),
+      fileName: file.name,
+      fileUrl: previewUrl,
+      fileType: file.type,
+      fileSize: file.size,
+      uploadedAt: new Date(),
+    });
+
+    if (!token) {
+      toast.warning('Sign in before checkout so your design can be saved permanently.');
+      return;
+    }
+
+    // Upload to Cloudinary via backend to get a permanent URL
+    setIsUploadingArtwork(true);
+    try {
+      const formData = new FormData();
+      formData.append('artwork', file);
+      const res = await fetch(`${BACKEND_URL}/api/artwork/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success && data.data?.fileUrl) {
+        setUploadedArtwork(prev => prev ? { ...prev, fileUrl: data.data.fileUrl } : prev);
+        toast.success('Artwork uploaded & saved ✅');
+      } else {
+        toast.error(data.message || 'Upload failed — file preview saved locally.');
       }
-      
-      const artwork: Artwork = {
-        id: Math.random().toString(36).substr(2, 9),
-        fileName: file.name,
-        fileUrl: URL.createObjectURL(file),
-        fileType: file.type,
-        fileSize: file.size,
-        uploadedAt: new Date(),
-      };
-      
-      setUploadedArtwork(artwork);
-      toast.success('Artwork uploaded successfully!');
+    } catch {
+      toast.error('Could not reach server — file preview saved locally.');
+    } finally {
+      setIsUploadingArtwork(false);
     }
   };
   
@@ -288,22 +319,28 @@ export function ProductDetailPage() {
               />
               
               {uploadedArtwork ? (
-                <div className="p-4 rounded-xl bg-[rgba(59,108,255,0.1)] border border-[rgba(59,108,255,0.3)] flex items-center justify-between">
+                <div className={`p-4 rounded-xl border flex items-center justify-between ${isUploadingArtwork ? 'bg-[rgba(246,168,0,0.08)] border-[rgba(246,168,0,0.3)]' : 'bg-[rgba(59,108,255,0.1)] border-[rgba(59,108,255,0.3)]'}`}>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#3B6CFF] flex items-center justify-center">
-                      <Check className="w-5 h-5 text-white" />
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${isUploadingArtwork ? 'bg-[rgba(246,168,0,0.2)]' : 'bg-[#3B6CFF]'}`}>
+                      {isUploadingArtwork
+                        ? <Loader2 className="w-5 h-5 text-yellow-400 animate-spin" />
+                        : <Check className="w-5 h-5 text-white" />}
                     </div>
                     <div>
                       <p className="text-sm font-medium text-[#F6F8FF]">{uploadedArtwork.fileName}</p>
-                      <p className="text-xs text-[#A6B0C5]">{(uploadedArtwork.fileSize / 1024 / 1024).toFixed(2)} MB</p>
+                      <p className="text-xs text-[#A6B0C5]">
+                        {isUploadingArtwork ? 'Uploading to cloud…' : `${(uploadedArtwork.fileSize / 1024 / 1024).toFixed(2)} MB — saved ✅`}
+                      </p>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => setUploadedArtwork(null)}
-                    className="text-sm text-[#A6B0C5] hover:text-red-400 transition-colors"
-                  >
-                    Remove
-                  </button>
+                  {!isUploadingArtwork && (
+                    <button
+                      onClick={() => setUploadedArtwork(null)}
+                      className="text-sm text-[#A6B0C5] hover:text-red-400 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  )}
                 </div>
               ) : (
                 <button
