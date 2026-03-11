@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, Upload, ShoppingBag, ChevronDown, Info, FileText, Package, Truck, Loader2 } from 'lucide-react';
 import { getProductBySlug, getFeaturedProducts } from '@/data/products';
-import { useCartStore, useAuthStore } from '@/store';
+import { useCartStore, useAuthStore, useUIStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import type { Artwork } from '@/types';
@@ -13,8 +13,9 @@ const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const product = getProductBySlug(slug || '');
-  const { addItem } = useCartStore();
-  const { token } = useAuthStore();
+  const { addItem }     = useCartStore();
+  const { token }       = useAuthStore();
+  const { setCartOpen } = useUIStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
@@ -126,6 +127,7 @@ export function ProductDetailPage() {
     });
     
     toast.success('Added to cart!');
+    setCartOpen(true);
   };
   
   const currentPriceTier = product.priceTiers[selectedQuantity];

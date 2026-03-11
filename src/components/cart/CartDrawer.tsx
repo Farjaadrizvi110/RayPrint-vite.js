@@ -19,17 +19,17 @@ export function CartDrawer() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 bg-black/60 z-50"
             onClick={() => setCartOpen(false)}
           />
-          
+
           {/* Drawer */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: 'tween', ease: 'easeOut', duration: 0.18 }}
             className="fixed top-0 right-0 h-full w-full max-w-md bg-[#0B0F17] border-l border-[rgba(246,248,255,0.08)] z-50 flex flex-col"
           >
             {/* Header */}
@@ -70,10 +70,10 @@ export function CartDrawer() {
                   {items.map((item) => (
                     <motion.div
                       key={item.id}
-                      layout
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.15 }}
                       className="flex gap-4 p-4 rounded-2xl bg-[rgba(246,248,255,0.04)] border border-[rgba(246,248,255,0.08)]"
                     >
                       {/* Image */}

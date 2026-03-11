@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, Upload, ShoppingBag, ChevronDown, Info, FileText, Package, Truck, Loader2 } from 'lucide-react';
 import { getProductBySlug, getFeaturedProducts } from '@/data/products';
-import { useCartStore, useAuthStore } from '@/store';
+import { useCartStore, useAuthStore, useUIStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import type { Artwork } from '@/types';
@@ -23,8 +23,9 @@ const getOptionIcon = (name: string) => {
 
 export function BusinessCardPage() {
   const product = getProductBySlug('premium-business-cards');
-  const { addItem } = useCartStore();
-  const { token }   = useAuthStore();
+  const { addItem }    = useCartStore();
+  const { token }      = useAuthStore();
+  const { setCartOpen } = useUIStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedOptions,    setSelectedOptions]    = useState<Record<string, string>>({});
@@ -84,6 +85,7 @@ export function BusinessCardPage() {
     const priceTier = product.priceTiers[selectedQuantity];
     addItem({ id: Math.random().toString(36).substr(2, 9), product, quantity: priceTier.quantity, options: selectedOptions, artwork: uploadedArtwork || undefined, price: priceTier.unitPrice });
     toast.success(`${priceTier.quantity.toLocaleString()} business cards added to cart!`);
+    setCartOpen(true);
   };
 
   const currentPriceTier = product.priceTiers[selectedQuantity];

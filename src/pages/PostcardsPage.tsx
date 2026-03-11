@@ -6,7 +6,7 @@ import {
   Info, FileText, Package, Truck, Loader2,
 } from 'lucide-react';
 import { getProductBySlug, getFeaturedProducts } from '@/data/products';
-import { useCartStore, useAuthStore } from '@/store';
+import { useCartStore, useAuthStore, useUIStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import type { Artwork } from '@/types';
@@ -44,8 +44,9 @@ const getOptionIcon = (name: string) => {
 
 export function PostcardsPage() {
   const product = getProductBySlug('premium-postcards');
-  const { addItem } = useCartStore();
-  const { token }   = useAuthStore();
+  const { addItem }     = useCartStore();
+  const { token }       = useAuthStore();
+  const { setCartOpen } = useUIStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedOptions,    setSelectedOptions]    = useState<Record<string, string>>(RECOMMENDED);
@@ -106,6 +107,7 @@ export function PostcardsPage() {
       price:     parseFloat((totalPrice / priceTier.quantity).toFixed(4)),
     });
     toast.success(`${priceTier.quantity.toLocaleString()} postcards added to cart!`);
+    setCartOpen(true);
   };
 
   const currentTier    = product.priceTiers[selectedQtyIdx];

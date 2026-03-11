@@ -68,7 +68,7 @@ function App() {
           <CartDrawer />
 
           <main>
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="sync">
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />

@@ -6,7 +6,7 @@ import {
   Info, FileText, Package, Layers, Truck, Loader2,
 } from 'lucide-react';
 import { getProductBySlug, getFeaturedProducts } from '@/data/products';
-import { useCartStore, useAuthStore } from '@/store';
+import { useCartStore, useAuthStore, useUIStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import type { Artwork } from '@/types';
@@ -37,8 +37,9 @@ const getOptionIcon = (name: string) => {
 
 export function ClassicFlyersPage() {
   const product = getProductBySlug('classic-flyers');
-  const { addItem } = useCartStore();
-  const { token }   = useAuthStore();
+  const { addItem }     = useCartStore();
+  const { token }       = useAuthStore();
+  const { setCartOpen } = useUIStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedOptions,    setSelectedOptions]    = useState<Record<string, string>>(RECOMMENDED);
@@ -102,6 +103,7 @@ export function ClassicFlyersPage() {
       price:   priceTier.unitPrice,
     });
     toast.success(`${priceTier.quantity.toLocaleString()} flyers added to cart!`);
+    setCartOpen(true);
   };
 
   const currentTier     = product.priceTiers[selectedQtyIdx];
