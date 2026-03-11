@@ -59,17 +59,19 @@ export function AboutPage() {
         {/* ── Our Story ── */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           <div>
-            <span className="rp-micro-label block mb-3">OUR STORY</span>
+            <span className="block mb-4 text-lg font-bold uppercase tracking-[0.22em] text-[#3B6CFF]">
+              Our Story
+            </span>
             <h2 className="text-3xl md:text-4xl font-bold text-[#F6F8FF] mb-6 leading-tight">
               Built on a belief that great print changes everything
             </h2>
-            <p className="text-[#A6B0C5] mb-4 leading-relaxed">
-              Ray Design and Print Ltd was incorporated on <strong className="text-[#F6F8FF]">12 July 2016</strong> with one clear purpose: to give every business access to print quality that was once reserved for big brands with big budgets. Based in <strong className="text-[#F6F8FF]">Blackburn, Lancashire</strong>, we've grown into a trusted nationwide online print service — but we've never lost that personal, hands-on approach.
+            <p className="text-[#C8D0E0] text-base lg:text-[17px] leading-[1.85] mb-5">
+              Ray Design and Print Ltd was incorporated on <strong className="text-[#F6F8FF] font-semibold">12 July 2016</strong> with one clear purpose: to give every business access to print quality that was once reserved for big brands with big budgets. Based in <strong className="text-[#F6F8FF] font-semibold">Blackburn, Lancashire</strong>, we've grown into a trusted nationwide online print service — but we've never lost that personal, hands-on approach.
             </p>
-            <p className="text-[#A6B0C5] mb-4 leading-relaxed">
+            <p className="text-[#C8D0E0] text-base lg:text-[17px] leading-[1.85] mb-5">
               We believe a well-crafted business card opens doors. A striking flyer fills rooms. Professional packaging turns first-time buyers into loyal advocates. Print is a physical handshake between your brand and your customer — and we take that seriously.
             </p>
-            <p className="text-[#A6B0C5] leading-relaxed">
+            <p className="text-[#C8D0E0] text-base lg:text-[17px] leading-[1.85]">
               That's why we've invested in state-of-the-art presses, an expert in-house design team, and a streamlined online ordering system — so you get premium results without the hassle.
             </p>
           </div>
@@ -91,7 +93,9 @@ export function AboutPage() {
         {/* ── What We Do ── */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-20">
           <div className="text-center mb-12">
-            <span className="rp-micro-label block mb-3">OUR EXPERTISE</span>
+            <span className="block mb-4 text-lg font-bold uppercase tracking-[0.22em] text-[#3B6CFF]">
+              Our Expertise
+            </span>
             <h2 className="text-3xl md:text-4xl font-bold text-[#F6F8FF]">Everything you need, under one roof</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -102,7 +106,7 @@ export function AboutPage() {
                   <item.icon className="w-6 h-6 text-[#3B6CFF]" />
                 </div>
                 <h3 className="text-base font-semibold text-[#F6F8FF] mb-2">{item.title}</h3>
-                <p className="text-sm text-[#A6B0C5] leading-relaxed">{item.desc}</p>
+                <p className="text-[#C8D0E0] text-sm lg:text-base leading-[1.8]">{item.desc}</p>
               </motion.div>
             ))}
           </div>
