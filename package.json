@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run dev:all",
     "dev:all": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"cyan,magenta\" \"cd rayprintuk-backend && npm run dev\" \"vite\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
