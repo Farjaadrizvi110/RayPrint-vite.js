@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export function WhatsAppButton() {
   const whatsappNumber = '447757202729'; // Your WhatsApp number without '+' or spaces
