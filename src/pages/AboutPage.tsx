@@ -37,7 +37,7 @@ export function AboutPage() {
 
         {/* ── Hero ── */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-20">
-          <span className="rp-micro-label block mb-4">ABOUT RAY DESIGN AND PRINT LTD</span>
+          <span className="block mb-4 text-lg font-bold uppercase tracking-[0.22em] text-[#3B6CFF]">About Ray Design and Print Ltd</span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F6F8FF] mb-6 leading-tight">
             Where Quality Print<br className="hidden md:block" /> Meets British Craftsmanship
           </h1>
@@ -115,7 +115,7 @@ export function AboutPage() {
         {/* ── Values ── */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-20">
           <div className="text-center mb-12">
-            <span className="rp-micro-label block mb-3">WHAT WE STAND FOR</span>
+            <span className="block mb-3 text-xl text-rayprintBlue">WHAT WE STAND FOR</span>
             <h2 className="text-3xl md:text-4xl font-bold text-[#F6F8FF]">Our values, in every print</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -133,7 +133,7 @@ export function AboutPage() {
         {/* ── Company Registration ── */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-20">
           <div className="text-center mb-10">
-            <span className="rp-micro-label block mb-3">REGISTERED BUSINESS</span>
+            <span className="block mb-3 text-xl text-rayprintBlue">REGISTERED BUSINESS</span>
             <h2 className="text-3xl font-bold text-[#F6F8FF]">Fully registered &amp; accountable</h2>
             <p className="text-[#A6B0C5] mt-3 max-w-xl mx-auto">We're a fully registered UK Private Limited Company — transparent, trustworthy, and here for the long run.</p>
           </div>
