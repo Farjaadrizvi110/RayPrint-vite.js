@@ -107,20 +107,20 @@ export function Footer() {
             <h4 className="font-semibold text-[#F6F8FF] mb-4">Contact</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#A6B0C5] mt-0.5" />
-                <span className="text-sm text-[#A6B0C5]">123 Print Street<br />London, EC1A 1BB</span>
+                <MapPin className="w-4 h-4 text-[#A6B0C5] mt-0.5 flex-shrink-0" />
+                <span className="text-sm text-[#A6B0C5]">1a Edmundson Street<br />Blackburn, BB2 1HL<br />United Kingdom</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#A6B0C5]" />
-                <a href="tel:+442012345678" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">+44 20 1234 5678</a>
+                <a href="tel:+447757202729" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">+44 7757 202729</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#A6B0C5]" />
-                <a href="mailto:hello@rayprint.co.uk" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">hello@rayprint.co.uk</a>
+                <a href="mailto:info@raydesign.uk" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">info@raydesign.uk</a>
               </li>
               <li className="flex items-center gap-3">
                 <MessageSquare className="w-4 h-4 text-[#A6B0C5]" />
-                <a href="https://wa.me/447757202729" target="_blank" rel="noopener noreferrer" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">+44 7757 202729</a>
+                <a href="https://wa.me/447757202729" target="_blank" rel="noopener noreferrer" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">WhatsApp Us</a>
               </li>
             </ul>
           </div>

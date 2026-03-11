@@ -55,14 +55,14 @@ export function ContactPage() {
     {
       icon: Phone,
       title: 'Phone',
-      content: '+44 20 1234 5678',
-      link: 'tel:+442012345678',
+      content: '+44 7757 202729',
+      link: 'tel:+447757202729',
     },
     {
       icon: MapPin,
       title: 'Address',
-      content: '123 Print Street, London, EC1A 1BB',
-      link: '#',
+      content: '1a Edmundson Street, Blackburn, BB2 1HL, United Kingdom',
+      link: 'https://maps.google.com/?q=1a+Edmundson+Street,+Blackburn,+BB2+1HL',
     },
     {
       icon: Clock,
