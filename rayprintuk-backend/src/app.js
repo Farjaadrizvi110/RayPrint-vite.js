@@ -67,12 +67,18 @@ app.use(
 
 // ─── Session (required for OAuth state verification) ────────────────────────
 // Only used during the Google OAuth redirect dance — JWT is used for everything else.
+const isProd = process.env.NODE_ENV === "production";
+if (isProd) app.set("trust proxy", 1); // Required behind Vercel's reverse proxy
 app.use(
   session({
     secret: process.env.JWT_SECRET || "rayprintuk-session-secret",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 5 * 60 * 1000 }, // 5 min — just for OAuth flow
+    cookie: {
+      secure: isProd, // HTTPS-only in production
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 5 * 60 * 1000, // 5 min — just for OAuth flow
+    },
   })
 );
 

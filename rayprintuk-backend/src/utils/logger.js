@@ -1,30 +1,31 @@
-const { createLogger, format, transports } = require('winston');
+const { createLogger, format, transports } = require("winston");
 const { combine, timestamp, printf, colorize, errors } = format;
 
 const devFormat = combine(
   colorize(),
-  timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   errors({ stack: true }),
-  printf(({ level, message, timestamp, stack }) =>
-    `${timestamp} [${level}]: ${stack || message}`
+  printf(
+    ({ level, message, timestamp, stack }) =>
+      `${timestamp} [${level}]: ${stack || message}`
   )
 );
 
-const prodFormat = combine(
-  timestamp(),
-  errors({ stack: true }),
-  format.json()
-);
+const prodFormat = combine(timestamp(), errors({ stack: true }), format.json());
+
+// Vercel has a read-only filesystem — skip file transports there
+const isVercel = !!process.env.VERCEL;
+const isProd = process.env.NODE_ENV === "production";
 
 const logger = createLogger({
-  level: process.env.LOG_LEVEL || (process.env.NODE_ENV === 'production' ? 'info' : 'debug'),
-  format: process.env.NODE_ENV === 'production' ? prodFormat : devFormat,
+  level: process.env.LOG_LEVEL || (isProd ? "info" : "debug"),
+  format: isProd ? prodFormat : devFormat,
   transports: [
     new transports.Console(),
-    ...(process.env.NODE_ENV === 'production'
+    ...(isProd && !isVercel
       ? [
-          new transports.File({ filename: 'logs/error.log', level: 'error' }),
-          new transports.File({ filename: 'logs/combined.log' }),
+          new transports.File({ filename: "logs/error.log", level: "error" }),
+          new transports.File({ filename: "logs/combined.log" }),
         ]
       : []),
   ],
@@ -32,7 +33,6 @@ const logger = createLogger({
 });
 
 // Add http level for Morgan
-logger.http = (message) => logger.log('http', message);
+logger.http = (message) => logger.log("http", message);
 
 module.exports = logger;
-
