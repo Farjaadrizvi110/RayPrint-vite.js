@@ -207,8 +207,8 @@ function HeroSection() {
           {/* Stats Row */}
           <div className="hero-stats flex flex-wrap gap-8 md:gap-12">
             {[
-              { value: 5, suffix: 'K+', label: 'Happy Customers' },
-              { value: 500, suffix: 'K+', label: 'Products Printed' },
+              { value: 500, suffix: '+', label: 'Happy Customers' },
+              { value: 500000, suffix: '+', label: 'Products Printed' },
               { value: 99, suffix: '%', label: 'Satisfaction Rate' },
             ].map((stat, i) => (
               <motion.div 
