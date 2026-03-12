@@ -118,16 +118,40 @@ export function Navbar() {
           <nav className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <motion.div 
-                className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3B6CFF] to-[#5a85ff] flex items-center justify-center"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ duration: 0.3 }}
+              {/* Icon with pulse glow + shimmer */}
+              <div className="relative flex-shrink-0">
+                <motion.div
+                  className="absolute inset-0 rounded-xl bg-[#3B6CFF] blur-md"
+                  animate={{ opacity: [0.3, 0.65, 0.3], scale: [1, 1.15, 1] }}
+                  transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                />
+                <motion.div
+                  className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-[#3B6CFF] via-[#4f79ff] to-[#7B5AFF] flex items-center justify-center border border-white/15 overflow-hidden shadow-lg shadow-[#3B6CFF]/40"
+                  whileHover={{ scale: 1.12, rotate: 8 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 16 }}
+                >
+                  {/* Shimmer sweep */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+                    animate={{ x: ['-130%', '230%'] }}
+                    transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 2.8, ease: 'easeInOut' }}
+                  />
+                  <span className="relative z-10 text-xl font-black text-white tracking-tight">R</span>
+                </motion.div>
+              </div>
+
+              {/* Text */}
+              <motion.div
+                className="flex flex-col leading-none"
+                whileHover={{ x: 2 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
-                <span className="text-xl font-bold text-white">R</span>
+                <div className="flex items-baseline gap-0">
+                  <span className="text-[1.55rem] font-black tracking-[-0.03em] text-[#F6F8FF]">Ray</span>
+                  <span className="text-[1.55rem] font-black tracking-[-0.03em] bg-gradient-to-r from-[#3B6CFF] via-[#6e8fff] to-[#a78bfa] bg-clip-text text-transparent group-hover:from-[#5a85ff] group-hover:to-[#c4b5fd] transition-all duration-500">Print</span>
+                </div>
+                <span className="text-[0.48rem] font-bold tracking-[0.28em] text-[#3B6CFF]/70 uppercase mt-[-1px] group-hover:text-[#3B6CFF] transition-colors duration-300">Premium Print · UK</span>
               </motion.div>
-              <span className="text-2xl font-bold tracking-tight text-[#F6F8FF]">
-                Ray<span className="text-[#3B6CFF] group-hover:text-[#5a85ff] transition-colors">Print</span>
-              </span>
             </Link>
             
             {/* Desktop Navigation */}
@@ -418,13 +442,21 @@ export function Navbar() {
             >
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-[rgba(246,248,255,0.08)]">
-                <Link to="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#3B6CFF] to-[#5a85ff] flex items-center justify-center">
-                    <span className="text-lg font-bold text-white">R</span>
+                <Link to="/" className="flex items-center gap-2.5" onClick={() => setIsMobileMenuOpen(false)}>
+                  <div className="relative flex-shrink-0">
+                    <div className="absolute inset-0 rounded-lg bg-[#3B6CFF] blur-sm opacity-50" />
+                    <div className="relative w-9 h-9 rounded-lg bg-gradient-to-br from-[#3B6CFF] via-[#4f79ff] to-[#7B5AFF] flex items-center justify-center border border-white/15 overflow-hidden shadow-md shadow-[#3B6CFF]/30">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12 translate-x-[-130%]" />
+                      <span className="relative z-10 text-base font-black text-white">R</span>
+                    </div>
                   </div>
-                  <span className="text-xl font-bold text-[#F6F8FF]">
-                    Ray<span className="text-[#3B6CFF]">Print</span>
-                  </span>
+                  <div className="flex flex-col leading-none">
+                    <div className="flex items-baseline">
+                      <span className="text-xl font-black tracking-[-0.03em] text-[#F6F8FF]">Ray</span>
+                      <span className="text-xl font-black tracking-[-0.03em] bg-gradient-to-r from-[#3B6CFF] via-[#6e8fff] to-[#a78bfa] bg-clip-text text-transparent">Print</span>
+                    </div>
+                    <span className="text-[0.45rem] font-bold tracking-[0.25em] text-[#3B6CFF]/70 uppercase">Premium Print · UK</span>
+                  </div>
                 </Link>
                 <motion.button 
                   onClick={() => setIsMobileMenuOpen(false)}
