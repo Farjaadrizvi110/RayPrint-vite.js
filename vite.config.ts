@@ -3,18 +3,12 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   base: '/',
-  plugins: [
-    // Dev-only inspector plugin — excluded from production build
-    ...(mode === 'development'
-      ? [require('kimi-plugin-inspect-react').inspectAttr()]
-      : []),
-    react(),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-}));
+});
