@@ -120,8 +120,8 @@ export function PostcardsPage() {
       <div className="rp-container">
         {/* Breadcrumb */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mb-6">
-          <Link to="/products/postcards-flyers" className="inline-flex items-center gap-2 text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
-            <ArrowLeft className="w-4 h-4" />Back to postcards &amp; flyers
+          <Link to="/products/postcards-flyers" className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-[rgba(59,108,255,0.08)] border border-[rgba(59,108,255,0.25)] text-sm font-medium text-[#A6B0C5] hover:text-[#F6F8FF] hover:bg-[rgba(59,108,255,0.15)] hover:border-[rgba(59,108,255,0.5)] hover:shadow-lg hover:shadow-[#3B6CFF]/20 transition-all duration-300">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />Back to postcards &amp; flyers
           </Link>
         </motion.div>
 
