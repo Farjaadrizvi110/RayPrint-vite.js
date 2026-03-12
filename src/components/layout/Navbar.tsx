@@ -1,26 +1,81 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
 import { useCartStore, useAuthStore, useUIStore } from '@/store';
 import { categories } from '@/data/products';
 import { Button } from '@/components/ui/button';
 
+// Build a flat list of searchable items from categories
+const searchItems = categories
+  .filter(cat => cat.slug !== 'all')
+  .map(cat => ({ name: cat.name, slug: cat.slug, image: cat.image, type: 'category' as const }));
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<typeof searchItems>([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const { toggleCart } = useUIStore();
   const { items } = useCartStore();
   const { isAuthenticated, user, logout } = useAuthStore();
   
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
-  
+
+  // Filter search results as user types
+  useEffect(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (q.length === 0) {
+      setSearchResults([]);
+      return;
+    }
+    const filtered = searchItems.filter(item => item.name.toLowerCase().includes(q));
+    setSearchResults(filtered);
+  }, [searchQuery]);
+
+  // Focus input when search opens
+  useEffect(() => {
+    if (isSearchOpen) {
+      setTimeout(() => searchInputRef.current?.focus(), 50);
+    } else {
+      setSearchQuery('');
+      setSearchResults([]);
+    }
+  }, [isSearchOpen]);
+
+  // Close search on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSearchSelect = (slug: string) => {
+    setIsSearchOpen(false);
+    navigate(`/products/${slug}`);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchResults.length > 0) {
+      handleSearchSelect(searchResults[0].slug);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -169,10 +224,87 @@ export function Navbar() {
             
             {/* Actions */}
             <div className="flex items-center gap-3">
-              <motion.button 
-                className="p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+              {/* Search */}
+              <div ref={searchContainerRef} className="relative hidden lg:block">
+                <AnimatePresence mode="wait">
+                  {isSearchOpen ? (
+                    <motion.form
+                      key="search-open"
+                      initial={{ width: 40, opacity: 0 }}
+                      animate={{ width: 260, opacity: 1 }}
+                      exit={{ width: 40, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      onSubmit={handleSearchSubmit}
+                      className="flex items-center bg-[rgba(246,248,255,0.08)] border border-[rgba(246,248,255,0.12)] rounded-xl overflow-hidden"
+                    >
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        placeholder="Search products..."
+                        className="flex-1 bg-transparent px-3 py-2 text-sm text-[#F6F8FF] placeholder-[#A6B0C5] outline-none"
+                      />
+                      <button type="submit" className="p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
+                        <Search className="w-4 h-4" />
+                      </button>
+                      <button type="button" onClick={() => setIsSearchOpen(false)} className="p-2 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </motion.form>
+                  ) : (
+                    <motion.button
+                      key="search-closed"
+                      className="p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setIsSearchOpen(true)}
+                    >
+                      <Search className="w-5 h-5" />
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+
+                {/* Recommendations Dropdown */}
+                <AnimatePresence>
+                  {isSearchOpen && searchResults.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full right-0 mt-2 w-72 bg-[#0B0F17]/95 backdrop-blur-2xl border border-[rgba(246,248,255,0.10)] rounded-2xl shadow-2xl shadow-[#3B6CFF]/10 overflow-hidden z-50"
+                    >
+                      <p className="px-4 pt-3 pb-1 text-xs font-medium text-[#A6B0C5] uppercase tracking-wider">Suggestions</p>
+                      {searchResults.map((item, index) => (
+                        <motion.button
+                          key={item.slug}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.04 }}
+                          onClick={() => handleSearchSelect(item.slug)}
+                          className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[rgba(246,248,255,0.06)] transition-colors text-left"
+                        >
+                          <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
+                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-sm text-[#F6F8FF]">{item.name}</span>
+                        </motion.button>
+                      ))}
+                      {searchQuery.trim() && searchResults.length === 0 && (
+                        <p className="px-4 py-3 text-sm text-[#A6B0C5]">No results for "{searchQuery}"</p>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Mobile search icon */}
+              <motion.button
+                className="lg:hidden p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => setIsMobileMenuOpen(true)}
               >
                 <Search className="w-5 h-5" />
               </motion.button>
@@ -304,6 +436,50 @@ export function Navbar() {
                 </motion.button>
               </div>
               
+              {/* Mobile Search */}
+              <div className="px-6 pt-4 pb-2">
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    if (searchResults.length > 0) {
+                      setIsMobileMenuOpen(false);
+                      navigate(`/products/${searchResults[0].slug}`);
+                    }
+                  }}
+                  className="flex items-center bg-[rgba(246,248,255,0.08)] border border-[rgba(246,248,255,0.12)] rounded-xl overflow-hidden"
+                >
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    placeholder="Search products..."
+                    className="flex-1 bg-transparent px-3 py-2.5 text-sm text-[#F6F8FF] placeholder-[#A6B0C5] outline-none"
+                  />
+                  <button type="submit" className="p-2.5 text-[#A6B0C5]">
+                    <Search className="w-4 h-4" />
+                  </button>
+                </form>
+                {searchQuery.trim() && searchResults.length > 0 && (
+                  <div className="mt-2 rounded-xl border border-[rgba(246,248,255,0.10)] overflow-hidden">
+                    {searchResults.map(item => (
+                      <button
+                        key={item.slug}
+                        onClick={() => { setIsMobileMenuOpen(false); navigate(`/products/${item.slug}`); }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[rgba(246,248,255,0.06)] transition-colors text-left"
+                      >
+                        <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        </div>
+                        <span className="text-sm text-[#F6F8FF]">{item.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {searchQuery.trim() && searchResults.length === 0 && (
+                  <p className="mt-2 px-1 text-sm text-[#A6B0C5]">No results for "{searchQuery}"</p>
+                )}
+              </div>
+
               {/* Navigation Links */}
               <div className="flex-1 overflow-y-auto p-6">
                 <nav className="space-y-1">
