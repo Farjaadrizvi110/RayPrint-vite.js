@@ -208,22 +208,105 @@ exports.resetPassword = async (req, res, next) => {
   }
 };
 
-// GET /api/auth/google/callback  — handled by passport, then this finalises
-exports.googleCallback = (req, res) => {
+// GET /api/auth/google — initiate Google OAuth (session-free, works on Vercel serverless)
+exports.googleInit = (req, res) => {
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    redirect_uri: process.env.GOOGLE_CALLBACK_URL,
+    scope: "openid profile email",
+    access_type: "offline",
+  });
+  res.redirect(
+    `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
+  );
+};
+
+// GET /api/auth/google/callback — exchange code directly (no session/passport state needed)
+exports.googleCallback = async (req, res) => {
   try {
-    logger.info("Google OAuth callback fired", {
-      user: req.user?._id,
-      email: req.user?.email,
-    });
-    if (!req.user) {
-      logger.error("Google OAuth: req.user is undefined after Passport");
+    const { code, error } = req.query;
+
+    if (error) {
+      logger.error("Google returned error in callback", { error });
       return res.redirect(
         `${process.env.CLIENT_URL}/#/login?error=google_failed`
       );
     }
-    const token = generateJWT(req.user);
-    logger.info("Google OAuth: JWT generated, redirecting to client");
-    // Use /#/ prefix so HashRouter in the React app routes correctly
+    if (!code) {
+      logger.error("Google callback: no code in query");
+      return res.redirect(
+        `${process.env.CLIENT_URL}/#/login?error=google_failed`
+      );
+    }
+
+    // 1. Exchange authorisation code for tokens
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        code,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        redirect_uri: process.env.GOOGLE_CALLBACK_URL,
+        grant_type: "authorization_code",
+      }),
+    });
+    const tokens = await tokenRes.json();
+
+    if (!tokenRes.ok || !tokens.access_token) {
+      logger.error("Google token exchange failed", { tokens });
+      return res.redirect(
+        `${process.env.CLIENT_URL}/#/login?error=google_failed`
+      );
+    }
+
+    // 2. Fetch Google profile
+    const profileRes = await fetch(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      { headers: { Authorization: `Bearer ${tokens.access_token}` } }
+    );
+    const profile = await profileRes.json();
+
+    if (!profileRes.ok || !profile.email) {
+      logger.error("Google userinfo fetch failed", { profile });
+      return res.redirect(
+        `${process.env.CLIENT_URL}/#/login?error=google_failed`
+      );
+    }
+
+    // 3. Find or create user
+    let user = await User.findOne({
+      $or: [{ googleId: profile.id }, { email: profile.email }],
+    });
+
+    if (user) {
+      if (!user.googleId) {
+        user.googleId = profile.id;
+        await user.save();
+      }
+    } else {
+      // Google may not always return given_name/family_name — use safe fallbacks
+      // (Mongoose rejects empty strings for required string fields)
+      const nameParts = (profile.name || "Google User").split(" ");
+      const firstName = profile.given_name || nameParts[0] || "Google";
+      const lastName =
+        profile.family_name || nameParts.slice(1).join(" ") || "User";
+      user = await User.create({
+        googleId: profile.id,
+        email: profile.email,
+        firstName,
+        lastName,
+        avatar: profile.picture || "",
+        isVerified: true,
+      });
+    }
+
+    // 4. Issue JWT and redirect to frontend
+    const token = generateJWT(user);
+    logger.info("Google OAuth: JWT issued, redirecting to client", {
+      userId: user._id,
+    });
     res.redirect(`${process.env.CLIENT_URL}/#/auth/callback?token=${token}`);
   } catch (err) {
     logger.error("Google OAuth callback error", { error: err.message });
