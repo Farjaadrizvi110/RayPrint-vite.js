@@ -73,7 +73,7 @@ export function ContactPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-blue-50">
 
       {/* ── Hero Banner ── */}
       <div
@@ -135,7 +135,7 @@ export function ContactPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-[860px] mx-auto"
         >
-          <div className="rp-card p-8 md:p-12">
+          <div className="rounded-[28px] border border-blue-100 bg-blue-50 p-8 md:p-12 shadow-sm">
             <h2 className="text-2xl font-semibold text-[#0F172A] mb-8">Send us a message</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">

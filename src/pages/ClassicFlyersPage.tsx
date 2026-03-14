@@ -316,7 +316,7 @@ export function ClassicFlyersPage() {
                   <ShoppingBag className="w-5 h-5 mr-2" />Add to Cart
                 </Button>
                 <Link to="/request-design" className="sm:w-auto w-full">
-                  <Button variant="outline" className="w-full border-[rgba(246,248,255,0.20)] text-[#F6F8FF] py-6 px-6 hover:bg-[rgba(246,248,255,0.05)]">
+                  <Button variant="outline" className="w-full border-[#3B6CFF]/30 bg-blue-50 text-[#3B6CFF] hover:bg-blue-100 hover:border-[#3B6CFF]/60 py-6 px-6 font-semibold transition-all duration-200 shadow-sm">
                     Need Design Help?
                   </Button>
                 </Link>

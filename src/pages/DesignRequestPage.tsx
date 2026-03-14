@@ -101,7 +101,7 @@ export function DesignRequestPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#0B0F17]">
+    <div className="min-h-screen bg-blue-50">
 
       {/* ── Hero Banner with background image ── */}
       <div
@@ -113,7 +113,7 @@ export function DesignRequestPage() {
         }}
       >
         {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F17]/80 via-[#0B0F17]/70 to-[#0B0F17]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-[#1e3a8a]/80" />
         {/* Blue accent glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#3B6CFF]/20 rounded-full blur-[100px] pointer-events-none" />
 
@@ -146,13 +146,13 @@ export function DesignRequestPage() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="rp-card p-6 text-center hover:border-[rgba(246,248,255,0.20)] transition-colors"
+              className="rounded-[28px] border border-blue-100 bg-white p-6 text-center hover:border-[#3B6CFF]/30 hover:shadow-lg transition-all"
             >
               <div className="w-14 h-14 rounded-full bg-[rgba(59,108,255,0.2)] flex items-center justify-center mx-auto mb-4">
                 <service.icon className="w-6 h-6 text-[#3B6CFF]" />
               </div>
-              <h3 className="text-lg font-semibold text-[#F6F8FF] mb-2">{service.title}</h3>
-              <p className="text-sm text-[#A6B0C5]">{service.description}</p>
+              <h3 className="text-lg font-semibold text-[#0F172A] mb-2">{service.title}</h3>
+              <p className="text-sm text-[#64748B]">{service.description}</p>
             </div>
           ))}
         </motion.div>
@@ -164,8 +164,8 @@ export function DesignRequestPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-[860px] mx-auto"
         >
-          <div className="rp-card p-8 md:p-12">
-            <h2 className="text-2xl font-semibold text-[#F6F8FF] mb-8">Tell us about your project</h2>
+          <div className="rounded-[28px] border border-blue-100 bg-blue-50 p-8 md:p-12 shadow-sm">
+            <h2 className="text-2xl font-semibold text-[#0F172A] mb-8">Tell us about your project</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
@@ -175,14 +175,14 @@ export function DesignRequestPage() {
                   <button
                     type="button"
                     onClick={() => setIsProjectTypeOpen(!isProjectTypeOpen)}
-                    className="w-full px-4 py-3 rounded-xl bg-[rgba(246,248,255,0.06)] border border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:outline-none focus:border-[#3B6CFF] flex items-center justify-between transition-all hover:border-[rgba(246,248,255,0.20)]"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-blue-200 text-[#0F172A] focus:outline-none focus:border-[#3B6CFF] flex items-center justify-between transition-all hover:border-[#3B6CFF]/50"
                   >
-                    <span className={formData.projectType ? 'text-[#F6F8FF]' : 'text-[#A6B0C5]'}>
-                      {formData.projectType 
-                        ? projectTypes.find(p => p.value === formData.projectType)?.label 
+                    <span className={formData.projectType ? 'text-[#0F172A]' : 'text-[#94a3b8]'}>
+                      {formData.projectType
+                        ? projectTypes.find(p => p.value === formData.projectType)?.label
                         : 'Select a service'}
                     </span>
-                    <ChevronDown className={`w-5 h-5 text-[#A6B0C5] transition-transform duration-300 ${isProjectTypeOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-5 h-5 text-[#64748B] transition-transform duration-300 ${isProjectTypeOpen ? 'rotate-180' : ''}`} />
                   </button>
                   
                   {isProjectTypeOpen && (
@@ -190,7 +190,7 @@ export function DesignRequestPage() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-full left-0 right-0 mt-2 bg-[#0B0F17] border border-[rgba(246,248,255,0.15)] rounded-xl overflow-hidden z-20 shadow-xl"
+                      className="absolute top-full left-0 right-0 mt-2 bg-white border border-blue-100 rounded-xl overflow-hidden z-20 shadow-xl"
                     >
                       {projectTypes.map((type) => (
                         <button
@@ -200,10 +200,10 @@ export function DesignRequestPage() {
                             setFormData({...formData, projectType: type.value});
                             setIsProjectTypeOpen(false);
                           }}
-                          className={`w-full px-4 py-3 text-left text-sm transition-all hover:bg-[rgba(59,108,255,0.15)] ${
-                            formData.projectType === type.value 
-                              ? 'bg-[rgba(59,108,255,0.2)] text-[#3B6CFF]' 
-                              : 'text-[#F6F8FF]'
+                          className={`w-full px-4 py-3 text-left text-sm transition-all hover:bg-blue-50 ${
+                            formData.projectType === type.value
+                              ? 'bg-blue-50 text-[#3B6CFF] font-medium'
+                              : 'text-[#0F172A]'
                           }`}
                         >
                           {type.label}
@@ -214,12 +214,12 @@ export function DesignRequestPage() {
                 </div>
                 
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Your Name</Label>
-                  <Input 
+                  <Label className="text-sm text-[#475569] mb-2 block">Your Name</Label>
+                  <Input
                     required
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors"
                   />
                 </div>
               </div>
@@ -227,104 +227,104 @@ export function DesignRequestPage() {
               {/* Email + Phone */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Email Address</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">Email Address</Label>
                   <Input
                     type="email"
                     required
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors"
                   />
                 </div>
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Phone Number</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">Phone Number</Label>
                   <Input
                     type="tel"
                     value={formData.phone}
                     onChange={e => setFormData({...formData, phone: e.target.value})}
                     placeholder="e.g., +44 7700 900000"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors placeholder:text-[#94a3b8]"
                   />
                 </div>
               </div>
 
               {/* Address */}
               <div>
-                <Label className="text-sm text-[#A6B0C5] mb-2 block">Address Line 1</Label>
+                <Label className="text-sm text-[#475569] mb-2 block">Address Line 1</Label>
                 <Input
                   value={formData.addressLine1}
                   onChange={e => setFormData({...formData, addressLine1: e.target.value})}
                   placeholder="Street address, building number"
-                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                  className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors placeholder:text-[#94a3b8]"
                 />
               </div>
               <div>
-                <Label className="text-sm text-[#A6B0C5] mb-2 block">Address Line 2 <span className="text-[#4A5568] text-xs">(optional)</span></Label>
+                <Label className="text-sm text-[#475569] mb-2 block">Address Line 2 <span className="text-[#94a3b8] text-xs">(optional)</span></Label>
                 <Input
                   value={formData.addressLine2}
                   onChange={e => setFormData({...formData, addressLine2: e.target.value})}
                   placeholder="Apartment, suite, unit, etc."
-                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                  className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors placeholder:text-[#94a3b8]"
                 />
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">City / Town</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">City / Town</Label>
                   <Input
                     value={formData.city}
                     onChange={e => setFormData({...formData, city: e.target.value})}
                     placeholder="e.g., London"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors placeholder:text-[#94a3b8]"
                   />
                 </div>
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Postcode</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">Postcode</Label>
                   <Input
                     value={formData.postcode}
                     onChange={e => setFormData({...formData, postcode: e.target.value})}
                     placeholder="e.g., SW1A 1AA"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors placeholder:text-[#4A5568]"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors placeholder:text-[#94a3b8]"
                   />
                 </div>
               </div>
 
               <div>
-                <Label className="text-sm text-[#A6B0C5] mb-2 block">Project Description</Label>
-                <Textarea 
+                <Label className="text-sm text-[#475569] mb-2 block">Project Description</Label>
+                <Textarea
                   required
                   rows={5}
                   value={formData.description}
                   onChange={e => setFormData({...formData, description: e.target.value})}
                   placeholder="Tell us about your project, goals, and any specific requirements..."
-                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors resize-none"
+                  className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors resize-none placeholder:text-[#94a3b8]"
                 />
               </div>
               
               <div className="grid md:grid-cols-3 gap-6">
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Color Preferences</Label>
-                  <Input 
+                  <Label className="text-sm text-[#475569] mb-2 block">Color Preferences</Label>
+                  <Input
                     value={formData.colorPreferences}
                     onChange={e => setFormData({...formData, colorPreferences: e.target.value})}
                     placeholder="e.g., Blue, Gold"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors placeholder:text-[#94a3b8]"
                   />
                 </div>
                 
                 {/* Budget Range Custom Dropdown */}
                 <div className="relative" ref={budgetRef}>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Budget Range</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">Budget Range</Label>
                   <button
                     type="button"
                     onClick={() => setIsBudgetOpen(!isBudgetOpen)}
-                    className="w-full px-4 py-3 rounded-xl bg-[rgba(246,248,255,0.06)] border border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:outline-none focus:border-[#3B6CFF] flex items-center justify-between transition-all hover:border-[rgba(246,248,255,0.20)]"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-blue-200 text-[#0F172A] focus:outline-none focus:border-[#3B6CFF] flex items-center justify-between transition-all hover:border-[#3B6CFF]/50"
                   >
-                    <span className={formData.budget ? 'text-[#F6F8FF]' : 'text-[#A6B0C5]'}>
-                      {formData.budget 
-                        ? budgetRanges.find(b => b.value === formData.budget)?.label 
+                    <span className={formData.budget ? 'text-[#0F172A]' : 'text-[#94a3b8]'}>
+                      {formData.budget
+                        ? budgetRanges.find(b => b.value === formData.budget)?.label
                         : 'Select budget'}
                     </span>
-                    <ChevronDown className={`w-5 h-5 text-[#A6B0C5] transition-transform duration-300 ${isBudgetOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-5 h-5 text-[#64748B] transition-transform duration-300 ${isBudgetOpen ? 'rotate-180' : ''}`} />
                   </button>
                   
                   {isBudgetOpen && (
@@ -332,7 +332,7 @@ export function DesignRequestPage() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-full left-0 right-0 mt-2 bg-[#0B0F17] border border-[rgba(246,248,255,0.15)] rounded-xl overflow-hidden z-20 shadow-xl"
+                      className="absolute top-full left-0 right-0 mt-2 bg-white border border-blue-100 rounded-xl overflow-hidden z-20 shadow-xl"
                     >
                       {budgetRanges.map((budget) => (
                         <button
@@ -342,10 +342,10 @@ export function DesignRequestPage() {
                             setFormData({...formData, budget: budget.value});
                             setIsBudgetOpen(false);
                           }}
-                          className={`w-full px-4 py-3 text-left text-sm transition-all hover:bg-[rgba(59,108,255,0.15)] ${
-                            formData.budget === budget.value 
-                              ? 'bg-[rgba(59,108,255,0.2)] text-[#3B6CFF]' 
-                              : 'text-[#F6F8FF]'
+                          className={`w-full px-4 py-3 text-left text-sm transition-all hover:bg-blue-50 ${
+                            formData.budget === budget.value
+                              ? 'bg-blue-50 text-[#3B6CFF] font-medium'
+                              : 'text-[#0F172A]'
                           }`}
                         >
                           {budget.label}
@@ -356,12 +356,12 @@ export function DesignRequestPage() {
                 </div>
                 
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Desired Deadline</Label>
-                  <Input 
+                  <Label className="text-sm text-[#475569] mb-2 block">Desired Deadline</Label>
+                  <Input
                     type="date"
                     value={formData.deadline}
                     onChange={e => setFormData({...formData, deadline: e.target.value})}
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                    className="bg-white border-blue-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors"
                   />
                 </div>
               </div>
@@ -379,7 +379,7 @@ export function DesignRequestPage() {
                 )}
               </Button>
               
-              <p className="text-xs text-[#A6B0C5] text-center">
+              <p className="text-xs text-[#64748B] text-center">
                 We'll review your request and get back to you within 24 hours.
               </p>
             </form>

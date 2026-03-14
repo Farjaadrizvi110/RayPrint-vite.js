@@ -104,7 +104,7 @@ export function FAQPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+    <div className="min-h-screen bg-blue-50 pt-32 pb-20">
       <div className="rp-container max-w-4xl">
         {/* Header */}
         <motion.div

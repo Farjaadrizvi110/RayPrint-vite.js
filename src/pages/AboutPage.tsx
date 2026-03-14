@@ -32,7 +32,7 @@ export function AboutPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+    <div className="min-h-screen bg-blue-50 pt-32 pb-20">
       <div className="rp-container">
 
         {/* ── Hero ── */}
@@ -179,7 +179,7 @@ export function AboutPage() {
 
         {/* ── CTA ── */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-          className="text-center rp-card p-12 border-[#3B6CFF]/20 bg-gradient-to-br from-[#3B6CFF]/5 to-white">
+          className="text-center p-12 rounded-[28px] border border-[#3B6CFF]/20 bg-gradient-to-br from-blue-100 to-blue-50">
           <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4">Ready to make an impression?</h2>
           <p className="text-[#64748B] mb-8 max-w-xl mx-auto">Browse our full range of print products — or get in touch and let our team help you find the perfect solution for your brand.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
