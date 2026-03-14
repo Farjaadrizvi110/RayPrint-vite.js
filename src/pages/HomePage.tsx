@@ -99,21 +99,21 @@ function HeroSection() {
   return (
     <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
       {/* Animated Background Layers */}
-      <motion.div 
+      <motion.div
         style={{ y, scale }}
         className="absolute inset-0 z-0"
       >
-        {/* Elegant Printing Background Image */}
-        <img 
-          src="/images/hero-printing-bg.jpg" 
-          alt="Premium printing equipment and typography"
+        {/* Bright HD Printing Background Image */}
+        <img
+          src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1920&q=80&auto=format&fit=crop"
+          alt="Premium printing color swatches and design"
           className="w-full h-full object-cover"
         />
-        
-        {/* Light gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/92 via-white/75 to-white/30 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-white/20 z-10" />
-        
+
+        {/* Strong white overlay — keeps text fully readable */}
+        <div className="absolute inset-0 bg-white/90 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/30 to-transparent z-10" />
+
         {/* Animated blue glow effects */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-[#3B6CFF]/15 rounded-full blur-[120px] animate-pulse" />
@@ -159,9 +159,9 @@ function HeroSection() {
           </motion.div>
           
           {/* 3D Title */}
-          <h1 
+          <h1
             ref={titleRef}
-            className="text-6xl md:text-7xl lg:text-8xl font-bold text-[#0F172A] leading-[0.9] mb-8"
+            className="text-6xl md:text-7xl lg:text-8xl font-bold text-[#0F172A] leading-[0.9] mb-8 drop-shadow-sm"
             style={{ transformStyle: 'preserve-3d' }}
           >
             <span className="hero-title-line block" style={{ transformOrigin: 'center bottom' }}>
@@ -171,13 +171,13 @@ function HeroSection() {
               moves people.
             </span>
           </h1>
-          
+
           {/* Description with blur reveal */}
           <motion.p
-            className="hero-desc text-xl md:text-2xl text-[#475569] mb-10 max-w-xl leading-relaxed"
+            className="hero-desc text-xl md:text-2xl text-[#334155] mb-10 max-w-xl leading-relaxed font-medium"
           >
             From business cards to billboards—upload your art or customize a template.
-            <span className="text-[#0F172A] font-semibold"> Fast turnaround</span>, premium finishes, shipped flat.
+            <span className="text-[#0F172A] font-bold"> Fast turnaround</span>, premium finishes, shipped flat.
           </motion.p>
           
           {/* CTA Buttons with 3D hover */}
@@ -218,10 +218,10 @@ function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 + i * 0.1, duration: 0.6 }}
               >
-                <p className="text-3xl md:text-4xl font-bold text-[#0F172A]">
+                <p className="text-3xl md:text-4xl font-bold text-[#0F172A] drop-shadow-sm">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-sm text-[#475569] mt-1">{stat.label}</p>
+                <p className="text-sm text-[#334155] font-semibold mt-1">{stat.label}</p>
               </motion.div>
             ))}
           </div>
