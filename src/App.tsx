@@ -54,7 +54,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-[#0B0F17] text-[#F6F8FF]">
+      <div className="min-h-screen bg-white text-[#0F172A]">
         {/* Preloader */}
         {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
 

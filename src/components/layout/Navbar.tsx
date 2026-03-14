@@ -109,8 +109,8 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-[#0B0F17]/90 backdrop-blur-xl border-b border-[rgba(246,248,255,0.08)]' 
+          isScrolled
+            ? 'bg-white/95 backdrop-blur-xl border-b border-[rgba(15,23,42,0.08)] shadow-sm'
             : 'bg-transparent'
         }`}
       >
@@ -147,7 +147,7 @@ export function Navbar() {
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
                 <div className="flex items-baseline gap-0">
-                  <span className="text-[1.55rem] font-black tracking-[-0.03em] text-[#F6F8FF]">Ray</span>
+                  <span className="text-[1.55rem] font-black tracking-[-0.03em] text-[#0F172A]">Ray</span>
                   <span className="text-[1.55rem] font-black tracking-[-0.03em] bg-gradient-to-r from-[#3B6CFF] via-[#6e8fff] to-[#a78bfa] bg-clip-text text-transparent group-hover:from-[#5a85ff] group-hover:to-[#c4b5fd] transition-all duration-500">Print</span>
                 </div>
                 <span className="text-[0.48rem] font-bold tracking-[0.28em] text-[#3B6CFF]/70 uppercase mt-[-1px] group-hover:text-[#3B6CFF] transition-colors duration-300">Premium Print · UK</span>
@@ -161,8 +161,8 @@ export function Navbar() {
                 onMouseEnter={() => setIsProductsOpen(true)}
                 onMouseLeave={() => setIsProductsOpen(false)}
               >
-                <motion.button 
-                  className="flex items-center gap-1.5 text-sm font-medium text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                <motion.button
+                  className="flex items-center gap-1.5 text-sm font-medium text-[#64748B] hover:text-[#0F172A] transition-colors"
                   whileHover={{ y: -2 }}
                 >
                   Products
@@ -178,7 +178,7 @@ export function Navbar() {
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute top-full left-0 pt-4"
                     >
-                      <div className="w-[800px] bg-[#0B0F17]/95 backdrop-blur-2xl border border-[rgba(246,248,255,0.10)] rounded-3xl p-6 shadow-2xl shadow-[#3B6CFF]/10">
+                      <div className="w-[800px] bg-white backdrop-blur-2xl border border-[rgba(15,23,42,0.10)] rounded-3xl p-6 shadow-2xl shadow-slate-200/80">
                         <div className="grid grid-cols-3 gap-3">
                           {mainCategories.map((category, index) => (
                             <motion.div
@@ -189,28 +189,28 @@ export function Navbar() {
                             >
                               <Link
                                 to={`/products/${category.slug}`}
-                                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(246,248,255,0.06)] transition-all duration-300 group"
+                                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(15,23,42,0.04)] transition-all duration-300 group"
                                 onClick={() => setIsProductsOpen(false)}
                               >
-                                <motion.div 
+                                <motion.div
                                   className="w-12 h-12 rounded-xl overflow-hidden"
                                   whileHover={{ scale: 1.1 }}
                                 >
-                                  <img 
-                                    src={category.image} 
+                                  <img
+                                    src={category.image}
                                     alt={category.name}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                   />
                                 </motion.div>
                                 <div>
-                                  <p className="text-sm font-medium text-[#F6F8FF] group-hover:text-[#3B6CFF] transition-colors">{category.name}</p>
-                                  <p className="text-xs text-[#A6B0C5]">{category.productCount} products</p>
+                                  <p className="text-sm font-medium text-[#0F172A] group-hover:text-[#3B6CFF] transition-colors">{category.name}</p>
+                                  <p className="text-xs text-[#64748B]">{category.productCount} products</p>
                                 </div>
                               </Link>
                             </motion.div>
                           ))}
                         </div>
-                        <div className="mt-4 pt-4 border-t border-[rgba(246,248,255,0.08)]">
+                        <div className="mt-4 pt-4 border-t border-[rgba(15,23,42,0.08)]">
                           <Link 
                             to="/products"
                             className="flex items-center gap-2 text-sm text-[#3B6CFF] hover:text-[#5a85ff] transition-colors group"
@@ -238,7 +238,7 @@ export function Navbar() {
                 { name: 'Support', href: '/contact' },
               ].map((link) => (
                 <motion.div key={link.name} whileHover={{ y: -2 }}>
-                  <Link to={link.href} className="text-sm font-medium text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors relative group">
+                  <Link to={link.href} className="text-sm font-medium text-[#64748B] hover:text-[#0F172A] transition-colors relative group">
                     {link.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#3B6CFF] group-hover:w-full transition-all duration-300" />
                   </Link>
@@ -259,7 +259,7 @@ export function Navbar() {
                       exit={{ width: 40, opacity: 0 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       onSubmit={handleSearchSubmit}
-                      className="flex items-center bg-[rgba(246,248,255,0.08)] border border-[rgba(246,248,255,0.12)] rounded-xl overflow-hidden"
+                      className="flex items-center bg-[rgba(15,23,42,0.05)] border border-[rgba(15,23,42,0.12)] rounded-xl overflow-hidden"
                     >
                       <input
                         ref={searchInputRef}
@@ -267,19 +267,19 @@ export function Navbar() {
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                         placeholder="Search products..."
-                        className="flex-1 bg-transparent px-3 py-2 text-sm text-[#F6F8FF] placeholder-[#A6B0C5] outline-none"
+                        className="flex-1 bg-transparent px-3 py-2 text-sm text-[#0F172A] placeholder-[#64748B] outline-none"
                       />
-                      <button type="submit" className="p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
+                      <button type="submit" className="p-2.5 text-[#64748B] hover:text-[#0F172A] transition-colors">
                         <Search className="w-4 h-4" />
                       </button>
-                      <button type="button" onClick={() => setIsSearchOpen(false)} className="p-2 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
+                      <button type="button" onClick={() => setIsSearchOpen(false)} className="p-2 text-[#64748B] hover:text-[#0F172A] transition-colors">
                         <X className="w-4 h-4" />
                       </button>
                     </motion.form>
                   ) : (
                     <motion.button
                       key="search-closed"
-                      className="p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+                      className="p-2.5 text-[#64748B] hover:text-[#0F172A] transition-colors rounded-xl hover:bg-[rgba(15,23,42,0.05)]"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setIsSearchOpen(true)}
@@ -297,9 +297,9 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full right-0 mt-2 w-72 bg-[#0B0F17]/95 backdrop-blur-2xl border border-[rgba(246,248,255,0.10)] rounded-2xl shadow-2xl shadow-[#3B6CFF]/10 overflow-hidden z-50"
+                      className="absolute top-full right-0 mt-2 w-72 bg-white border border-[rgba(15,23,42,0.10)] rounded-2xl shadow-xl shadow-slate-200/80 overflow-hidden z-50"
                     >
-                      <p className="px-4 pt-3 pb-1 text-xs font-medium text-[#A6B0C5] uppercase tracking-wider">Suggestions</p>
+                      <p className="px-4 pt-3 pb-1 text-xs font-medium text-[#64748B] uppercase tracking-wider">Suggestions</p>
                       {searchResults.map((item, index) => (
                         <motion.button
                           key={item.slug}
@@ -307,16 +307,16 @@ export function Navbar() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.04 }}
                           onClick={() => handleSearchSelect(item.slug)}
-                          className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[rgba(246,248,255,0.06)] transition-colors text-left"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[rgba(15,23,42,0.04)] transition-colors text-left"
                         >
                           <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
                             <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                           </div>
-                          <span className="text-sm text-[#F6F8FF]">{item.name}</span>
+                          <span className="text-sm text-[#0F172A]">{item.name}</span>
                         </motion.button>
                       ))}
                       {searchQuery.trim() && searchResults.length === 0 && (
-                        <p className="px-4 py-3 text-sm text-[#A6B0C5]">No results for "{searchQuery}"</p>
+                        <p className="px-4 py-3 text-sm text-[#64748B]">No results for "{searchQuery}"</p>
                       )}
                     </motion.div>
                   )}
@@ -325,17 +325,17 @@ export function Navbar() {
 
               {/* Mobile search icon */}
               <motion.button
-                className="lg:hidden p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+                className="lg:hidden p-2.5 text-[#64748B] hover:text-[#0F172A] transition-colors rounded-xl hover:bg-[rgba(15,23,42,0.05)]"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMobileMenuOpen(true)}
               >
                 <Search className="w-5 h-5" />
               </motion.button>
-              
-              <motion.button 
+
+              <motion.button
                 onClick={toggleCart}
-                className="relative p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+                className="relative p-2.5 text-[#64748B] hover:text-[#0F172A] transition-colors rounded-xl hover:bg-[rgba(15,23,42,0.05)]"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -356,8 +356,8 @@ export function Navbar() {
               
               {isAuthenticated ? (
                 <div className="relative group hidden lg:block">
-                  <motion.button 
-                    className="flex items-center gap-2 p-2 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                  <motion.button
+                    className="flex items-center gap-2 p-2 text-[#64748B] hover:text-[#0F172A] transition-colors"
                     whileHover={{ scale: 1.05 }}
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#3B6CFF] to-[#5a85ff] flex items-center justify-center">
@@ -368,12 +368,12 @@ export function Navbar() {
                   </motion.button>
                   
                   <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <div className="w-52 bg-[#0B0F17]/95 backdrop-blur-2xl border border-[rgba(246,248,255,0.10)] rounded-2xl p-3 shadow-2xl shadow-[#3B6CFF]/10">
-                      <div className="px-3 py-3 border-b border-[rgba(246,248,255,0.08)]">
-                        <p className="text-sm font-medium text-[#F6F8FF]">{user?.firstName} {user?.lastName}</p>
-                        <p className="text-xs text-[#A6B0C5]">{user?.email}</p>
+                    <div className="w-52 bg-white border border-[rgba(15,23,42,0.10)] rounded-2xl p-3 shadow-xl shadow-slate-200/80">
+                      <div className="px-3 py-3 border-b border-[rgba(15,23,42,0.08)]">
+                        <p className="text-sm font-medium text-[#0F172A]">{user?.firstName} {user?.lastName}</p>
+                        <p className="text-xs text-[#64748B]">{user?.email}</p>
                       </div>
-                      <Link to="/account" className="block px-3 py-2.5 mt-2 text-sm text-[#A6B0C5] hover:text-[#F6F8FF] hover:bg-[rgba(246,248,255,0.06)] rounded-xl transition-all">
+                      <Link to="/account" className="block px-3 py-2.5 mt-2 text-sm text-[#64748B] hover:text-[#0F172A] hover:bg-[rgba(15,23,42,0.04)] rounded-xl transition-all">
                         My Account
                       </Link>
                       {user?.role === 'admin' && (
@@ -396,7 +396,7 @@ export function Navbar() {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="text-[#A6B0C5] hover:text-[#F6F8FF] hover:bg-[rgba(246,248,255,0.06)]"
+                      className="text-[#64748B] hover:text-[#0F172A] hover:bg-[rgba(15,23,42,0.05)]"
                     >
                       Sign In
                     </Button>
@@ -405,9 +405,9 @@ export function Navbar() {
               )}
               
               {/* Mobile menu button */}
-              <motion.button 
+              <motion.button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden p-2.5 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+                className="lg:hidden p-2.5 text-[#64748B] hover:text-[#0F172A] transition-colors rounded-xl hover:bg-[rgba(15,23,42,0.05)]"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -438,10 +438,10 @@ export function Navbar() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: '100%', opacity: 0.5 }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 right-0 h-full w-full max-w-sm bg-[#0B0F17] border-l border-[rgba(246,248,255,0.08)] z-50 lg:hidden flex flex-col"
+              className="fixed top-0 right-0 h-full w-full max-w-sm bg-white border-l border-[rgba(15,23,42,0.08)] z-50 lg:hidden flex flex-col shadow-2xl"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-[rgba(246,248,255,0.08)]">
+              <div className="flex items-center justify-between p-6 border-b border-[rgba(15,23,42,0.08)]">
                 <Link to="/" className="flex items-center gap-2.5" onClick={() => setIsMobileMenuOpen(false)}>
                   <div className="relative flex-shrink-0">
                     <div className="absolute inset-0 rounded-lg bg-[#3B6CFF] blur-sm opacity-50" />
@@ -452,7 +452,7 @@ export function Navbar() {
                   </div>
                   <div className="flex flex-col leading-none">
                     <div className="flex items-baseline">
-                      <span className="text-xl font-black tracking-[-0.03em] text-[#F6F8FF]">Ray</span>
+                      <span className="text-xl font-black tracking-[-0.03em] text-[#0F172A]">Ray</span>
                       <span className="text-xl font-black tracking-[-0.03em] bg-gradient-to-r from-[#3B6CFF] via-[#6e8fff] to-[#a78bfa] bg-clip-text text-transparent">Print</span>
                     </div>
                     <span className="text-[0.45rem] font-bold tracking-[0.25em] text-[#3B6CFF]/70 uppercase">Premium Print · UK</span>
@@ -460,7 +460,7 @@ export function Navbar() {
                 </Link>
                 <motion.button 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors rounded-xl hover:bg-[rgba(246,248,255,0.06)]"
+                  className="p-2 text-[#64748B] hover:text-[#0F172A] transition-colors rounded-xl hover:bg-[rgba(15,23,42,0.05)]"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -478,31 +478,31 @@ export function Navbar() {
                       navigate(`/products/${searchResults[0].slug}`);
                     }
                   }}
-                  className="flex items-center bg-[rgba(246,248,255,0.08)] border border-[rgba(246,248,255,0.12)] rounded-xl overflow-hidden"
+                  className="flex items-center bg-[rgba(15,23,42,0.05)] border border-[rgba(15,23,42,0.10)] rounded-xl overflow-hidden"
                 >
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search products..."
-                    className="flex-1 bg-transparent px-3 py-2.5 text-sm text-[#F6F8FF] placeholder-[#A6B0C5] outline-none"
+                    className="flex-1 bg-transparent px-3 py-2.5 text-sm text-[#0F172A] placeholder-[#64748B] outline-none"
                   />
-                  <button type="submit" className="p-2.5 text-[#A6B0C5]">
+                  <button type="submit" className="p-2.5 text-[#64748B]">
                     <Search className="w-4 h-4" />
                   </button>
                 </form>
                 {searchQuery.trim() && searchResults.length > 0 && (
-                  <div className="mt-2 rounded-xl border border-[rgba(246,248,255,0.10)] overflow-hidden">
+                  <div className="mt-2 rounded-xl border border-[rgba(15,23,42,0.08)] overflow-hidden">
                     {searchResults.map(item => (
                       <button
                         key={item.slug}
                         onClick={() => { setIsMobileMenuOpen(false); navigate(`/products/${item.slug}`); }}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[rgba(246,248,255,0.06)] transition-colors text-left"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[rgba(15,23,42,0.04)] transition-colors text-left"
                       >
                         <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                         </div>
-                        <span className="text-sm text-[#F6F8FF]">{item.name}</span>
+                        <span className="text-sm text-[#0F172A]">{item.name}</span>
                       </button>
                     ))}
                   </div>
@@ -525,7 +525,7 @@ export function Navbar() {
                       <Link
                         to={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-4 px-4 text-lg font-medium text-[#F6F8FF] hover:bg-[rgba(246,248,255,0.06)] rounded-xl transition-all"
+                        className="block py-4 px-4 text-lg font-medium text-[#0F172A] hover:bg-[rgba(15,23,42,0.04)] rounded-xl transition-all"
                       >
                         {link.name}
                       </Link>
@@ -535,12 +535,12 @@ export function Navbar() {
                 
                 {/* Categories Section */}
                 <motion.div 
-                  className="mt-8 pt-8 border-t border-[rgba(246,248,255,0.08)]"
+                  className="mt-8 pt-8 border-t border-[rgba(15,23,42,0.08)]"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <p className="text-sm font-medium text-[#A6B0C5] mb-4 px-4">All Categories</p>
+                  <p className="text-sm font-medium text-[#64748B] mb-4 px-4">All Categories</p>
                   <div className="space-y-1">
                     {categories.filter(cat => cat.slug !== 'all').map((category, index) => (
                       <motion.div
@@ -552,7 +552,7 @@ export function Navbar() {
                         <Link
                           to={`/products/${category.slug}`}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="flex items-center gap-3 py-3 px-4 text-[#A6B0C5] hover:text-[#F6F8FF] hover:bg-[rgba(246,248,255,0.06)] rounded-xl transition-all"
+                          className="flex items-center gap-3 py-3 px-4 text-[#64748B] hover:text-[#0F172A] hover:bg-[rgba(15,23,42,0.04)] rounded-xl transition-all"
                         >
                           <div className="w-10 h-10 rounded-lg overflow-hidden">
                             <img 
@@ -570,7 +570,7 @@ export function Navbar() {
               </div>
               
               {/* Footer */}
-              <div className="p-6 border-t border-[rgba(246,248,255,0.08)]">
+              <div className="p-6 border-t border-[rgba(15,23,42,0.08)]">
                 {isAuthenticated ? (
                   <motion.div 
                     className="space-y-3"
@@ -578,21 +578,21 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                   >
-                    <div className="flex items-center gap-3 px-4 py-4 bg-[rgba(246,248,255,0.06)] rounded-xl">
+                    <div className="flex items-center gap-3 px-4 py-4 bg-[rgba(15,23,42,0.04)] rounded-xl">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3B6CFF] to-[#5a85ff] flex items-center justify-center">
                         <span className="text-sm font-medium text-white">
                           {user?.firstName?.[0]}{user?.lastName?.[0]}
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-[#F6F8FF]">{user?.firstName} {user?.lastName}</p>
-                        <p className="text-xs text-[#A6B0C5]">{user?.email}</p>
+                        <p className="text-sm font-medium text-[#0F172A]">{user?.firstName} {user?.lastName}</p>
+                        <p className="text-xs text-[#64748B]">{user?.email}</p>
                       </div>
                     </div>
-                    <Link 
-                      to="/account" 
+                    <Link
+                      to="/account"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full py-3.5 px-4 text-center text-[#F6F8FF] bg-[rgba(246,248,255,0.06)] hover:bg-[rgba(246,248,255,0.10)] rounded-xl transition-all font-medium"
+                      className="block w-full py-3.5 px-4 text-center text-[#0F172A] bg-[rgba(15,23,42,0.05)] hover:bg-[rgba(15,23,42,0.08)] rounded-xl transition-all font-medium"
                     >
                       My Account
                     </Link>
@@ -632,7 +632,7 @@ export function Navbar() {
                     <Link 
                       to="/register" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full py-3.5 px-4 text-center text-[#A6B0C5] border border-[rgba(246,248,255,0.20)] hover:bg-[rgba(246,248,255,0.06)] hover:text-[#F6F8FF] rounded-xl transition-all font-medium"
+                      className="block w-full py-3.5 px-4 text-center text-[#64748B] border border-[rgba(15,23,42,0.15)] hover:bg-[rgba(15,23,42,0.04)] hover:text-[#0F172A] rounded-xl transition-all font-medium"
                     >
                       Create Account
                     </Link>
