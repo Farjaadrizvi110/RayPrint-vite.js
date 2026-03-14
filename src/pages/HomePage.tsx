@@ -297,7 +297,16 @@ function CategoryGridSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 bg-[#F8FAFC] relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-32 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.87), rgba(248,250,252,0.87)), url("https://images.unsplash.com/photo-1455541504462-57ebb2a9cec1?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[rgba(59,108,255,0.3)] to-transparent" />
       
@@ -416,7 +425,16 @@ function FeaturedProductSection({
   }, [index, isReversed]);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-24 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)), url("https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {/* Decorative line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-[rgba(59,108,255,0.3)] to-transparent" />
       
@@ -556,7 +574,16 @@ function DesignServicesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 bg-[#F8FAFC] relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-32 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.87), rgba(248,250,252,0.87)), url("https://images.unsplash.com/photo-1502101872923-d48509bff386?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-[#3B6CFF]/10 rounded-full blur-[100px]" />
@@ -685,7 +712,16 @@ function SustainabilitySection() {
   ];
 
   return (
-    <section ref={sectionRef} className="py-32 bg-white relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-32 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(255,255,255,0.87), rgba(255,255,255,0.87)), url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {/* Background decoration */}
       <div className="absolute inset-0">
         <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-[#3B6CFF]/08 rounded-full blur-[150px]" />
@@ -767,7 +803,16 @@ function ReviewsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 bg-[#F8FAFC] relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-32 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.87), rgba(248,250,252,0.87)), url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div className="rp-container">
         <div className="text-center mb-16">
           <motion.span

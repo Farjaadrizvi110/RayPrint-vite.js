@@ -7,7 +7,16 @@ const displayCategories = categories.filter((c) => c.slug !== 'all');
 
 export function ProductsPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+    <div
+      className="min-h-screen pt-32 pb-20"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <div className="rp-container">
         {/* Header */}
         <motion.div

@@ -118,7 +118,16 @@ export function CheckoutPage() {
   // ── Guard: must be logged in ──────────────────────────────────────────────
   if (!user || !token) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+      <div
+        className="min-h-screen pt-32 pb-20"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80&auto=format&fit=crop")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <div className="rp-container text-center">
           <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Please sign in to checkout</h1>
           <p className="text-[#64748B] mb-8">You need an account to place an order.</p>
@@ -137,7 +146,16 @@ export function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+      <div
+        className="min-h-screen pt-32 pb-20"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80&auto=format&fit=crop")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <div className="rp-container text-center">
           <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Your cart is empty</h1>
           <p className="text-[#64748B] mb-8">Add some items to proceed with checkout.</p>
@@ -222,7 +240,16 @@ export function CheckoutPage() {
   }, [paymentIntentId, items, shippingInfo, shipping, token]);
   
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+    <div
+      className="min-h-screen pt-32 pb-20"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <div className="rp-container">
         {/* Header */}
         <motion.div

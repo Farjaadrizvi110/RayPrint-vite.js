@@ -104,7 +104,16 @@ export function FAQPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-blue-50 pt-32 pb-20">
+    <div
+      className="min-h-screen pt-32 pb-20"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(239,246,255,0.88), rgba(239,246,255,0.88)), url("https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <div className="rp-container max-w-4xl">
         {/* Header */}
         <motion.div

@@ -73,7 +73,16 @@ export function ContactPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div
+      className="min-h-screen"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(239,246,255,0.88), rgba(239,246,255,0.88)), url("https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
 
       {/* ── Hero Banner ── */}
       <div

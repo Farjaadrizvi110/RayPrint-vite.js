@@ -220,7 +220,16 @@ export function AccountPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+    <div
+      className="min-h-screen pt-32 pb-20"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <div className="rp-container max-w-6xl">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mb-10">

@@ -23,7 +23,16 @@ export function CartPage() {
   
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+      <div
+        className="min-h-screen pt-32 pb-20"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1553413077-190dd305871c?w=1920&q=80&auto=format&fit=crop")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <div className="rp-container">
           <div className="max-w-md mx-auto text-center py-20">
             <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6">
@@ -44,7 +53,16 @@ export function CartPage() {
   }
   
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+    <div
+      className="min-h-screen pt-32 pb-20"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.88)), url("https://images.unsplash.com/photo-1553413077-190dd305871c?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <div className="rp-container">
         {/* Header */}
         <motion.div

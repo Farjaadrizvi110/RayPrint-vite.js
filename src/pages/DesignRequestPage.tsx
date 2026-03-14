@@ -101,7 +101,16 @@ export function DesignRequestPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div
+      className="min-h-screen"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(239,246,255,0.87), rgba(239,246,255,0.87)), url("https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
 
       {/* ── Hero Banner with background image ── */}
       <div

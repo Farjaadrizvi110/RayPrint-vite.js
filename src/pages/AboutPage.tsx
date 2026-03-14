@@ -32,7 +32,16 @@ export function AboutPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-blue-50 pt-32 pb-20">
+    <div
+      className="min-h-screen pt-32 pb-20"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(239,246,255,0.87), rgba(239,246,255,0.87)), url("https://images.unsplash.com/photo-1589998059171-988d887df646?w=1920&q=80&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <div className="rp-container">
 
         {/* ── Hero ── */}
