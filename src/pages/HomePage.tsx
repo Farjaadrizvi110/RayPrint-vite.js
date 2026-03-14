@@ -574,12 +574,12 @@ function DesignServicesSection() {
               Design Services
             </motion.span>
             
-            <h2 className="design-title text-5xl md:text-6xl font-bold text-[#0B0F17] leading-tight mb-6">
+            <h2 className="design-title text-5xl md:text-6xl font-bold text-[#0F172A] leading-tight mb-6">
               Need a design?<br />
               <span className="text-[#3B6CFF]">We've got you.</span>
             </h2>
-            
-            <p className="text-lg text-[#4A5568] mb-10 leading-relaxed">
+
+            <p className="text-lg text-[#475569] mb-10 leading-relaxed">
               Work with our in-house team to build brand-ready artwork—logos, layouts, and campaign systems. Revisions included, timelines tight.
             </p>
             
@@ -598,8 +598,8 @@ function DesignServicesSection() {
                     <span className="text-white font-bold text-sm">{service.icon}</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-[#0B0F17] mb-1">{service.title}</h4>
-                    <p className="text-sm text-[#4A5568]">{service.desc}</p>
+                    <h4 className="font-semibold text-[#0F172A] mb-1">{service.title}</h4>
+                    <p className="text-sm text-[#475569]">{service.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -641,8 +641,8 @@ function DesignServicesSection() {
                 >
                   <Zap className="w-10 h-10 text-white" />
                 </motion.div>
-                <p className="text-5xl font-bold text-[#0B0F17]">48hr</p>
-                <p className="text-[#4A5568] mt-2">Turnaround on design</p>
+                <p className="text-5xl font-bold text-[#0F172A]">48hr</p>
+                <p className="text-[#475569] mt-2">Turnaround on design</p>
               </div>
             </div>
           </motion.div>

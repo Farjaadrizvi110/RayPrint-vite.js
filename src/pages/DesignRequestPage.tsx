@@ -171,7 +171,7 @@ export function DesignRequestPage() {
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Project Type Custom Dropdown */}
                 <div className="relative" ref={projectTypeRef}>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Project Type</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block font-medium">Project Type</Label>
                   <button
                     type="button"
                     onClick={() => setIsProjectTypeOpen(!isProjectTypeOpen)}

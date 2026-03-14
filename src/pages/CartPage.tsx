@@ -32,7 +32,7 @@ export function CartPage() {
             <h1 className="text-3xl font-bold text-[#0F172A] mb-4">Your cart is empty</h1>
             <p className="text-[#64748B] mb-8">Start browsing our products to add items to your cart.</p>
             <Link to="/products">
-              <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white px-8 py-6">
+              <Button className="bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] hover:from-[#2a5aee] hover:to-[#4a75f0] text-white px-8 py-6 shadow-lg shadow-[#3B6CFF]/25 transition-all hover:scale-105">
                 Start Shopping
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -92,7 +92,7 @@ export function CartPage() {
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h3 className="text-lg font-semibold text-[#0F172A]">{item.product.name}</h3>
-                          <p className="text-sm text-[#A6B0C5]">
+                          <p className="text-sm text-[#64748B]">
                             {Object.entries(item.options).map(([key, value]) => (
                               <span key={key} className="mr-2">{value}</span>
                             ))}
@@ -100,7 +100,7 @@ export function CartPage() {
                         </div>
                         <button 
                           onClick={() => removeItem(item.id)}
-                          className="p-2 text-[#A6B0C5] hover:text-red-400 transition-colors"
+                          className="p-2 text-[#94a3b8] hover:text-red-500 transition-colors"
                         >
                           <Trash2 className="w-5 h-5" />
                         </button>
@@ -144,9 +144,9 @@ export function CartPage() {
               ))}
             </motion.div>
             
-            <button 
+            <button
               onClick={clearCart}
-              className="mt-6 text-sm text-[#A6B0C5] hover:text-red-400 transition-colors"
+              className="mt-6 text-sm text-[#94a3b8] hover:text-red-500 transition-colors font-medium"
             >
               Clear Cart
             </button>
@@ -183,7 +183,7 @@ export function CartPage() {
               
               <Button
                 onClick={handleCheckout}
-                className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6 mb-4"
+                className="w-full bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] hover:from-[#2a5aee] hover:to-[#4a75f0] text-white py-6 mb-4 shadow-lg shadow-[#3B6CFF]/25 transition-all hover:scale-[1.01]"
               >
                 {user ? 'Proceed to Checkout' : 'Sign In to Checkout'}
                 <ArrowRight className="w-4 h-4 ml-2" />

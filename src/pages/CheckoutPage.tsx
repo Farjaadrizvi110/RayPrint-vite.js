@@ -79,7 +79,7 @@ function StripePaymentForm({
         <Button
           type="submit"
           disabled={isProcessing || !stripe || !elements}
-          className="flex-1 bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6"
+          className="flex-1 bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] hover:from-[#2a5aee] hover:to-[#4a75f0] text-white py-6 shadow-lg shadow-[#3B6CFF]/25"
         >
           {isProcessing ? 'Processing...' : `Pay £${finalTotal.toFixed(2)}`}
         </Button>
@@ -142,7 +142,7 @@ export function CheckoutPage() {
           <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Your cart is empty</h1>
           <p className="text-[#64748B] mb-8">Add some items to proceed with checkout.</p>
           <Link to="/products">
-            <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white">Browse Products</Button>
+            <Button className="bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] hover:from-[#2a5aee] hover:to-[#4a75f0] text-white shadow-lg shadow-[#3B6CFF]/25">Browse Products</Button>
           </Link>
         </div>
       </div>
@@ -342,7 +342,7 @@ export function CheckoutPage() {
                   />
                 </div>
                 
-                <Button type="submit" disabled={isProcessing} className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6">
+                <Button type="submit" disabled={isProcessing} className="w-full bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] hover:from-[#2a5aee] hover:to-[#4a75f0] text-white py-6 shadow-lg shadow-[#3B6CFF]/25 transition-all hover:scale-[1.01]">
                   {isProcessing ? 'Preparing payment…' : 'Continue to Payment'}
                 </Button>
               </motion.form>

@@ -231,7 +231,7 @@ export function AccountPage() {
             </div>
             {/* WhatsApp Support Button */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-500/10 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors font-medium text-sm">
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-50 border border-green-200 text-green-700 hover:bg-green-100 hover:border-green-300 transition-colors font-medium text-sm shadow-sm">
               <MessageCircle className="w-4 h-4" />
               WhatsApp Support
             </a>
