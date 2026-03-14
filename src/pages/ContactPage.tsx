@@ -73,7 +73,7 @@ export function ContactPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#0B0F17]">
+    <div className="min-h-screen bg-[#F8FAFC]">
 
       {/* ── Hero Banner ── */}
       <div
@@ -84,7 +84,7 @@ export function ContactPage() {
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F17]/80 via-[#0B0F17]/70 to-[#0B0F17]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#3B6CFF]/20 rounded-full blur-[100px] pointer-events-none" />
 
         <motion.div
@@ -94,10 +94,10 @@ export function ContactPage() {
           className="relative z-10 px-6"
         >
           <span className="rp-micro-label block mb-4">CONTACT US</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F6F8FF] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Get in Touch
           </h1>
-          <p className="text-lg text-[#A6B0C5] max-w-2xl mx-auto">
+          <p className="text-lg text-white/80 max-w-2xl mx-auto">
             Have a question or need help with your order? We're here to help.
           </p>
         </motion.div>
@@ -117,13 +117,13 @@ export function ContactPage() {
             <a
               key={index}
               href={item.link}
-              className="rp-card p-6 text-center hover:border-[rgba(246,248,255,0.20)] transition-colors"
+              className="rp-card p-6 text-center hover:border-[#3B6CFF]/40 hover:shadow-lg transition-all"
             >
-              <div className="w-14 h-14 rounded-full bg-[rgba(59,108,255,0.2)] flex items-center justify-center mx-auto mb-4">
+              <div className="w-14 h-14 rounded-full bg-[#3B6CFF]/10 flex items-center justify-center mx-auto mb-4">
                 <item.icon className="w-6 h-6 text-[#3B6CFF]" />
               </div>
-              <h3 className="text-sm font-semibold text-[#F6F8FF] mb-1">{item.title}</h3>
-              <p className="text-xs text-[#A6B0C5] leading-relaxed">{item.content}</p>
+              <h3 className="text-sm font-semibold text-[#0F172A] mb-1">{item.title}</h3>
+              <p className="text-xs text-[#64748B] leading-relaxed">{item.content}</p>
             </a>
           ))}
         </motion.div>
@@ -136,53 +136,53 @@ export function ContactPage() {
           className="max-w-[860px] mx-auto"
         >
           <div className="rp-card p-8 md:p-12">
-            <h2 className="text-2xl font-semibold text-[#F6F8FF] mb-8">Send us a message</h2>
+            <h2 className="text-2xl font-semibold text-[#0F172A] mb-8">Send us a message</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Name</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">Name</Label>
                   <Input
                     required
                     value={formData.name}
                     onChange={set('name')}
                     placeholder="Your full name"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                    className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors"
                   />
                 </div>
                 <div>
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Email</Label>
+                  <Label className="text-sm text-[#475569] mb-2 block">Email</Label>
                   <Input
                     type="email"
                     required
                     value={formData.email}
                     onChange={set('email')}
                     placeholder="you@example.com"
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                    className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <Label className="text-sm text-[#A6B0C5] mb-2 block">Subject</Label>
+                <Label className="text-sm text-[#475569] mb-2 block">Subject</Label>
                 <Input
                   required
                   value={formData.subject}
                   onChange={set('subject')}
                   placeholder="What's this about?"
-                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors"
+                  className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors"
                 />
               </div>
 
               <div>
-                <Label className="text-sm text-[#A6B0C5] mb-2 block">Message</Label>
+                <Label className="text-sm text-[#475569] mb-2 block">Message</Label>
                 <Textarea
                   required
                   rows={6}
                   value={formData.message}
                   onChange={set('message')}
                   placeholder="Tell us how we can help…"
-                  className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] focus:border-[#3B6CFF] transition-colors resize-none"
+                  className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF] transition-colors resize-none"
                 />
               </div>
 
@@ -199,7 +199,7 @@ export function ContactPage() {
                 )}
               </Button>
 
-              <p className="text-xs text-[#A6B0C5] text-center">
+              <p className="text-xs text-[#64748B] text-center">
                 We'll reply to your message within 24 hours.
               </p>
             </form>

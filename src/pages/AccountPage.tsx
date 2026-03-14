@@ -97,10 +97,10 @@ export function AccountPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
         <div className="rp-container text-center">
-          <h1 className="text-4xl font-bold text-[#F6F8FF] mb-4">Please Sign In</h1>
-          <p className="text-[#A6B0C5] mb-8">You need to be signed in to view your account.</p>
+          <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Please Sign In</h1>
+          <p className="text-[#64748B] mb-8">You need to be signed in to view your account.</p>
           <Link to="/login">
             <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white">Sign In</Button>
           </Link>
@@ -174,13 +174,13 @@ export function AccountPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'delivered': return 'bg-green-500/20 text-green-400 border border-green-500/30';
-      case 'in_production': return 'bg-[#3B6CFF]/20 text-[#3B6CFF] border border-[#3B6CFF]/30';
+      case 'delivered': return 'bg-green-50 text-green-700 border border-green-200';
+      case 'in_production': return 'bg-blue-50 text-[#3B6CFF] border border-blue-200';
       case 'dispatched':
-      case 'shipped': return 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-      case 'payment_received': return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
-      case 'cancelled': return 'bg-red-500/20 text-red-400 border border-red-500/30';
-      default: return 'bg-gray-500/20 text-gray-400 border border-gray-500/30';
+      case 'shipped': return 'bg-amber-50 text-amber-700 border border-amber-200';
+      case 'payment_received': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+      case 'cancelled': return 'bg-red-50 text-red-700 border border-red-200';
+      default: return 'bg-slate-100 text-slate-600 border border-slate-200';
     }
   };
 
@@ -207,8 +207,8 @@ export function AccountPage() {
     return map[status] ?? status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   };
 
-  const inputCls = 'w-full px-4 py-3 rounded-xl bg-[rgba(246,248,255,0.06)] border border-[rgba(246,248,255,0.10)] text-[#F6F8FF] placeholder-[#A6B0C5] focus:outline-none focus:border-[#3B6CFF] transition-colors';
-  const labelCls = 'text-sm text-[#A6B0C5] mb-1.5 block font-medium';
+  const inputCls = 'w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-[#0F172A] placeholder-[#94a3b8] focus:outline-none focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/10 transition-colors';
+  const labelCls = 'text-sm text-[#475569] mb-1.5 block font-medium';
   
   const whatsappUrl = `https://wa.me/447757202729?text=Hi%20RayPrint%20UK%2C%20I%20need%20help%20with%20my%20order.`;
 
@@ -220,14 +220,14 @@ export function AccountPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
       <div className="rp-container max-w-6xl">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mb-10">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-4xl font-bold text-[#F6F8FF] mb-1">My Account</h1>
-              <p className="text-[#A6B0C5]">Welcome back, <span className="text-[#3B6CFF] font-medium">{user?.firstName}</span> 👋</p>
+              <h1 className="text-4xl font-bold text-[#0F172A] mb-1">My Account</h1>
+              <p className="text-[#64748B]">Welcome back, <span className="text-[#3B6CFF] font-medium">{user?.firstName}</span> 👋</p>
             </div>
             {/* WhatsApp Support Button */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
@@ -244,11 +244,11 @@ export function AccountPage() {
             <div className="rp-card p-4 space-y-1">
               {navItems.map(({ key, label, icon: Icon }) => (
                 <button key={key} onClick={() => setActiveTab(key)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${activeTab === key ? 'bg-[rgba(59,108,255,0.2)] text-[#3B6CFF] font-medium' : 'text-[#A6B0C5] hover:bg-[rgba(246,248,255,0.06)]'}`}>
+                  className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${activeTab === key ? 'bg-[#3B6CFF]/10 text-[#3B6CFF] font-medium' : 'text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A]'}`}>
                   <Icon className="w-5 h-5" /><span>{label}</span>
                 </button>
               ))}
-              <div className="border-t border-[rgba(246,248,255,0.08)] pt-2 mt-2">
+              <div className="border-t border-slate-200 pt-2 mt-2">
                 <button onClick={handleLogout} className="w-full flex items-center gap-3 p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-colors">
                   <LogOut className="w-5 h-5" /><span>Sign Out</span>
                 </button>
@@ -262,7 +262,7 @@ export function AccountPage() {
             {/* ── ORDERS ── */}
             {activeTab === 'orders' && (
               <div>
-                <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Order History</h2>
+                <h2 className="text-xl font-semibold text-[#0F172A] mb-6">Order History</h2>
                 {ordersLoading ? (
                   <div className="flex items-center justify-center py-16"><Loader2 className="w-8 h-8 text-[#3B6CFF] animate-spin" /></div>
                 ) : orders.length > 0 ? (
@@ -273,22 +273,22 @@ export function AccountPage() {
                         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
                           <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
-                              <p className="text-xs text-[#A6B0C5] font-mono bg-[rgba(246,248,255,0.06)] px-2 py-1 rounded">#{order.orderNumber}</p>
+                              <p className="text-xs text-[#64748B] font-mono bg-slate-100 px-2 py-1 rounded">#{order.orderNumber}</p>
                               <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
                                 {getStatusIcon(order.status)}{getStatusLabel(order.status)}
                               </span>
                             </div>
-                            <p className="text-[#F6F8FF] font-medium">
+                            <p className="text-[#0F172A] font-medium">
                               {order.items.map(i => i.productName ?? i.product?.name ?? 'Item').join(', ')}
                             </p>
-                            <p className="text-xs text-[#A6B0C5] mt-1">
+                            <p className="text-xs text-[#64748B] mt-1">
                               {new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                             </p>
                           </div>
                           <div className="flex items-center gap-4">
-                            <span className="text-xl font-bold text-[#F6F8FF]">£{(order.totalAmount / 100).toFixed(2)}</span>
+                            <span className="text-xl font-bold text-[#0F172A]">£{(order.totalAmount / 100).toFixed(2)}</span>
                             <button onClick={() => setSelectedOrder(order)}
-                              className="flex items-center gap-1 text-sm text-[#3B6CFF] hover:text-white bg-[rgba(59,108,255,0.15)] hover:bg-[#3B6CFF] px-3 py-1.5 rounded-lg transition-all">
+                              className="flex items-center gap-1 text-sm text-[#3B6CFF] hover:text-white bg-[#3B6CFF]/10 hover:bg-[#3B6CFF] border border-[#3B6CFF]/30 hover:border-[#3B6CFF] px-3 py-1.5 rounded-lg transition-all font-medium">
                               Details <ChevronRight className="w-4 h-4" />
                             </button>
                           </div>
@@ -298,9 +298,9 @@ export function AccountPage() {
                   </div>
                 ) : (
                   <div className="rp-card p-12 text-center">
-                    <Package className="w-12 h-12 text-[#A6B0C5] mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-[#F6F8FF] mb-2">No orders yet</h3>
-                    <p className="text-[#A6B0C5] mb-6">Start shopping to see your orders here.</p>
+                    <Package className="w-12 h-12 text-[#94a3b8] mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-[#0F172A] mb-2">No orders yet</h3>
+                    <p className="text-[#64748B] mb-6">Start shopping to see your orders here.</p>
                     <Link to="/products"><Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white">Browse Products</Button></Link>
                   </div>
                 )}
@@ -310,7 +310,7 @@ export function AccountPage() {
             {/* ── PROFILE ── */}
             {activeTab === 'profile' && (
               <div>
-                <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Profile Information</h2>
+                <h2 className="text-xl font-semibold text-[#0F172A] mb-6">Profile Information</h2>
                 <div className="rp-card p-6 space-y-6">
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div><label className={labelCls}>First Name</label>
@@ -338,9 +338,9 @@ export function AccountPage() {
             {/* ── ADDRESS ── */}
             {activeTab === 'addresses' && (
               <div>
-                <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Default Delivery Address</h2>
+                <h2 className="text-xl font-semibold text-[#0F172A] mb-6">Default Delivery Address</h2>
                 <div className="rp-card p-6 space-y-5">
-                  <p className="text-sm text-[#A6B0C5]">This address will be auto-filled at checkout.</p>
+                  <p className="text-sm text-[#64748B]">This address will be auto-filled at checkout.</p>
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div className="sm:col-span-2"><label className={labelCls}>Full Name</label>
                       <input className={inputCls} placeholder="John Smith" value={addrForm.fullName} onChange={e => setAddrForm(p => ({ ...p, fullName: e.target.value }))} /></div>
@@ -367,15 +367,15 @@ export function AccountPage() {
             {/* ── SECURITY ── */}
             {activeTab === 'security' && (
               <div>
-                <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Change Password</h2>
+                <h2 className="text-xl font-semibold text-[#0F172A] mb-6">Change Password</h2>
                 <div className="rp-card p-6 space-y-5">
-                  <p className="text-sm text-[#A6B0C5]">Leave blank if you signed in with Google.</p>
+                  <p className="text-sm text-[#64748B]">Leave blank if you signed in with Google.</p>
                   <div>
                     <label className={labelCls}>Current Password</label>
                     <div className="relative">
                       <input type={showCurrent ? 'text' : 'password'} className={inputCls + ' pr-12'} placeholder="••••••••"
                         value={pwForm.currentPassword} onChange={e => setPwForm(p => ({ ...p, currentPassword: e.target.value }))} />
-                      <button type="button" onClick={() => setShowCurrent(v => !v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A6B0C5]">
+                      <button type="button" onClick={() => setShowCurrent(v => !v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#0F172A]">
                         {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
@@ -385,7 +385,7 @@ export function AccountPage() {
                     <div className="relative">
                       <input type={showNew ? 'text' : 'password'} className={inputCls + ' pr-12'} placeholder="Min 8 characters"
                         value={pwForm.newPassword} onChange={e => setPwForm(p => ({ ...p, newPassword: e.target.value }))} />
-                      <button type="button" onClick={() => setShowNew(v => !v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A6B0C5]">
+                      <button type="button" onClick={() => setShowNew(v => !v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#0F172A]">
                         {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
@@ -421,16 +421,16 @@ export function AccountPage() {
               exit={{ opacity: 0, scale: 0.95, y: 24 }}
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
               onClick={e => e.stopPropagation()}
-              className="w-full max-w-2xl max-h-[88vh] overflow-y-auto bg-[#0D1220] border border-[rgba(59,108,255,0.25)] rounded-2xl shadow-2xl"
+              className="w-full max-w-2xl max-h-[88vh] overflow-y-auto bg-white border border-slate-200 rounded-2xl shadow-2xl"
             >
               <div className="p-6 md:p-8">
                 {/* Modal Header */}
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h3 className="text-2xl font-bold text-[#F6F8FF]">Order Details</h3>
-                    <p className="text-sm text-[#A6B0C5] font-mono mt-0.5">#{selectedOrder.orderNumber}</p>
+                    <h3 className="text-2xl font-bold text-[#0F172A]">Order Details</h3>
+                    <p className="text-sm text-[#64748B] font-mono mt-0.5">#{selectedOrder.orderNumber}</p>
                   </div>
-                  <button onClick={() => setSelectedOrder(null)} className="p-2 rounded-lg text-[#A6B0C5] hover:text-[#F6F8FF] hover:bg-[rgba(246,248,255,0.08)] transition-colors">
+                  <button onClick={() => setSelectedOrder(null)} className="p-2 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-slate-100 transition-colors">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -440,7 +440,7 @@ export function AccountPage() {
                   <span className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold ${getStatusColor(selectedOrder.status)}`}>
                     {getStatusIcon(selectedOrder.status)}{getStatusLabel(selectedOrder.status)}
                   </span>
-                  <span className="flex items-center gap-1.5 text-sm text-[#A6B0C5]">
+                  <span className="flex items-center gap-1.5 text-sm text-[#64748B]">
                     <Clock className="w-4 h-4" />
                     {new Date(selectedOrder.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </span>
@@ -448,21 +448,21 @@ export function AccountPage() {
 
                 {/* Items */}
                 <div className="mb-6">
-                  <h4 className="text-xs font-semibold text-[#A6B0C5] uppercase tracking-wider mb-3">Items Ordered</h4>
+                  <h4 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">Items Ordered</h4>
                   <div className="space-y-3">
                     {selectedOrder.items.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-[rgba(246,248,255,0.04)] border border-[rgba(246,248,255,0.06)]">
+                      <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200">
                         <div className="flex-1">
-                          <p className="text-[#F6F8FF] font-medium">{item.productName ?? item.product?.name ?? 'Item'}</p>
-                          <p className="text-xs text-[#A6B0C5] mt-0.5">Qty: {item.quantity}</p>
+                          <p className="text-[#0F172A] font-medium">{item.productName ?? item.product?.name ?? 'Item'}</p>
+                          <p className="text-xs text-[#64748B] mt-0.5">Qty: {item.quantity}</p>
                           {item.options && Object.keys(item.options).length > 0 && (
-                            <p className="text-xs text-[#A6B0C5] mt-0.5">
+                            <p className="text-xs text-[#64748B] mt-0.5">
                               {Object.entries(item.options).map(([k, v]) => `${k}: ${v}`).join(' · ')}
                             </p>
                           )}
                         </div>
                         <div className="flex items-center gap-3 ml-4">
-                          <span className="text-[#F6F8FF] font-semibold">
+                          <span className="text-[#0F172A] font-semibold">
                             £{item.unitPrice ? (item.unitPrice * item.quantity / 100).toFixed(2) : '—'}
                           </span>
                           {item.artworkUrl && (
@@ -480,15 +480,15 @@ export function AccountPage() {
                 {/* Shipping Address */}
                 {selectedOrder.shippingAddress && (
                   <div className="mb-6">
-                    <h4 className="text-xs font-semibold text-[#A6B0C5] uppercase tracking-wider mb-3">Shipping Address</h4>
-                    <div className="p-4 rounded-xl bg-[rgba(246,248,255,0.04)] border border-[rgba(246,248,255,0.06)]">
-                      {selectedOrder.shippingAddress.fullName && <p className="text-[#F6F8FF] font-medium">{selectedOrder.shippingAddress.fullName}</p>}
-                      <p className="text-[#A6B0C5] text-sm mt-1">
+                    <h4 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">Shipping Address</h4>
+                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                      {selectedOrder.shippingAddress.fullName && <p className="text-[#0F172A] font-medium">{selectedOrder.shippingAddress.fullName}</p>}
+                      <p className="text-[#64748B] text-sm mt-1">
                         {selectedOrder.shippingAddress.line1}{selectedOrder.shippingAddress.line2 ? `, ${selectedOrder.shippingAddress.line2}` : ''}<br />
                         {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.postcode}
                         {selectedOrder.shippingAddress.country ? `, ${selectedOrder.shippingAddress.country}` : ''}
                       </p>
-                      {selectedOrder.shippingAddress.phone && <p className="text-xs text-[#A6B0C5] mt-1">📞 {selectedOrder.shippingAddress.phone}</p>}
+                      {selectedOrder.shippingAddress.phone && <p className="text-xs text-[#64748B] mt-1">📞 {selectedOrder.shippingAddress.phone}</p>}
                     </div>
                   </div>
                 )}
@@ -496,39 +496,39 @@ export function AccountPage() {
                 {/* Tracking */}
                 {selectedOrder.trackingNumber && (
                   <div className="mb-6">
-                    <h4 className="text-xs font-semibold text-[#A6B0C5] uppercase tracking-wider mb-3">Tracking</h4>
-                    <div className="flex items-center gap-3 p-4 rounded-xl bg-[rgba(246,248,255,0.04)] border border-[rgba(246,248,255,0.06)]">
+                    <h4 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">Tracking</h4>
+                    <div className="flex items-center gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
                       <Truck className="w-5 h-5 text-[#3B6CFF]" />
-                      <span className="text-[#F6F8FF] font-mono">{selectedOrder.trackingNumber}</span>
+                      <span className="text-[#0F172A] font-mono">{selectedOrder.trackingNumber}</span>
                     </div>
                   </div>
                 )}
 
                 {/* Order Summary */}
-                <div className="border-t border-[rgba(246,248,255,0.08)] pt-5 space-y-2">
+                <div className="border-t border-slate-200 pt-5 space-y-2">
                   {selectedOrder.subtotal !== undefined && (
-                    <div className="flex justify-between text-sm text-[#A6B0C5]">
-                      <span>Subtotal</span><span>£{(selectedOrder.subtotal / 100).toFixed(2)}</span>
+                    <div className="flex justify-between text-sm text-[#64748B]">
+                      <span>Subtotal</span><span className="font-medium text-[#0F172A]">£{(selectedOrder.subtotal / 100).toFixed(2)}</span>
                     </div>
                   )}
                   {selectedOrder.shippingCost !== undefined && (
-                    <div className="flex justify-between text-sm text-[#A6B0C5]">
-                      <span>Shipping</span><span>{selectedOrder.shippingCost === 0 ? 'Free' : `£${(selectedOrder.shippingCost / 100).toFixed(2)}`}</span>
+                    <div className="flex justify-between text-sm text-[#64748B]">
+                      <span>Shipping</span><span className="font-medium text-[#0F172A]">{selectedOrder.shippingCost === 0 ? 'Free' : `£${(selectedOrder.shippingCost / 100).toFixed(2)}`}</span>
                     </div>
                   )}
                   {selectedOrder.tax !== undefined && (
-                    <div className="flex justify-between text-sm text-[#A6B0C5]">
-                      <span>VAT (20%)</span><span>£{(selectedOrder.tax / 100).toFixed(2)}</span>
+                    <div className="flex justify-between text-sm text-[#64748B]">
+                      <span>VAT (20%)</span><span className="font-medium text-[#0F172A]">£{(selectedOrder.tax / 100).toFixed(2)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-lg font-bold pt-2 border-t border-[rgba(246,248,255,0.08)]">
-                    <span className="text-[#F6F8FF]">Total</span>
+                  <div className="flex justify-between text-lg font-bold pt-2 border-t border-slate-200">
+                    <span className="text-[#0F172A]">Total</span>
                     <span className="text-[#3B6CFF]">£{(selectedOrder.totalAmount / 100).toFixed(2)}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-3 mt-6">
-                  <Button onClick={() => setSelectedOrder(null)} variant="outline" className="flex-1 border-[rgba(246,248,255,0.15)] text-[#F6F8FF]">Close</Button>
+                  <Button onClick={() => setSelectedOrder(null)} variant="outline" className="flex-1 border-slate-300 text-[#0F172A] hover:bg-slate-50">Close</Button>
                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 flex-1 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors text-sm font-medium">
                     <MessageCircle className="w-4 h-4" />Need Help?

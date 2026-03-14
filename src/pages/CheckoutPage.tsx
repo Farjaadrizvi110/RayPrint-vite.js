@@ -59,7 +59,7 @@ function StripePaymentForm({
     >
       <div className="flex items-center gap-3 mb-6">
         <Lock className="w-5 h-5 text-[#3B6CFF]" />
-        <h2 className="text-xl font-semibold text-[#F6F8FF]">Secure Payment</h2>
+        <h2 className="text-xl font-semibold text-[#0F172A]">Secure Payment</h2>
       </div>
 
       {/* Stripe Payment Element — handles card, Apple Pay, Google Pay, etc. */}
@@ -72,7 +72,7 @@ function StripePaymentForm({
           type="button"
           variant="outline"
           onClick={onBack}
-          className="flex-1 border-[rgba(246,248,255,0.20)] text-[#F6F8FF] py-6"
+          className="flex-1 border-slate-300 text-[#0F172A] hover:bg-slate-50 py-6"
         >
           Back
         </Button>
@@ -118,16 +118,16 @@ export function CheckoutPage() {
   // ── Guard: must be logged in ──────────────────────────────────────────────
   if (!user || !token) {
     return (
-      <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
         <div className="rp-container text-center">
-          <h1 className="text-4xl font-bold text-[#F6F8FF] mb-4">Please sign in to checkout</h1>
-          <p className="text-[#A6B0C5] mb-8">You need an account to place an order.</p>
+          <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Please sign in to checkout</h1>
+          <p className="text-[#64748B] mb-8">You need an account to place an order.</p>
           <div className="flex gap-4 justify-center">
             <Link to="/login">
-              <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white px-8 py-3">Sign In</Button>
+              <Button className="bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] hover:from-[#2a5aee] hover:to-[#4a75f0] text-white px-8 py-3 shadow-lg shadow-[#3B6CFF]/25">Sign In</Button>
             </Link>
             <Link to="/register">
-              <Button variant="outline" className="border-[rgba(246,248,255,0.20)] text-[#F6F8FF] px-8 py-3">Create Account</Button>
+              <Button variant="outline" className="border-slate-300 text-[#0F172A] hover:bg-slate-50 px-8 py-3">Create Account</Button>
             </Link>
           </div>
         </div>
@@ -137,10 +137,10 @@ export function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
         <div className="rp-container text-center">
-          <h1 className="text-4xl font-bold text-[#F6F8FF] mb-4">Your cart is empty</h1>
-          <p className="text-[#A6B0C5] mb-8">Add some items to proceed with checkout.</p>
+          <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Your cart is empty</h1>
+          <p className="text-[#64748B] mb-8">Add some items to proceed with checkout.</p>
           <Link to="/products">
             <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white">Browse Products</Button>
           </Link>
@@ -222,7 +222,7 @@ export function CheckoutPage() {
   }, [paymentIntentId, items, shippingInfo, shipping, token]);
   
   return (
-    <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
       <div className="rp-container">
         {/* Header */}
         <motion.div
@@ -231,24 +231,24 @@ export function CheckoutPage() {
           transition={{ duration: 0.4 }}
           className="mb-12"
         >
-          <Link to="/cart" className="inline-flex items-center gap-2 text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors mb-6">
+          <Link to="/cart" className="inline-flex items-center gap-2 text-sm text-[#64748B] hover:text-[#0F172A] transition-colors mb-6">
             <ArrowLeft className="w-4 h-4" />
             Back to Cart
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F6F8FF]">Checkout</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A]">Checkout</h1>
         </motion.div>
         
         {/* Progress */}
         <div className="flex items-center gap-4 mb-12">
-          <div className={`flex items-center gap-2 ${step === 'shipping' ? 'text-[#3B6CFF]' : 'text-[#F6F8FF]'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step === 'shipping' ? 'bg-[#3B6CFF]' : 'bg-[rgba(246,248,255,0.1)]'}`}>
+          <div className={`flex items-center gap-2 ${step === 'shipping' ? 'text-[#3B6CFF]' : 'text-[#0F172A]'}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${step === 'shipping' ? 'bg-[#3B6CFF]' : 'bg-slate-300'}`}>
               <Truck className="w-4 h-4" />
             </div>
             <span className="text-sm font-medium">Shipping</span>
           </div>
-          <div className="flex-1 h-px bg-[rgba(246,248,255,0.1)]" />
-          <div className={`flex items-center gap-2 ${step === 'payment' ? 'text-[#3B6CFF]' : 'text-[#A6B0C5]'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step === 'payment' ? 'bg-[#3B6CFF]' : 'bg-[rgba(246,248,255,0.1)]'}`}>
+          <div className="flex-1 h-px bg-slate-200" />
+          <div className={`flex items-center gap-2 ${step === 'payment' ? 'text-[#3B6CFF]' : 'text-[#64748B]'}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${step === 'payment' ? 'bg-[#3B6CFF]' : 'bg-slate-300'}`}>
               <CreditCard className="w-4 h-4" />
             </div>
             <span className="text-sm font-medium">Payment</span>
@@ -266,79 +266,79 @@ export function CheckoutPage() {
                 onSubmit={handleShippingSubmit}
                 className="rp-card p-8"
               >
-                <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Shipping Information</h2>
-                
+                <h2 className="text-xl font-semibold text-[#0F172A] mb-6">Shipping Information</h2>
+
                 <div className="grid sm:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <Label className="text-sm text-[#A6B0C5] mb-2 block">First Name</Label>
-                    <Input 
+                    <Label className="text-sm text-[#475569] mb-2 block">First Name</Label>
+                    <Input
                       required
                       value={shippingInfo.firstName}
                       onChange={e => setShippingInfo({...shippingInfo, firstName: e.target.value})}
-                      className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                      className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                     />
                   </div>
                   <div>
-                    <Label className="text-sm text-[#A6B0C5] mb-2 block">Last Name</Label>
-                    <Input 
+                    <Label className="text-sm text-[#475569] mb-2 block">Last Name</Label>
+                    <Input
                       required
                       value={shippingInfo.lastName}
                       onChange={e => setShippingInfo({...shippingInfo, lastName: e.target.value})}
-                      className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                      className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                     />
                   </div>
                 </div>
-                
+
                 <div className="mb-6">
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Email</Label>
-                  <Input 
+                  <Label className="text-sm text-[#475569] mb-2 block">Email</Label>
+                  <Input
                     type="email"
                     required
                     value={shippingInfo.email}
                     onChange={e => setShippingInfo({...shippingInfo, email: e.target.value})}
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                    className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                   />
                 </div>
-                
+
                 <div className="mb-6">
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Address</Label>
-                  <Input 
+                  <Label className="text-sm text-[#475569] mb-2 block">Address</Label>
+                  <Input
                     required
                     value={shippingInfo.address}
                     onChange={e => setShippingInfo({...shippingInfo, address: e.target.value})}
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                    className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                   />
                 </div>
-                
+
                 <div className="grid sm:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <Label className="text-sm text-[#A6B0C5] mb-2 block">City</Label>
-                    <Input 
+                    <Label className="text-sm text-[#475569] mb-2 block">City</Label>
+                    <Input
                       required
                       value={shippingInfo.city}
                       onChange={e => setShippingInfo({...shippingInfo, city: e.target.value})}
-                      className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                      className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                     />
                   </div>
                   <div>
-                    <Label className="text-sm text-[#A6B0C5] mb-2 block">Postcode</Label>
-                    <Input 
+                    <Label className="text-sm text-[#475569] mb-2 block">Postcode</Label>
+                    <Input
                       required
                       value={shippingInfo.postcode}
                       onChange={e => setShippingInfo({...shippingInfo, postcode: e.target.value})}
-                      className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                      className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                     />
                   </div>
                 </div>
-                
+
                 <div className="mb-8">
-                  <Label className="text-sm text-[#A6B0C5] mb-2 block">Phone</Label>
-                  <Input 
+                  <Label className="text-sm text-[#475569] mb-2 block">Phone</Label>
+                  <Input
                     type="tel"
                     required
                     value={shippingInfo.phone}
                     onChange={e => setShippingInfo({...shippingInfo, phone: e.target.value})}
-                    className="bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
+                    className="bg-slate-50 border-slate-200 text-[#0F172A] focus:border-[#3B6CFF]"
                   />
                 </div>
                 
@@ -352,12 +352,12 @@ export function CheckoutPage() {
                 options={{
                   clientSecret,
                   appearance: {
-                    theme: 'night',
+                    theme: 'stripe',
                     variables: {
                       colorPrimary: '#3B6CFF',
-                      colorBackground: 'rgba(246,248,255,0.06)',
-                      colorText: '#F6F8FF',
-                      colorTextSecondary: '#A6B0C5',
+                      colorBackground: '#ffffff',
+                      colorText: '#0F172A',
+                      colorTextSecondary: '#64748B',
                       borderRadius: '8px',
                       fontFamily: 'inherit',
                     },
@@ -372,7 +372,7 @@ export function CheckoutPage() {
               </Elements>
             ) : (
               <div className="rp-card p-8 flex items-center justify-center min-h-[200px]">
-                <p className="text-[#A6B0C5]">Initialising payment…</p>
+                <p className="text-[#64748B]">Initialising payment…</p>
               </div>
             )}
           </div>
@@ -384,7 +384,7 @@ export function CheckoutPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="rp-card p-6 sticky top-32">
-              <h2 className="text-lg font-semibold text-[#F6F8FF] mb-6">Order Summary</h2>
+              <h2 className="text-lg font-semibold text-[#0F172A] mb-6">Order Summary</h2>
               
               {/* Items */}
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
@@ -398,28 +398,28 @@ export function CheckoutPage() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#F6F8FF] truncate">{item.product.name}</p>
-                      <p className="text-xs text-[#A6B0C5]">Qty: {item.quantity}</p>
+                      <p className="text-sm font-medium text-[#0F172A] truncate">{item.product.name}</p>
+                      <p className="text-xs text-[#64748B]">Qty: {item.quantity}</p>
                     </div>
-                    <p className="text-sm text-[#F6F8FF]">£{(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-sm font-medium text-[#0F172A]">£{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
               
-              <div className="border-t border-[rgba(246,248,255,0.08)] pt-4 space-y-3">
+              <div className="border-t border-slate-200 pt-4 space-y-3">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#A6B0C5]">Subtotal</span>
-                  <span className="text-[#F6F8FF]">£{totalPrice.toFixed(2)}</span>
+                  <span className="text-[#64748B]">Subtotal</span>
+                  <span className="text-[#0F172A] font-medium">£{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#A6B0C5]">Shipping</span>
-                  <span className="text-[#F6F8FF]">
+                  <span className="text-[#64748B]">Shipping</span>
+                  <span className="text-[#0F172A] font-medium">
                     {shipping === 0 ? 'Free' : `£${shipping.toFixed(2)}`}
                   </span>
                 </div>
-                <div className="pt-3 border-t border-[rgba(246,248,255,0.08)] flex items-center justify-between">
-                  <span className="text-lg font-semibold text-[#F6F8FF]">Total</span>
-                  <span className="text-2xl font-bold text-[#F6F8FF]">£{finalTotal.toFixed(2)}</span>
+                <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#0F172A]">Total</span>
+                  <span className="text-2xl font-bold text-[#0F172A]">£{finalTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>

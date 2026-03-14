@@ -23,14 +23,14 @@ export function CartPage() {
   
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
         <div className="rp-container">
           <div className="max-w-md mx-auto text-center py-20">
-            <div className="w-24 h-24 rounded-full bg-[rgba(246,248,255,0.06)] flex items-center justify-center mx-auto mb-6">
-              <ShoppingBag className="w-10 h-10 text-[#A6B0C5]" />
+            <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6">
+              <ShoppingBag className="w-10 h-10 text-[#64748B]" />
             </div>
-            <h1 className="text-3xl font-bold text-[#F6F8FF] mb-4">Your cart is empty</h1>
-            <p className="text-[#A6B0C5] mb-8">Start browsing our products to add items to your cart.</p>
+            <h1 className="text-3xl font-bold text-[#0F172A] mb-4">Your cart is empty</h1>
+            <p className="text-[#64748B] mb-8">Start browsing our products to add items to your cart.</p>
             <Link to="/products">
               <Button className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white px-8 py-6">
                 Start Shopping
@@ -44,7 +44,7 @@ export function CartPage() {
   }
   
   return (
-    <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
       <div className="rp-container">
         {/* Header */}
         <motion.div
@@ -53,11 +53,11 @@ export function CartPage() {
           transition={{ duration: 0.4 }}
           className="mb-12"
         >
-          <Link to="/products" className="inline-flex items-center gap-2 text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors mb-6">
+          <Link to="/products" className="inline-flex items-center gap-2 text-sm text-[#64748B] hover:text-[#0F172A] transition-colors mb-6">
             <ArrowLeft className="w-4 h-4" />
             Continue Shopping
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F6F8FF]">Shopping Cart</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A]">Shopping Cart</h1>
         </motion.div>
         
         <div className="grid lg:grid-cols-3 gap-12">
@@ -91,7 +91,7 @@ export function CartPage() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h3 className="text-lg font-semibold text-[#F6F8FF]">{item.product.name}</h3>
+                          <h3 className="text-lg font-semibold text-[#0F172A]">{item.product.name}</h3>
                           <p className="text-sm text-[#A6B0C5]">
                             {Object.entries(item.options).map(([key, value]) => (
                               <span key={key} className="mr-2">{value}</span>
@@ -116,25 +116,25 @@ export function CartPage() {
                       <div className="flex items-center justify-between">
                         {/* Quantity */}
                         <div className="flex items-center gap-3">
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity - item.product.priceTiers[0].quantity)}
-                            className="w-8 h-8 rounded-lg bg-[rgba(246,248,255,0.08)] flex items-center justify-center text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                            className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:bg-slate-200 transition-colors"
                           >
                             <Minus className="w-4 h-4" />
                           </button>
-                          <span className="text-sm font-medium text-[#F6F8FF] w-12 text-center">
+                          <span className="text-sm font-medium text-[#0F172A] w-12 text-center">
                             {item.quantity}
                           </span>
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity + item.product.priceTiers[0].quantity)}
-                            className="w-8 h-8 rounded-lg bg-[rgba(246,248,255,0.08)] flex items-center justify-center text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                            className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:bg-slate-200 transition-colors"
                           >
                             <Plus className="w-4 h-4" />
                           </button>
                         </div>
                         
                         {/* Price */}
-                        <span className="text-lg font-semibold text-[#F6F8FF]">
+                        <span className="text-lg font-semibold text-[#0F172A]">
                           £{(item.price * item.quantity).toFixed(2)}
                         </span>
                       </div>
@@ -159,25 +159,25 @@ export function CartPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="rp-card p-6 sticky top-32">
-              <h2 className="text-xl font-semibold text-[#F6F8FF] mb-6">Order Summary</h2>
-              
+              <h2 className="text-xl font-semibold text-[#0F172A] mb-6">Order Summary</h2>
+
               <div className="space-y-4 mb-6">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#A6B0C5]">Subtotal</span>
-                  <span className="text-[#F6F8FF]">£{totalPrice.toFixed(2)}</span>
+                  <span className="text-[#64748B]">Subtotal</span>
+                  <span className="text-[#0F172A] font-medium">£{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#A6B0C5]">Shipping</span>
-                  <span className="text-[#F6F8FF]">
+                  <span className="text-[#64748B]">Shipping</span>
+                  <span className="text-[#0F172A] font-medium">
                     {shipping === 0 ? 'Free' : `£${shipping.toFixed(2)}`}
                   </span>
                 </div>
                 {shipping === 0 && (
-                  <p className="text-xs text-[#3B6CFF]">You qualify for free shipping!</p>
+                  <p className="text-xs text-[#3B6CFF] font-medium">✓ You qualify for free shipping!</p>
                 )}
-                <div className="pt-4 border-t border-[rgba(246,248,255,0.08)] flex items-center justify-between">
-                  <span className="text-lg font-semibold text-[#F6F8FF]">Total</span>
-                  <span className="text-2xl font-bold text-[#F6F8FF]">£{finalTotal.toFixed(2)}</span>
+                <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#0F172A]">Total</span>
+                  <span className="text-2xl font-bold text-[#0F172A]">£{finalTotal.toFixed(2)}</span>
                 </div>
               </div>
               
@@ -189,7 +189,7 @@ export function CartPage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               
-              <p className="text-xs text-[#A6B0C5] text-center">
+              <p className="text-xs text-[#64748B] text-center">
                 Shipping & taxes calculated at checkout
               </p>
             </div>

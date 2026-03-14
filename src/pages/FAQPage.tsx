@@ -104,7 +104,7 @@ export function FAQPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
       <div className="rp-container max-w-4xl">
         {/* Header */}
         <motion.div
@@ -114,10 +114,10 @@ export function FAQPage() {
           className="text-center mb-16"
         >
           <span className="rp-micro-label block mb-4">SUPPORT</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F6F8FF] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4">
             Frequently Asked Questions
           </h1>
-          <p className="text-lg text-[#A6B0C5] max-w-2xl mx-auto">
+          <p className="text-lg text-[#64748B] max-w-2xl mx-auto">
             Find answers to common questions about our products, ordering process, and shipping.
           </p>
         </motion.div>
@@ -131,7 +131,7 @@ export function FAQPage() {
         >
           {faqs.map((category, categoryIndex) => (
             <div key={categoryIndex}>
-              <h2 className="text-xl font-semibold text-[#F6F8FF] mb-4">{category.category}</h2>
+              <h2 className="text-xl font-semibold text-[#0F172A] mb-4">{category.category}</h2>
               <Accordion type="single" collapsible className="space-y-3">
                 {category.questions.map((faq, faqIndex) => (
                   <AccordionItem 
@@ -139,10 +139,10 @@ export function FAQPage() {
                     value={`${categoryIndex}-${faqIndex}`}
                     className="rp-card border-0 px-6"
                   >
-                    <AccordionTrigger className="text-left text-[#F6F8FF] hover:text-[#3B6CFF] transition-colors py-4">
+                    <AccordionTrigger className="text-left text-[#0F172A] hover:text-[#3B6CFF] transition-colors py-4 font-medium">
                       {faq.q}
                     </AccordionTrigger>
-                    <AccordionContent className="text-[#A6B0C5] pb-4">
+                    <AccordionContent className="text-[#64748B] pb-4">
                       {faq.a}
                     </AccordionContent>
                   </AccordionItem>
@@ -160,7 +160,7 @@ export function FAQPage() {
           transition={{ duration: 0.5 }}
           className="mt-16 text-center"
         >
-          <p className="text-[#A6B0C5] mb-4">Can't find what you're looking for?</p>
+          <p className="text-[#64748B] mb-4">Can't find what you're looking for?</p>
           <a 
             href="/contact" 
             className="inline-flex items-center gap-2 text-[#3B6CFF] hover:underline"

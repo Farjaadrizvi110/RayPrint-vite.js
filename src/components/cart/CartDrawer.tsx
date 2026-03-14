@@ -30,20 +30,20 @@ export function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', ease: 'easeOut', duration: 0.18 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-[#0B0F17] border-l border-[rgba(246,248,255,0.08)] z-50 flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-white border-l border-slate-200 z-50 flex flex-col shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-[rgba(246,248,255,0.08)]">
+            <div className="flex items-center justify-between p-6 border-b border-slate-200">
               <div className="flex items-center gap-3">
-                <ShoppingBag className="w-5 h-5 text-[#A6B0C5]" />
-                <h2 className="text-lg font-semibold text-[#F6F8FF]">Your Cart</h2>
+                <ShoppingBag className="w-5 h-5 text-[#64748B]" />
+                <h2 className="text-lg font-semibold text-[#0F172A]">Your Cart</h2>
                 <span className="px-2 py-0.5 bg-[rgba(59,108,255,0.2)] text-[#3B6CFF] text-xs font-medium rounded-full">
                   {items.length} items
                 </span>
               </div>
               <button 
                 onClick={() => setCartOpen(false)}
-                className="p-2 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                className="p-2 text-[#64748B] hover:text-[#0F172A] hover:bg-slate-100 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -53,11 +53,11 @@ export function CartDrawer() {
             <div className="flex-1 overflow-y-auto p-6">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                  <div className="w-20 h-20 rounded-full bg-[rgba(246,248,255,0.06)] flex items-center justify-center mb-4">
-                    <ShoppingBag className="w-8 h-8 text-[#A6B0C5]" />
+                  <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+                    <ShoppingBag className="w-8 h-8 text-[#64748B]" />
                   </div>
-                  <h3 className="text-lg font-medium text-[#F6F8FF] mb-2">Your cart is empty</h3>
-                  <p className="text-sm text-[#A6B0C5] mb-6">Start browsing our products to add items to your cart.</p>
+                  <h3 className="text-lg font-medium text-[#0F172A] mb-2">Your cart is empty</h3>
+                  <p className="text-sm text-[#64748B] mb-6">Start browsing our products to add items to your cart.</p>
                   <Button 
                     onClick={() => setCartOpen(false)}
                     className="bg-[#3B6CFF] hover:bg-[#2a5aee] text-white"
@@ -74,7 +74,7 @@ export function CartDrawer() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.15 }}
-                      className="flex gap-4 p-4 rounded-2xl bg-[rgba(246,248,255,0.04)] border border-[rgba(246,248,255,0.08)]"
+                      className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200"
                     >
                       {/* Image */}
                       <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
@@ -87,8 +87,8 @@ export function CartDrawer() {
                       
                       {/* Details */}
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-[#F6F8FF] truncate">{item.product.name}</h4>
-                        <p className="text-xs text-[#A6B0C5] mt-0.5">
+                        <h4 className="text-sm font-medium text-[#0F172A] truncate">{item.product.name}</h4>
+                        <p className="text-xs text-[#64748B] mt-0.5">
                           {Object.entries(item.options).map(([key, value]) => (
                             <span key={key}>{value}</span>
                           )).reduce((prev, curr) => <>{prev}, {curr}</>)}
@@ -103,25 +103,25 @@ export function CartDrawer() {
                         <div className="flex items-center justify-between mt-3">
                           {/* Quantity */}
                           <div className="flex items-center gap-2">
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="w-7 h-7 rounded-lg bg-[rgba(246,248,255,0.08)] flex items-center justify-center text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                              className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:bg-slate-100 transition-colors"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
-                            <span className="text-sm font-medium text-[#F6F8FF] w-6 text-center">
+                            <span className="text-sm font-medium text-[#0F172A] w-6 text-center">
                               {item.quantity}
                             </span>
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-7 h-7 rounded-lg bg-[rgba(246,248,255,0.08)] flex items-center justify-center text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                              className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:bg-slate-100 transition-colors"
                             >
                               <Plus className="w-3 h-3" />
                             </button>
                           </div>
                           
                           {/* Price */}
-                          <span className="text-sm font-medium text-[#F6F8FF]">
+                          <span className="text-sm font-medium text-[#0F172A]">
                             £{(item.price * item.quantity).toFixed(2)}
                           </span>
                         </div>
@@ -142,12 +142,12 @@ export function CartDrawer() {
             
             {/* Footer */}
             {items.length > 0 && (
-              <div className="p-6 border-t border-[rgba(246,248,255,0.08)] space-y-4">
+              <div className="p-6 border-t border-slate-200 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-[#A6B0C5]">Subtotal</span>
-                  <span className="text-lg font-semibold text-[#F6F8FF]">£{totalPrice.toFixed(2)}</span>
+                  <span className="text-[#64748B]">Subtotal</span>
+                  <span className="text-lg font-semibold text-[#0F172A]">£{totalPrice.toFixed(2)}</span>
                 </div>
-                <p className="text-xs text-[#A6B0C5]">Shipping and taxes calculated at checkout.</p>
+                <p className="text-xs text-[#64748B]">Shipping and taxes calculated at checkout.</p>
                 <Link to="/checkout" onClick={() => setCartOpen(false)}>
                   <Button className="w-full bg-[#3B6CFF] hover:bg-[#2a5aee] text-white py-6">
                     Proceed to Checkout
@@ -155,7 +155,7 @@ export function CartDrawer() {
                 </Link>
                 <button 
                   onClick={() => setCartOpen(false)}
-                  className="w-full text-sm text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                  className="w-full text-sm text-[#64748B] hover:text-[#0F172A] transition-colors"
                 >
                   Continue Shopping
                 </button>
