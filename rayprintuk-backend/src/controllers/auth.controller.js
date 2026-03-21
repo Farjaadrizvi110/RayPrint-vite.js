@@ -208,6 +208,11 @@ exports.resetPassword = async (req, res, next) => {
   }
 };
 
+// Always use the first URL from CLIENT_URL (guards against comma-separated lists)
+const PRIMARY_CLIENT_URL = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")[0]
+  .trim();
+
 // GET /api/auth/google — initiate Google OAuth (session-free, works on Vercel serverless)
 exports.googleInit = (req, res) => {
   const params = new URLSearchParams({
@@ -229,15 +234,11 @@ exports.googleCallback = async (req, res) => {
 
     if (error) {
       logger.error("Google returned error in callback", { error });
-      return res.redirect(
-        `${process.env.CLIENT_URL}/#/login?error=google_failed`
-      );
+      return res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
     }
     if (!code) {
       logger.error("Google callback: no code in query");
-      return res.redirect(
-        `${process.env.CLIENT_URL}/#/login?error=google_failed`
-      );
+      return res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
     }
 
     // 1. Exchange authorisation code for tokens
@@ -256,9 +257,7 @@ exports.googleCallback = async (req, res) => {
 
     if (!tokenRes.ok || !tokens.access_token) {
       logger.error("Google token exchange failed", { tokens });
-      return res.redirect(
-        `${process.env.CLIENT_URL}/#/login?error=google_failed`
-      );
+      return res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
     }
 
     // 2. Fetch Google profile
@@ -270,9 +269,7 @@ exports.googleCallback = async (req, res) => {
 
     if (!profileRes.ok || !profile.email) {
       logger.error("Google userinfo fetch failed", { profile });
-      return res.redirect(
-        `${process.env.CLIENT_URL}/#/login?error=google_failed`
-      );
+      return res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
     }
 
     // 3. Find or create user
@@ -307,9 +304,9 @@ exports.googleCallback = async (req, res) => {
     logger.info("Google OAuth: JWT issued, redirecting to client", {
       userId: user._id,
     });
-    res.redirect(`${process.env.CLIENT_URL}/#/auth/callback?token=${token}`);
+    res.redirect(`${PRIMARY_CLIENT_URL}/#/auth/callback?token=${token}`);
   } catch (err) {
     logger.error("Google OAuth callback error", { error: err.message });
-    res.redirect(`${process.env.CLIENT_URL}/#/login?error=google_failed`);
+    res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
   }
 };
