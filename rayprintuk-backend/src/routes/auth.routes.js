@@ -66,33 +66,10 @@ router.post(
   ctrl.resetPassword
 );
 
-// ─── Google OAuth ─────────────────────────────────────────────────────────────
-// NOTE: session:true here so Passport can store the OAuth state for CSRF verification.
-// After verification we issue a JWT and never use the session again.
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"], state: false })
-);
-
-router.get(
-  "/google/callback",
-  (req, res, next) => {
-    const logger = require("../utils/logger");
-    logger.info("Google callback query params:", { query: req.query });
-    if (req.query.error) {
-      logger.error("Google returned an error:", {
-        error: req.query.error,
-        hint: req.query.error_description,
-      });
-    }
-    next();
-  },
-  passport.authenticate("google", {
-    failureRedirect: `${process.env.CLIENT_URL}/#/login?error=google_failed`,
-    session: false,
-    state: false,
-  }),
-  ctrl.googleCallback
-);
+// ─── Google OAuth (session-free — works on Vercel serverless) ────────────────
+// Passport is NOT used for Google OAuth to avoid session state issues.
+// The controller handles the full OAuth code-exchange flow directly.
+router.get("/google", ctrl.googleInit);
+router.get("/google/callback", ctrl.googleCallback);
 
 module.exports = router;

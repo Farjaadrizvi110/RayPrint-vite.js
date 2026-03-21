@@ -82,7 +82,7 @@ export function RegisterPage() {
   ];
   
   return (
-    <div className="min-h-screen bg-[#0B0F17] flex">
+    <div className="min-h-screen bg-white flex">
       {/* Left Side - Visual */}
       <motion.div 
         initial={{ opacity: 0, x: -50 }}
@@ -97,8 +97,8 @@ export function RegisterPage() {
             alt="Abstract background"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17] via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/80 via-[#0F172A]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/60 via-transparent to-transparent" />
         </div>
         
         {/* Content Overlay */}
@@ -130,7 +130,7 @@ export function RegisterPage() {
               Start your<br />
               <span className="text-[#3B6CFF]">printing</span> journey.
             </h1>
-            <p className="text-lg text-[#A6B0C5] mb-10">
+            <p className="text-lg text-white/75 mb-10">
               Join thousands of creators and businesses who trust RayPrint for their printing needs.
             </p>
             
@@ -147,7 +147,7 @@ export function RegisterPage() {
                   <div className="w-10 h-10 rounded-lg bg-[rgba(59,108,255,0.2)] flex items-center justify-center">
                     <feature.icon className="w-5 h-5 text-[#3B6CFF]" />
                   </div>
-                  <span className="text-[#F6F8FF] font-medium">{feature.text}</span>
+                  <span className="text-white font-medium">{feature.text}</span>
                 </motion.div>
               ))}
             </div>
@@ -162,15 +162,15 @@ export function RegisterPage() {
           >
             <div>
               <p className="text-3xl font-bold text-white">50K+</p>
-              <p className="text-sm text-[#A6B0C5]">Happy Customers</p>
+              <p className="text-sm text-white/70">Happy Customers</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-white">1M+</p>
-              <p className="text-sm text-[#A6B0C5]">Products Printed</p>
+              <p className="text-sm text-white/70">Products Printed</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-white">99.8%</p>
-              <p className="text-sm text-[#A6B0C5]">Satisfaction</p>
+              <p className="text-sm text-white/70">Satisfaction</p>
             </div>
           </motion.div>
         </div>
@@ -190,12 +190,12 @@ export function RegisterPage() {
               <div className="w-12 h-12 rounded-xl bg-[#3B6CFF] flex items-center justify-center">
                 <span className="text-xl font-bold text-white">R</span>
               </div>
-              <span className="text-2xl font-bold text-white">
+              <span className="text-2xl font-bold text-[#0F172A]">
                 Ray<span className="text-[#3B6CFF]">Print</span>
               </span>
             </Link>
           </div>
-          
+
           {/* Header */}
           <div className="text-center mb-10">
             <motion.div
@@ -203,10 +203,10 @@ export function RegisterPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-[#F6F8FF] mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3">
                 Create an account
               </h2>
-              <p className="text-[#A6B0C5]">
+              <p className="text-[#64748B]">
                 Join RayPrint and start printing today
               </p>
             </motion.div>
@@ -222,7 +222,7 @@ export function RegisterPage() {
             {/* Glow Effect */}
             <div className="absolute -inset-1 bg-gradient-to-r from-[#3B6CFF]/20 via-[#3B6CFF]/10 to-[#3B6CFF]/20 rounded-3xl blur-xl opacity-50" />
             
-            <div className="relative bg-[rgba(246,248,255,0.03)] backdrop-blur-xl border border-[rgba(246,248,255,0.08)] rounded-3xl p-8 sm:p-10">
+            <div className="relative bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/60">
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Name Fields */}
                 <motion.div
@@ -232,40 +232,40 @@ export function RegisterPage() {
                   className="grid grid-cols-2 gap-4"
                 >
                   <div>
-                    <Label className="text-sm font-medium text-[#A6B0C5] mb-2 block">
+                    <Label className="text-sm font-medium text-[#475569] mb-2 block">
                       First Name
                     </Label>
                     <div className={`relative transition-all duration-300 ${
                       focusedField === 'firstName' ? 'transform scale-[1.02]' : ''
                     }`}>
                       <User className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
-                        focusedField === 'firstName' ? 'text-[#3B6CFF]' : 'text-[#A6B0C5]'
+                        focusedField === 'firstName' ? 'text-[#3B6CFF]' : 'text-[#94a3b8]'
                       }`} />
-                      <Input 
+                      <Input
                         required
                         value={formData.firstName}
                         onChange={e => setFormData({...formData, firstName: e.target.value})}
                         onFocus={() => setFocusedField('firstName')}
                         onBlur={() => setFocusedField(null)}
-                        className="pl-12 py-5 bg-[rgba(246,248,255,0.05)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all"
+                        className="pl-12 py-5 bg-slate-50 border-slate-200 text-[#0F172A] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all placeholder:text-slate-400"
                         placeholder="John"
                       />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-medium text-[#A6B0C5] mb-2 block">
+                    <Label className="text-sm font-medium text-[#475569] mb-2 block">
                       Last Name
                     </Label>
                     <div className={`relative transition-all duration-300 ${
                       focusedField === 'lastName' ? 'transform scale-[1.02]' : ''
                     }`}>
-                      <Input 
+                      <Input
                         required
                         value={formData.lastName}
                         onChange={e => setFormData({...formData, lastName: e.target.value})}
                         onFocus={() => setFocusedField('lastName')}
                         onBlur={() => setFocusedField(null)}
-                        className="px-4 py-5 bg-[rgba(246,248,255,0.05)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all"
+                        className="px-4 py-5 bg-slate-50 border-slate-200 text-[#0F172A] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all placeholder:text-slate-400"
                         placeholder="Doe"
                       />
                     </div>
@@ -278,23 +278,23 @@ export function RegisterPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                 >
-                  <Label className="text-sm font-medium text-[#A6B0C5] mb-2 block">
+                  <Label className="text-sm font-medium text-[#475569] mb-2 block">
                     Email Address
                   </Label>
                   <div className={`relative transition-all duration-300 ${
                     focusedField === 'email' ? 'transform scale-[1.02]' : ''
                   }`}>
                     <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
-                      focusedField === 'email' ? 'text-[#3B6CFF]' : 'text-[#A6B0C5]'
+                      focusedField === 'email' ? 'text-[#3B6CFF]' : 'text-[#94a3b8]'
                     }`} />
-                    <Input 
+                    <Input
                       type="email"
                       required
                       value={formData.email}
                       onChange={e => setFormData({...formData, email: e.target.value})}
                       onFocus={() => setFocusedField('email')}
                       onBlur={() => setFocusedField(null)}
-                      className="pl-12 py-5 bg-[rgba(246,248,255,0.05)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all"
+                      className="pl-12 py-5 bg-slate-50 border-slate-200 text-[#0F172A] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all placeholder:text-slate-400"
                       placeholder="you@example.com"
                     />
                   </div>
@@ -306,29 +306,29 @@ export function RegisterPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.5 }}
                 >
-                  <Label className="text-sm font-medium text-[#A6B0C5] mb-2 block">
+                  <Label className="text-sm font-medium text-[#475569] mb-2 block">
                     Password
                   </Label>
                   <div className={`relative transition-all duration-300 ${
                     focusedField === 'password' ? 'transform scale-[1.02]' : ''
                   }`}>
                     <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
-                      focusedField === 'password' ? 'text-[#3B6CFF]' : 'text-[#A6B0C5]'
+                      focusedField === 'password' ? 'text-[#3B6CFF]' : 'text-[#94a3b8]'
                     }`} />
-                    <Input 
+                    <Input
                       type={showPassword ? 'text' : 'password'}
                       required
                       value={formData.password}
                       onChange={e => setFormData({...formData, password: e.target.value})}
                       onFocus={() => setFocusedField('password')}
                       onBlur={() => setFocusedField(null)}
-                      className="pl-12 pr-12 py-5 bg-[rgba(246,248,255,0.05)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all"
+                      className="pl-12 pr-12 py-5 bg-slate-50 border-slate-200 text-[#0F172A] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all placeholder:text-slate-400"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#0F172A] transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -341,23 +341,23 @@ export function RegisterPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.5 }}
                 >
-                  <Label className="text-sm font-medium text-[#A6B0C5] mb-2 block">
+                  <Label className="text-sm font-medium text-[#475569] mb-2 block">
                     Confirm Password
                   </Label>
                   <div className={`relative transition-all duration-300 ${
                     focusedField === 'confirmPassword' ? 'transform scale-[1.02]' : ''
                   }`}>
                     <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
-                      focusedField === 'confirmPassword' ? 'text-[#3B6CFF]' : 'text-[#A6B0C5]'
+                      focusedField === 'confirmPassword' ? 'text-[#3B6CFF]' : 'text-[#94a3b8]'
                     }`} />
-                    <Input 
+                    <Input
                       type={showPassword ? 'text' : 'password'}
                       required
                       value={formData.confirmPassword}
                       onChange={e => setFormData({...formData, confirmPassword: e.target.value})}
                       onFocus={() => setFocusedField('confirmPassword')}
                       onBlur={() => setFocusedField(null)}
-                      className="pl-12 py-5 bg-[rgba(246,248,255,0.05)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all"
+                      className="pl-12 py-5 bg-slate-50 border-slate-200 text-[#0F172A] rounded-xl focus:border-[#3B6CFF] focus:ring-2 focus:ring-[#3B6CFF]/20 transition-all placeholder:text-slate-400"
                       placeholder="••••••••"
                     />
                   </div>
@@ -380,12 +380,12 @@ export function RegisterPage() {
                         className="peer sr-only"
                       />
                       {/* Custom visual checkbox — peer-checked styles react to the real input above */}
-                      <div className="w-5 h-5 rounded-md bg-[rgba(246,248,255,0.05)] border border-[rgba(246,248,255,0.15)] peer-checked:bg-[#3B6CFF] peer-checked:border-[#3B6CFF] transition-all" />
+                      <div className="w-5 h-5 rounded-md bg-slate-100 border border-slate-300 peer-checked:bg-[#3B6CFF] peer-checked:border-[#3B6CFF] transition-all" />
                       <svg className="absolute inset-0 w-5 h-5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" viewBox="0 0 20 20" fill="none">
                         <path d="M5 10L8.5 13.5L15 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
-                    <span className="text-sm text-[#A6B0C5] leading-relaxed">
+                    <span className="text-sm text-[#64748B] leading-relaxed">
                       I agree to the{' '}
                       <a href="#" onClick={e => e.stopPropagation()} className="text-[#3B6CFF] hover:underline">Terms of Service</a>
                       {' '}and{' '}
@@ -431,10 +431,10 @@ export function RegisterPage() {
                 className="relative my-8"
               >
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-[rgba(246,248,255,0.08)]" />
+                  <div className="w-full border-t border-slate-200" />
                 </div>
                 <div className="relative flex justify-center">
-                  <span className="px-4 bg-[rgba(246,248,255,0.03)] text-sm text-[#A6B0C5]">or continue with</span>
+                  <span className="px-4 bg-white text-sm text-[#64748B]">or continue with</span>
                 </div>
               </motion.div>
 
@@ -466,7 +466,7 @@ export function RegisterPage() {
                 transition={{ delay: 1.1, duration: 0.5 }}
                 className="text-center mt-6"
               >
-                <p className="text-[#A6B0C5]">
+                <p className="text-[#64748B]">
                   Already have an account?{' '}
                   <Link to="/login" className="text-[#3B6CFF] hover:text-[#5a85ff] font-semibold transition-colors">
                     Sign in

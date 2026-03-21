@@ -257,7 +257,12 @@ exports.googleCallback = async (req, res) => {
 
     if (!tokenRes.ok || !tokens.access_token) {
       logger.error("Google token exchange failed", { tokens });
-      return res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
+      const errMsg = encodeURIComponent(
+        tokens.error_description || tokens.error || "token_exchange_failed"
+      );
+      return res.redirect(
+        `${PRIMARY_CLIENT_URL}/#/login?error=google_failed&debug=${errMsg}`
+      );
     }
 
     // 2. Fetch Google profile
@@ -307,6 +312,9 @@ exports.googleCallback = async (req, res) => {
     res.redirect(`${PRIMARY_CLIENT_URL}/#/auth/callback?token=${token}`);
   } catch (err) {
     logger.error("Google OAuth callback error", { error: err.message });
-    res.redirect(`${PRIMARY_CLIENT_URL}/#/login?error=google_failed`);
+    const errMsg = encodeURIComponent(err.message || "unknown");
+    res.redirect(
+      `${PRIMARY_CLIENT_URL}/#/login?error=google_failed&debug=${errMsg}`
+    );
   }
 };
