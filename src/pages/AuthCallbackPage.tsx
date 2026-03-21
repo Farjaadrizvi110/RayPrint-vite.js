@@ -4,7 +4,15 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store';
 import { toast } from 'sonner';
 
-const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+/** Decode a JWT payload without verifying the signature (verification happens on the server). */
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(atob(base64));
+  } catch {
+    return null;
+  }
+}
 
 export function AuthCallbackPage() {
   const navigate = useNavigate();
@@ -14,56 +22,39 @@ export function AuthCallbackPage() {
 
   useEffect(() => {
     // With HashRouter the URL is /#/auth/callback?token=JWT
-    // useLocation().search gives us '?token=JWT' correctly inside the hash
-    console.log('[AuthCallback] location.search:', location.search);
-    console.log('[AuthCallback] window.location.href:', window.location.href);
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
-    console.log('[AuthCallback] token present:', !!token);
 
     if (!token) {
       setStatus('error');
-      toast.error('Google sign-in failed — no token in URL. Check browser console.');
+      toast.error('Google sign-in failed — no token received.');
       setTimeout(() => navigate('/login'), 3000);
       return;
     }
 
-    // Fetch user profile from backend using the token
-    console.log('[AuthCallback] Token found, calling /api/auth/me ...');
-    fetch(`${BACKEND_URL}/api/auth/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const errText = await res.text();
-          console.error('[AuthCallback] /api/auth/me failed:', res.status, errText);
-          throw new Error(`HTTP ${res.status}: ${errText}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log('[AuthCallback] Profile fetched OK:', data);
-        const user = data.data ?? data.user ?? data;
-        loginWithToken(token, {
-          id: user._id ?? user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: user.role ?? 'customer',
-          addresses: user.addresses ?? [],
-          createdAt: new Date(user.createdAt ?? Date.now()),
-          avatar: user.avatar,
-        });
-        toast.success(`Welcome, ${user.firstName}! 🎉`);
-        navigate('/account');
-      })
-      .catch((err) => {
-        console.error('[AuthCallback] Error:', err.message);
-        setStatus('error');
-        toast.error(`Google sign-in failed: ${err.message}`);
-        setTimeout(() => navigate('/login'), 3000);
-      });
-  }, [loginWithToken, navigate]);
+    // Decode the JWT payload directly — no extra API call needed.
+    // The backend now embeds firstName, lastName, avatar in the token.
+    const payload = decodeJwtPayload(token);
+    if (!payload || !payload.email) {
+      setStatus('error');
+      toast.error('Google sign-in failed — could not read token.');
+      setTimeout(() => navigate('/login'), 3000);
+      return;
+    }
+
+    loginWithToken(token, {
+      id: (payload.id as string) ?? '',
+      email: payload.email as string,
+      firstName: (payload.firstName as string) ?? '',
+      lastName: (payload.lastName as string) ?? '',
+      role: (payload.role as 'customer' | 'admin') ?? 'customer',
+      addresses: [],
+      createdAt: new Date(),
+      avatar: (payload.avatar as string) ?? undefined,
+    });
+    toast.success(`Welcome, ${payload.firstName || 'back'}! 🎉`);
+    navigate('/account');
+  }, [loginWithToken, navigate, location.search]);
 
   return (
     <div className="min-h-screen bg-[#0B0F17] flex items-center justify-center">
