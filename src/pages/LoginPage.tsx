@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles, Shield, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,18 @@ const BACKEND_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { loginWithToken } = useAuthStore();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const error = params.get('error');
+    const debug = params.get('debug');
+    if (error === 'google_failed') {
+      const msg = debug ? `Google sign-in failed: ${decodeURIComponent(debug)}` : 'Google sign-in failed. Please try again.';
+      toast.error(msg);
+    }
+  }, [location.search]);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
