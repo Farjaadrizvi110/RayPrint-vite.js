@@ -22,7 +22,13 @@ const logger = require("./utils/logger");
 const app = express();
 
 // ─── Security middleware ────────────────────────────────────────────────────
-app.use(helmet());
+// crossOriginResourcePolicy must be "cross-origin" so that cross-origin
+// fetch() calls from the frontend (rayprint.co.uk) are not blocked.
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }),
+);
 app.use(hpp());
 
 const allowedOrigins = (
@@ -32,6 +38,26 @@ const allowedOrigins = (
 )
   .split(",")
   .map((o) => o.trim());
+
+// Handle OPTIONS preflight explicitly — must be before all other middleware
+// so that CORS headers are set even if a later middleware short-circuits.
+app.options("*", (req, res) => {
+  const origin = req.headers.origin;
+  if (!origin || allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin || "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type,Authorization,X-Requested-With",
+    );
+  }
+  res.status(204).end();
+});
+
 app.use(
   cors({
     origin: (origin, cb) => {
@@ -39,7 +65,7 @@ app.use(
       cb(new Error("Not allowed by CORS"));
     },
     credentials: true,
-  })
+  }),
 );
 
 // ─── Global rate limiter ────────────────────────────────────────────────────
@@ -66,7 +92,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(
   morgan("combined", {
     stream: { write: (msg) => logger.http(msg.trim()) },
-  })
+  }),
 );
 
 // ─── Session (required for OAuth state verification) ────────────────────────
@@ -83,7 +109,7 @@ app.use(
       sameSite: isProd ? "none" : "lax",
       maxAge: 5 * 60 * 1000, // 5 min — just for OAuth flow
     },
-  })
+  }),
 );
 
 // ─── Passport ───────────────────────────────────────────────────────────────
@@ -92,7 +118,7 @@ app.use(passport.session());
 
 // ─── Health check ───────────────────────────────────────────────────────────
 app.get("/health", (req, res) =>
-  res.json({ status: "OK", timestamp: new Date().toISOString() })
+  res.json({ status: "OK", timestamp: new Date().toISOString() }),
 );
 
 // ─── API Routes ─────────────────────────────────────────────────────────────
