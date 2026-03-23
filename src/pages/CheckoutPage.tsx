@@ -185,17 +185,30 @@ export function CheckoutPage() {
           items: items.map(i => ({ name: i.product.name, quantity: i.quantity })),
         }),
       });
-      const data = await res.json();
+
+      // Safely parse JSON — server may return HTML if Stripe/env keys are missing
+      let data: Record<string, unknown> | null = null;
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      }
+
       if (!res.ok) {
-        toast.error(data.message || 'Could not initialise payment. Please try again.');
+        const msg =
+          (data as { message?: string } | null)?.message ||
+          `Server error (${res.status}). Please check backend environment variables (STRIPE_SECRET_KEY).`;
+        toast.error(msg);
         return;
       }
-      setClientSecret(data.data.clientSecret);
-      setPaymentIntentId(data.data.paymentIntentId ?? '');
+
+      const payload = data as { data?: { clientSecret?: string; paymentIntentId?: string } } | null;
+      setClientSecret(payload?.data?.clientSecret ?? '');
+      setPaymentIntentId(payload?.data?.paymentIntentId ?? '');
       setStep('payment');
       window.scrollTo(0, 0);
-    } catch {
-      toast.error('Network error. Please try again.');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      toast.error(`Payment setup failed: ${msg}`);
     } finally {
       setIsProcessing(false);
     }
