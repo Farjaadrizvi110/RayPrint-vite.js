@@ -1,6 +1,5 @@
 const express = require("express");
 const helmet = require("helmet");
-const cors = require("cors");
 const morgan = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
@@ -21,16 +20,9 @@ const logger = require("./utils/logger");
 
 const app = express();
 
-// ─── Security middleware ────────────────────────────────────────────────────
-// crossOriginResourcePolicy must be "cross-origin" so that cross-origin
-// fetch() calls from the frontend (rayprint.co.uk) are not blocked.
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-  }),
-);
-app.use(hpp());
-
+// ─── CORS — MUST be the very first middleware, before helmet ─────────────────
+// Handles both preflight (OPTIONS) and actual requests.
+// "Failed to fetch" errors in the browser are caused by missing CORS headers.
 const allowedOrigins = (
   process.env.ALLOWED_ORIGINS ||
   process.env.CLIENT_URL ||
@@ -39,9 +31,7 @@ const allowedOrigins = (
   .split(",")
   .map((o) => o.trim());
 
-// Handle OPTIONS preflight explicitly — must be before all other middleware
-// so that CORS headers are set even if a later middleware short-circuits.
-app.options("*", (req, res) => {
+app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (!origin || allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin || "*");
@@ -54,19 +44,22 @@ app.options("*", (req, res) => {
       "Access-Control-Allow-Headers",
       "Content-Type,Authorization,X-Requested-With",
     );
+    res.setHeader("Vary", "Origin");
   }
-  res.status(204).end();
+  // Respond to preflight immediately — no further processing needed
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+  next();
 });
 
+// ─── Security middleware ────────────────────────────────────────────────────
 app.use(
-  cors({
-    origin: (origin, cb) => {
-      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-      cb(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
+app.use(hpp());
 
 // ─── Global rate limiter ────────────────────────────────────────────────────
 const globalLimiter = rateLimit({
