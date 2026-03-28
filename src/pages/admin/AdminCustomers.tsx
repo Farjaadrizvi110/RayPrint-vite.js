@@ -51,69 +51,45 @@ export function AdminCustomers() {
   });
   
   return (
-    <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
-      <div className="rp-container max-w-7xl">
+    <div className="min-h-screen pt-32 pb-20 relative" style={{ background: 'linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 50%, #EEF2FF 100%)' }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#3B6CFF 1px, transparent 1px)', backgroundSize: '28px 28px', opacity: 0.04 }} />
+      <div className="rp-container max-w-7xl relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <Link to="/admin" className="text-sm text-[#A6B0C5] hover:text-[#F6F8FF] mb-2 inline-block">
-              ← Back to Dashboard
-            </Link>
-            <h1 className="text-4xl font-bold text-[#F6F8FF]">Customers</h1>
+            <Link to="/admin" className="text-sm text-[#64748B] hover:text-[#3B6CFF] mb-2 inline-block transition-colors">← Back to Dashboard</Link>
+            <h1 className="text-4xl font-bold text-[#0F172A]">Customers</h1>
           </div>
         </motion.div>
-        
+
         {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid sm:grid-cols-2 gap-6 mb-8"
-        >
-          <div className="rp-card p-6">
-            <Users className="w-8 h-8 text-[#3B6CFF] mb-4" />
-            <p className="text-3xl font-bold text-[#F6F8FF]">{customers.length}</p>
-            <p className="text-sm text-[#A6B0C5]">Total Customers</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="grid sm:grid-cols-2 gap-5 mb-6">
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+              <Users className="w-5 h-5 text-blue-600" />
+            </div>
+            <p className="text-3xl font-bold text-[#0F172A]">{customers.length}</p>
+            <p className="text-sm text-[#64748B] mt-0.5">Total Customers</p>
           </div>
-          <div className="rp-card p-6">
-            <ShoppingBag className="w-8 h-8 text-[#3B6CFF] mb-4" />
-            <p className="text-3xl font-bold text-[#F6F8FF]">
-              {customers.reduce((s, c) => s + (c.orderCount ?? 0), 0)}
-            </p>
-            <p className="text-sm text-[#A6B0C5]">Total Orders</p>
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center mb-4">
+              <ShoppingBag className="w-5 h-5 text-violet-600" />
+            </div>
+            <p className="text-3xl font-bold text-[#0F172A]">{customers.reduce((s, c) => s + (c.orderCount ?? 0), 0)}</p>
+            <p className="text-sm text-[#64748B] mt-0.5">Total Orders</p>
           </div>
         </motion.div>
-        
+
         {/* Search */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="mb-5">
           <div className="relative max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A6B0C5]" />
-            <Input 
-              placeholder="Search customers..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="pl-12 bg-[rgba(246,248,255,0.06)] border-[rgba(246,248,255,0.10)] text-[#F6F8FF]"
-            />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#94a3b8]" />
+            <Input placeholder="Search customers..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-12 bg-white border-slate-200 text-[#0F172A] placeholder-slate-400 focus:border-[#3B6CFF]" />
           </div>
         </motion.div>
-        
+
         {/* Customers Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="rp-card overflow-hidden"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center py-16">
               <Loader2 className="w-8 h-8 text-[#3B6CFF] animate-spin" />
@@ -122,39 +98,33 @@ export function AdminCustomers() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[rgba(246,248,255,0.08)]">
-                  <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Customer</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Joined</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#A6B0C5]">Role</th>
+                <tr className="border-b border-slate-100 bg-slate-50">
+                  <th className="text-left p-4 text-xs font-semibold text-[#64748B] uppercase tracking-wide">Customer</th>
+                  <th className="text-left p-4 text-xs font-semibold text-[#64748B] uppercase tracking-wide">Joined</th>
+                  <th className="text-left p-4 text-xs font-semibold text-[#64748B] uppercase tracking-wide">Role</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredCustomers.length === 0 && (
-                  <tr><td colSpan={3} className="p-8 text-center text-[#A6B0C5]">No customers found</td></tr>
+                  <tr><td colSpan={3} className="p-10 text-center text-[#94a3b8]">No customers found</td></tr>
                 )}
                 {filteredCustomers.map((customer) => (
-                  <tr key={customer._id} className="border-b border-[rgba(246,248,255,0.04)] hover:bg-[rgba(246,248,255,0.02)]">
+                  <tr key={customer._id} className="border-b border-slate-50 hover:bg-blue-50/30 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[rgba(59,108,255,0.2)] flex items-center justify-center">
-                          <span className="text-sm font-medium text-[#3B6CFF]">
-                            {customer.firstName[0]}{customer.lastName[0]}
-                          </span>
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-sm">
+                          <span className="text-sm font-semibold text-white">{customer.firstName[0]}{customer.lastName[0]}</span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-[#F6F8FF]">{customer.firstName} {customer.lastName}</p>
-                          <p className="text-xs text-[#A6B0C5]">{customer.email}</p>
+                          <p className="text-sm font-semibold text-[#0F172A]">{customer.firstName} {customer.lastName}</p>
+                          <p className="text-xs text-[#64748B]">{customer.email}</p>
                         </div>
                       </div>
                     </td>
+                    <td className="p-4"><span className="text-sm text-[#64748B]">{new Date(customer.createdAt).toLocaleDateString('en-GB')}</span></td>
                     <td className="p-4">
-                      <span className="text-sm text-[#A6B0C5]">
-                        {new Date(customer.createdAt).toLocaleDateString('en-GB')}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
-                        customer.role === 'admin' ? 'bg-[#3B6CFF]/20 text-[#3B6CFF]' : 'bg-[rgba(246,248,255,0.06)] text-[#A6B0C5]'
+                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize border ${
+                        customer.role === 'admin' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-slate-100 text-slate-600 border-slate-200'
                       }`}>{customer.role}</span>
                     </td>
                   </tr>
@@ -163,19 +133,12 @@ export function AdminCustomers() {
             </table>
           </div>
           )}
-
           {/* Pagination */}
-          <div className="flex items-center justify-between p-4 border-t border-[rgba(246,248,255,0.08)]">
-            <p className="text-sm text-[#A6B0C5]">
-              Showing {filteredCustomers.length} of {customers.length} customers
-            </p>
+          <div className="flex items-center justify-between p-4 border-t border-slate-100 bg-slate-50/50">
+            <p className="text-sm text-[#64748B]">Showing <span className="font-semibold text-[#0F172A]">{filteredCustomers.length}</span> of {customers.length} customers</p>
             <div className="flex gap-2">
-              <button className="p-2 rounded-lg bg-[rgba(246,248,255,0.06)] text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button className="p-2 rounded-lg bg-[rgba(246,248,255,0.06)] text-[#A6B0C5] hover:text-[#F6F8FF] transition-colors">
-                <ChevronRight className="w-4 h-4" />
-              </button>
+              <button className="p-2 rounded-lg bg-white border border-slate-200 text-[#64748B] hover:text-[#3B6CFF] hover:border-blue-200 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+              <button className="p-2 rounded-lg bg-white border border-slate-200 text-[#64748B] hover:text-[#3B6CFF] hover:border-blue-200 transition-colors"><ChevronRight className="w-4 h-4" /></button>
             </div>
           </div>
         </motion.div>
