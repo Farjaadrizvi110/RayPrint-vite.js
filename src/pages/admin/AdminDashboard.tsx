@@ -13,8 +13,6 @@ import {
 import { useAuthStore } from '@/store';
 import { Button } from '@/components/ui/button';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
