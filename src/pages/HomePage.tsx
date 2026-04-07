@@ -878,7 +878,7 @@ function ReviewsSection() {
 // ─── Google AdSense Banner Strip ─────────────────────────────────────────────
 // Sits between sections as a natural content break — does not interrupt flow.
 // Replace "YOUR_AD_SLOT_ID" with your real slot from AdSense Dashboard → Ads → By ad unit.
-const ADSENSE_SLOT = 'YOUR_AD_SLOT_ID';
+const ADSENSE_SLOT = '4788707728';
 
 function AdSenseBanner() {
   return (
