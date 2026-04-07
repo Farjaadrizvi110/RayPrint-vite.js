@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Star, Leaf, Package, Zap, ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { GoogleAdUnit } from '@/components/ads/GoogleAdUnit';
 import { categories, reviews, getFeaturedProducts } from '@/data/products';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -874,20 +875,42 @@ function ReviewsSection() {
   );
 }
 
+// ─── Google AdSense Banner Strip ─────────────────────────────────────────────
+// Sits between sections as a natural content break — does not interrupt flow.
+// Replace "YOUR_AD_SLOT_ID" with your real slot from AdSense Dashboard → Ads → By ad unit.
+const ADSENSE_SLOT = 'YOUR_AD_SLOT_ID';
+
+function AdSenseBanner() {
+  return (
+    <section className="py-4 bg-slate-50 border-y border-slate-100">
+      <div className="rp-container max-w-4xl">
+        <p className="text-[10px] text-slate-400 text-center mb-1 uppercase tracking-widest">
+          Advertisement
+        </p>
+        <GoogleAdUnit slot={ADSENSE_SLOT} className="min-h-[90px]" />
+      </div>
+    </section>
+  );
+}
+
 // Main HomePage
 export function HomePage() {
   const featuredProducts = getFeaturedProducts();
-  
+
   return (
     <div className="bg-white">
       <HeroSection />
       <CategoryGridSection />
+      {/* ── Google AdSense – leaderboard between categories and products ── */}
+      <AdSenseBanner />
       {featuredProducts.slice(0, 5).map((product, index) => (
         <FeaturedProductSection key={product.id} product={product} index={index} />
       ))}
       <DesignServicesSection />
       <SustainabilitySection />
       <ReviewsSection />
+      {/* ── Google AdSense – footer strip before page ends ── */}
+      <AdSenseBanner />
     </div>
   );
 }

@@ -96,6 +96,14 @@
     <!-- Preconnect to External Domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+
+    <!-- Google AdSense Publisher Script (renders ads only where <ins> units are placed) -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9475460975059195"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Preload Critical Resources -->
     <link rel="preload" href="/src/main.tsx" as="script" />
@@ -355,43 +363,5 @@
         </p>
       </div>
     </noscript>
-
-    <!-- Monetag Page-Up Tag — background only, no visible UI -->
-    <script>
-      (function (s) {
-        ((s.dataset.zone = "10785580"),
-          (s.src = "https://nap5k.com/tag.min.js"));
-      })(
-        [document.documentElement, document.body]
-          .filter(Boolean)
-          .pop()
-          .appendChild(document.createElement("script")),
-      );
-    </script>
-
-    <!-- Adsterra Banner 468x60 — fixed bottom center, above page fold -->
-    <style>
-      #adsterra-banner {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 999;
-        background: transparent;
-        line-height: 0;
-      }
-    </style>
-    <div id="adsterra-banner">
-      <script>
-        atOptions = {
-          key: "f02ffe7c524aaf0fde21d2a89fbcb97d",
-          format: "iframe",
-          height: 60,
-          width: 468,
-          params: {},
-        };
-      </script>
-      <script src="https://www.highperformanceformat.com/f02ffe7c524aaf0fde21d2a89fbcb97d/invoke.js"></script>
-    </div>
   </body>
 </html>

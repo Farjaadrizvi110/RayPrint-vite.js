@@ -7,6 +7,7 @@ import { CartDrawer } from '@/components/cart/CartDrawer';
 import { Toaster } from '@/components/ui/sonner';
 import { WhatsAppButton } from '@/components/ui/WhatsAppButton';
 import { Preloader } from '@/components/Preloader';
+import { AdsController } from '@/components/ads/AdsController';
 
 // Pages
 import { HomePage } from '@/pages/HomePage';
@@ -104,6 +105,8 @@ function App() {
           </main>
 
           <Footer />
+          {/* Route-aware ad controller: Monetag + Adsterra on non-home pages */}
+          <AdsController />
           <Toaster position="top-right" />
           <WhatsAppButton />
 
