@@ -5,6 +5,7 @@ import { ArrowLeft, Check, Upload, ShoppingBag, ChevronDown, Info, FileText, Pac
 import { getProductBySlug, getFeaturedProducts } from '@/data/products';
 import { useCartStore, useAuthStore, useUIStore } from '@/store';
 import { Button } from '@/components/ui/button';
+import { Seo } from '@/components/Seo';
 import { toast } from 'sonner';
 import type { Artwork } from '@/types';
 
@@ -38,6 +39,12 @@ export function ProductDetailPage() {
   if (!product) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+        <Seo
+          title="Product Not Found | RayPrint"
+          description="The product you're looking for doesn't exist."
+          canonicalPath="/products"
+          noIndex
+        />
         <div className="rp-container text-center">
           <h1 className="text-4xl font-bold text-[#0F172A] mb-4">Product Not Found</h1>
           <p className="text-[#64748B] mb-8">The product you're looking for doesn't exist.</p>
@@ -146,8 +153,35 @@ export function ProductDetailPage() {
     return <Info className="w-4 h-4" />;
   };
   
+  const lowestPrice = product.priceTiers.length > 0 ? Math.min(...product.priceTiers.map(t => t.unitPrice)) : null;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "image": [`https://rayprint.co.uk${product.image}`],
+    "description": product.shortDescription || product.description,
+    "brand": { "@type": "Brand", "name": "RayPrint" },
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "GBP",
+      "lowPrice": lowestPrice,
+      "offerCount": product.priceTiers.length,
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "RayPrint" }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] pt-28 pb-20">
+      <Seo
+        title={`${product.name} Printing UK | RayPrint`}
+        description={`${product.shortDescription || product.description} Order ${product.name.toLowerCase()} online with fast UK delivery.`}
+        canonicalPath={`/product/${product.slug}`}
+        ogImage={`https://rayprint.co.uk${product.image}`}
+        keywords={`${product.name.toLowerCase()} UK, buy ${product.name.toLowerCase()} online, ${product.name.toLowerCase()} printing, RayPrint`}
+        ogType="product"
+      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       <div className="rp-container">
         {/* Breadcrumb */}
         <motion.div

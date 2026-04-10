@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Seo } from '@/components/Seo';
 import { toast } from 'sonner';
 
 const API = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
@@ -83,6 +84,13 @@ export function ContactPage() {
         backgroundAttachment: 'fixed',
       }}
     >
+      <Seo
+        title="Contact RayPrint | Get a Print Quote"
+        description="Contact RayPrint for print quotes, order enquiries and support. Fast response. Call, email or visit our UK office."
+        canonicalPath="/contact"
+        ogImage="https://rayprint.co.uk/images/hero_collage.jpg"
+        keywords="contact RayPrint, print quote UK, printing enquiry, printing company UK contact"
+      />
 
       {/* ── Hero Banner ── */}
       <div

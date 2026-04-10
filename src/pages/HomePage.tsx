@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Star, Leaf, Package, Zap, ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GoogleAdUnit } from '@/components/ads/GoogleAdUnit';
+import { Seo } from '@/components/Seo';
 import { categories, reviews, getFeaturedProducts } from '@/data/products';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -899,6 +900,13 @@ export function HomePage() {
 
   return (
     <div className="bg-white">
+      <Seo
+        title="RayPrint | Professional Online Printing Services UK"
+        description="Order high-quality business cards, flyers, posters, banners, packaging & more with fast turnaround and free UK delivery over £50. UK's trusted print shop."
+        canonicalPath="/"
+        ogImage="https://rayprint.co.uk/images/hero_collage.jpg"
+        keywords="online printing UK, business cards printing, flyers printing, poster printing, banner printing, cheap printing UK, fast printing service, RayPrint"
+      />
       <HeroSection />
       <CategoryGridSection />
       {/* ── Google AdSense – leaderboard between categories and products ── */}

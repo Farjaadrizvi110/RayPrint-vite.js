@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getCategoryBySlug, getProductsByCategory } from '@/data/products';
 import { Button } from '@/components/ui/button';
+import { Seo } from '@/components/Seo';
 
 export function CategoryPage() {
   const { category } = useParams<{ category: string }>();
@@ -12,6 +13,12 @@ export function CategoryPage() {
   if (!categoryData) {
     return (
       <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+        <Seo
+          title="Category Not Found | RayPrint"
+          description="The category you're looking for doesn't exist."
+          canonicalPath="/products"
+          noIndex
+        />
         <div className="rp-container text-center">
           <h1 className="text-4xl font-bold text-[#F6F8FF] mb-4">Category Not Found</h1>
           <p className="text-[#A6B0C5] mb-8">The category you're looking for doesn't exist.</p>
@@ -27,6 +34,13 @@ export function CategoryPage() {
   
   return (
     <div className="min-h-screen bg-[#0B0F17] pt-32 pb-20">
+      <Seo
+        title={`${categoryData.name} Printing UK | RayPrint`}
+        description={`${categoryData.description} Order ${categoryData.name.toLowerCase()} online with fast UK delivery.`}
+        canonicalPath={`/products/${categoryData.slug}`}
+        ogImage="https://rayprint.co.uk/images/hero_collage.jpg"
+        keywords={`${categoryData.name.toLowerCase()} printing UK, buy ${categoryData.name.toLowerCase()} online, RayPrint ${categoryData.name.toLowerCase()}`}
+      />
       <div className="rp-container">
         {/* Breadcrumb */}
         <motion.div

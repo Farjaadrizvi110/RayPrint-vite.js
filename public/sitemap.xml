@@ -7,7 +7,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://rayprint.co.uk/</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -20,35 +20,35 @@
   <!-- Main Pages -->
   <url>
     <loc>https://rayprint.co.uk/products</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/request-design</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/about</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/contact</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/faq</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -56,7 +56,7 @@
   <!-- Product Categories -->
   <url>
     <loc>https://rayprint.co.uk/products/business-cards</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -67,84 +67,84 @@
 
   <url>
     <loc>https://rayprint.co.uk/products/postcards-flyers</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/signs-banners</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/packaging</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/apparel</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/photo-products</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/stickers-labels</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/invitations</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/stationery</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/promotional</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/tote-bags</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/flyers-leaflets</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/products/posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -152,7 +152,7 @@
   <!-- Individual Products - Business Cards -->
   <url>
     <loc>https://rayprint.co.uk/product/premium-business-cards</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -160,7 +160,7 @@
   <!-- Individual Products - Packaging -->
   <url>
     <loc>https://rayprint.co.uk/product/custom-mailer-boxes</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -168,7 +168,7 @@
   <!-- Individual Products - Apparel -->
   <url>
     <loc>https://rayprint.co.uk/product/custom-hoodies</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -176,7 +176,7 @@
   <!-- Individual Products - Signs & Banners -->
   <url>
     <loc>https://rayprint.co.uk/product/vinyl-banners</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -184,7 +184,7 @@
   <!-- Individual Products - Stationery -->
   <url>
     <loc>https://rayprint.co.uk/product/premium-stationery-set</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -192,7 +192,7 @@
   <!-- Individual Products - Photo Products -->
   <url>
     <loc>https://rayprint.co.uk/product/canvas-prints</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -200,7 +200,7 @@
   <!-- Individual Products - Marketing -->
   <url>
     <loc>https://rayprint.co.uk/product/marketing-kit</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -208,7 +208,7 @@
   <!-- Individual Products - Stickers -->
   <url>
     <loc>https://rayprint.co.uk/product/custom-stickers</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -216,7 +216,7 @@
   <!-- Individual Products - Invitations -->
   <url>
     <loc>https://rayprint.co.uk/product/wedding-invitations</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -224,7 +224,7 @@
   <!-- Individual Products - Promotional -->
   <url>
     <loc>https://rayprint.co.uk/product/custom-mugs</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -232,7 +232,7 @@
   <!-- Individual Products - Tote Bags -->
   <url>
     <loc>https://rayprint.co.uk/product/canvas-tote-bags</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -240,63 +240,63 @@
   <!-- Flyers & Leaflets Products -->
   <url>
     <loc>https://rayprint.co.uk/product/classic-flyers</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/eco-flyers</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/special-material-flyers</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/special-finishing-flyers</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/half-fold-leaflets</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/tri-fold-leaflets</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/z-fold-leaflets</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/roll-fold-leaflets</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/cross-fold-leaflets</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -304,179 +304,141 @@
   <!-- Poster Products -->
   <url>
     <loc>https://rayprint.co.uk/product/standard-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/blueback-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/waterproof-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/custom-size-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/sticky-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/neon-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/bus-stop-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/a3-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/a2-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/a1-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/a0-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/outdoor-garden-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/poster-with-hanger</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/framed-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/photo-posters</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/water-base-sign</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/swing-base-sign</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/a-board-sign</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://rayprint.co.uk/product/poster-frames</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-
-  <!-- Auth Pages -->
-  <url>
-    <loc>https://rayprint.co.uk/login</loc>
-    <lastmod>2025-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://rayprint.co.uk/register</loc>
-    <lastmod>2025-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <!-- Account Pages -->
-  <url>
-    <loc>https://rayprint.co.uk/account</loc>
-    <lastmod>2025-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- Cart & Checkout -->
-  <url>
-    <loc>https://rayprint.co.uk/cart</loc>
-    <lastmod>2025-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://rayprint.co.uk/checkout</loc>
-    <lastmod>2025-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
 
   <!-- Utility Pages -->
   <url>
     <loc>https://rayprint.co.uk/upload-artwork</loc>
-    <lastmod>2025-02-24</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

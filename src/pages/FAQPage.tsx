@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Seo } from '@/components/Seo';
 
 export function FAQPage() {
   const faqs = [
@@ -114,6 +115,13 @@ export function FAQPage() {
         backgroundAttachment: 'fixed',
       }}
     >
+      <Seo
+        title="Frequently Asked Questions | RayPrint"
+        description="Answers to common questions about RayPrint: ordering, artwork specs, turnaround times, shipping, returns, and more."
+        canonicalPath="/faq"
+        ogImage="https://rayprint.co.uk/images/hero_collage.jpg"
+        keywords="RayPrint FAQ, printing questions, artwork files, turnaround time, UK delivery, print order help"
+      />
       <div className="rp-container max-w-4xl">
         {/* Header */}
         <motion.div

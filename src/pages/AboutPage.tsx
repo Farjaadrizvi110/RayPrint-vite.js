@@ -6,6 +6,7 @@ import {
   ShieldCheck, Printer, Palette, PackageCheck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Seo } from '@/components/Seo';
 
 export function AboutPage() {
   const values = [
@@ -42,6 +43,13 @@ export function AboutPage() {
         backgroundAttachment: 'fixed',
       }}
     >
+      <Seo
+        title="About RayPrint | UK Printing Company Since 2016"
+        description="Learn about Ray Design and Print Ltd (RayPrint): UK printing experts since 2016, offering premium print products, fast turnaround, and real customer support."
+        canonicalPath="/about"
+        ogImage="https://rayprint.co.uk/images/hero_collage.jpg"
+        keywords="about RayPrint, UK printing company, Ray Design and Print, printing services Blackburn, Lancashire print shop"
+      />
       <div className="rp-container">
 
         {/* ── Hero ── */}

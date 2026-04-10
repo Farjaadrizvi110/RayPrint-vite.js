@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Seo } from '@/components/Seo';
 import { categories } from '@/data/products';
 
 // Exclude the meta "View All" entry from the grid
@@ -17,6 +18,13 @@ export function ProductsPage() {
         backgroundAttachment: 'fixed',
       }}
     >
+      <Seo
+        title="All Print Products | RayPrint UK"
+        description="Browse RayPrint’s full range of print products: business cards, flyers, posters, signage, packaging, stickers, apparel and more. Fast UK delivery."
+        canonicalPath="/products"
+        ogImage="https://rayprint.co.uk/images/hero_collage.jpg"
+        keywords="print products UK, business cards, flyers, posters, banners, stickers, packaging, apparel printing, RayPrint"
+      />
       <div className="rp-container">
         {/* Header */}
         <motion.div
