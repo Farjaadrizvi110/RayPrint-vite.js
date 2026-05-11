@@ -64,11 +64,24 @@ export function CategoryPage() {
         >
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
-              <span className="rp-micro-label block mb-4">CATEGORY</span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0F172A] leading-tight mb-4">
+              {/* Elegant category badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 mb-6">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#3B6CFF]" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B6CFF]">Category</span>
+              </div>
+
+              {/* Large elegant heading */}
+              <h1 className="text-5xl md:text-6xl lg:text-[5.5rem] font-bold text-[#0F172A] leading-[1] tracking-tight mb-5">
                 {categoryData.name}
               </h1>
-              <p className="text-lg text-[#64748B]">
+
+              {/* Decorative divider */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-12 h-[2px] bg-gradient-to-r from-[#3B6CFF] to-[#5a85ff] rounded-full" />
+                <div className="w-2 h-[2px] bg-blue-200 rounded-full" />
+              </div>
+
+              <p className="text-xl text-[#64748B] leading-relaxed font-light max-w-md">
                 {categoryData.description}
               </p>
             </div>
