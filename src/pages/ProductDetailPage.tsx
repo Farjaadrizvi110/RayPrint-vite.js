@@ -38,7 +38,7 @@ export function ProductDetailPage() {
   
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] pt-32 pb-20">
+      <div className="min-h-screen bg-white pt-32 pb-20">
         <Seo
           title="Product Not Found | RayPrint"
           description="The product you're looking for doesn't exist."
@@ -172,7 +172,7 @@ export function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-28 pb-20">
+    <div className="min-h-screen bg-white pt-28 pb-20">
       <Seo
         title={`${product.name} Printing UK | RayPrint`}
         description={`${product.shortDescription || product.description} Order ${product.name.toLowerCase()} online with fast UK delivery.`}
@@ -203,11 +203,16 @@ export function ProductDetailPage() {
           transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          <span className="rp-micro-label block mb-3">{product.category.replace(/-/g, ' ').toUpperCase()}</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A] leading-tight mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-4">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#3B6CFF]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#3B6CFF]">
+              {product.category.replace(/-/g, ' ')}
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-black leading-tight mb-4">
             {product.name}
           </h1>
-          <p className="text-lg text-[#64748B] max-w-3xl">
+          <p className="text-lg text-[#475569] max-w-3xl leading-relaxed">
             {product.description}
           </p>
         </motion.div>
@@ -240,12 +245,12 @@ export function ProductDetailPage() {
 
             {/* Product Specs */}
             <div className="mt-8 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-              <h3 className="text-sm font-semibold text-[#0F172A] mb-4 uppercase tracking-wider">Product Details</h3>
+              <h3 className="text-sm font-semibold text-[#3B6CFF] mb-4 uppercase tracking-wider">Product Details</h3>
               <div className="space-y-3">
                 {product.specs.map((spec, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm">
                     <Check className="w-4 h-4 text-[#3B6CFF] flex-shrink-0" />
-                    <span className="text-[#475569]">{spec}</span>
+                    <span className="text-black">{spec}</span>
                   </div>
                 ))}
               </div>
@@ -260,8 +265,8 @@ export function ProductDetailPage() {
             className="xl:col-span-7"
           >
             {/* Options Selector */}
-            <div className="space-y-4 mb-8">
-              <h3 className="text-lg font-semibold text-[#0F172A] mb-4">Configure Your Product</h3>
+            <div className="space-y-3 mb-8">
+              <h3 className="text-lg font-bold text-black mb-4">Configure Your Product</h3>
 
               {product.options.map((option) => (
                 <div
@@ -271,18 +276,18 @@ export function ProductDetailPage() {
                   {/* Option Header */}
                   <button
                     onClick={() => setExpandedOption(expandedOption === option.name ? null : option.name)}
-                    className="w-full px-5 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
+                    className="w-full px-5 py-4 flex items-center justify-between hover:bg-blue-50/40 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#3B6CFF]">
                         {getOptionIcon(option.name)}
                       </div>
                       <div className="text-left">
-                        <p className="text-sm text-[#64748B]">{option.name}</p>
-                        <p className="text-[#0F172A] font-medium">{selectedOptions[option.name] || 'Select option'}</p>
+                        <p className="text-xs font-semibold text-[#3B6CFF] uppercase tracking-wide">{option.name}</p>
+                        <p className="text-black font-medium">{selectedOptions[option.name] || 'Select option'}</p>
                       </div>
                     </div>
-                    <ChevronDown className={`w-5 h-5 text-[#64748B] transition-transform ${expandedOption === option.name ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-5 h-5 text-[#3B6CFF] transition-transform ${expandedOption === option.name ? 'rotate-180' : ''}`} />
                   </button>
 
                   {/* Option Values */}
@@ -304,10 +309,10 @@ export function ProductDetailPage() {
                                   handleOptionChange(option.name, value);
                                   setExpandedOption(null);
                                 }}
-                                className={`px-3 py-3 rounded-xl text-sm text-left transition-all border ${
+                                className={`px-3 py-3 rounded-xl text-sm text-left transition-all border font-medium ${
                                   selectedOptions[option.name] === value
                                     ? 'bg-[#3B6CFF] text-white border-[#3B6CFF] shadow-md shadow-[#3B6CFF]/20'
-                                    : 'bg-slate-50 text-[#475569] border-slate-200 hover:bg-blue-50 hover:text-[#3B6CFF] hover:border-blue-200'
+                                    : 'bg-white text-black border-slate-200 hover:bg-blue-50 hover:text-[#3B6CFF] hover:border-blue-300'
                                 }`}
                               >
                                 {value}
@@ -324,7 +329,7 @@ export function ProductDetailPage() {
 
             {/* Quantity Selector */}
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-[#0F172A] mb-4">Select Quantity</h3>
+              <h3 className="text-lg font-bold text-black mb-4">Select Quantity</h3>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {product.priceTiers.map((tier, index) => (
                   <button
@@ -333,11 +338,11 @@ export function ProductDetailPage() {
                     className={`p-3 rounded-xl text-center transition-all border ${
                       selectedQuantity === index
                         ? 'bg-[#3B6CFF] text-white border-[#3B6CFF] shadow-md shadow-[#3B6CFF]/20'
-                        : 'bg-white text-[#475569] border-slate-200 hover:border-[#3B6CFF]/40 hover:bg-blue-50 hover:text-[#3B6CFF]'
+                        : 'bg-white text-black border-slate-200 hover:border-[#3B6CFF]/50 hover:bg-blue-50 hover:text-[#3B6CFF]'
                     }`}
                   >
                     <p className="text-sm font-semibold">{tier.quantity.toLocaleString()}</p>
-                    <p className="text-xs opacity-80">£{tier.unitPrice.toFixed(2)}</p>
+                    <p className="text-xs opacity-70">£{tier.unitPrice.toFixed(2)}</p>
                   </button>
                 ))}
               </div>
@@ -345,7 +350,7 @@ export function ProductDetailPage() {
 
             {/* Artwork Upload */}
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-[#0F172A] mb-4">Upload Your Artwork</h3>
+              <h3 className="text-lg font-bold text-black mb-4">Upload Your Artwork</h3>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -395,16 +400,16 @@ export function ProductDetailPage() {
               {/* Price Display */}
               <div className="flex items-end justify-between mb-6">
                 <div>
-                  <p className="text-sm text-[#64748B] mb-1">Total Price</p>
-                  <p className="text-4xl font-bold text-[#0F172A]">
+                  <p className="text-sm text-[#3B6CFF] font-semibold mb-1">Total Price</p>
+                  <p className="text-4xl font-bold text-black">
                     £{totalPrice.toFixed(2)}
                   </p>
-                  <p className="text-sm text-[#64748B] mt-1">
+                  <p className="text-sm text-[#475569] mt-1">
                     {currentPriceTier?.quantity.toLocaleString()} units @ £{currentPriceTier?.unitPrice.toFixed(2)} each
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className="flex items-center gap-2 text-sm text-[#64748B]">
+                  <div className="flex items-center gap-2 text-sm text-[#3B6CFF]">
                     <Truck className="w-4 h-4" />
                     <span>Free UK shipping over £50</span>
                   </div>
@@ -412,13 +417,13 @@ export function ProductDetailPage() {
               </div>
 
               {/* Configuration Summary */}
-              <div className="mb-6 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <p className="text-xs text-[#64748B] uppercase tracking-wider mb-3">Your Configuration</p>
+              <div className="mb-6 p-4 rounded-xl bg-blue-50/50 border border-blue-100">
+                <p className="text-xs text-[#3B6CFF] font-semibold uppercase tracking-wider mb-3">Your Configuration</p>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(selectedOptions).map(([key, value]) => (
                     <div key={key} className="flex items-center gap-2 text-sm">
-                      <span className="text-[#64748B]">{key}:</span>
-                      <span className="text-[#0F172A] font-medium">{value}</span>
+                      <span className="text-[#475569]">{key}:</span>
+                      <span className="text-black font-medium">{value}</span>
                     </div>
                   ))}
                 </div>
@@ -446,7 +451,7 @@ export function ProductDetailPage() {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="border-t border-slate-200 mt-20 pt-16">
-            <h2 className="text-2xl font-semibold text-[#0F172A] mb-8">You might also like</h2>
+            <h2 className="text-2xl font-bold text-black mb-8">You might also like</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProducts.map((product, index) => (
                 <motion.div
@@ -466,10 +471,10 @@ export function ProductDetailPage() {
                         />
                       </div>
                       <div className="p-5">
-                        <h3 className="text-lg font-semibold text-[#0F172A] group-hover:text-[#3B6CFF] transition-colors">
+                        <h3 className="text-lg font-semibold text-black group-hover:text-[#3B6CFF] transition-colors">
                           {product.name}
                         </h3>
-                        <p className="text-sm text-[#64748B] mt-1">
+                        <p className="text-sm text-[#3B6CFF] font-medium mt-1">
                           From £{product.priceTiers[0]?.price.toFixed(2)}
                         </p>
                       </div>
